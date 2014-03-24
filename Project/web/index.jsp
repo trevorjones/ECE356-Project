@@ -9,15 +9,19 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login Form</title>
+        <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link rel="icon" href="resources/favicon.ico"/>
+        <title>Welcome</title>
     </head>
     <body>
-        <h1>Menu</h1>
-        <form method="post" action="LoginServlet">
-            User ID <input type="text" name="user_id"/></br>
-            Password <input type="password" name="password"/></br>
-            <input type="submit" value="Login"/>
-        </form>
-        <a href="register.jsp">Register</a>
+        <div class="container" style="max-width: 330px;">
+            <form class="form-signin" method="post" action="LoginServlet">
+                <h2 class="form-signin-heading">Sign In</h2>
+                <input class="form-control" placeholder="User ID" type="text" name="user_id" required autofocus/></br>
+                <input class="form-control" placeholder="Password" type="password" name="password" required/></br>
+                <input class="btn btn-lg btn-primary btn-block" type="submit" value="Login"/>
+            </form>
+            <a href="register.jsp">Register</a>
+        </div>
     </body>
 </html>
