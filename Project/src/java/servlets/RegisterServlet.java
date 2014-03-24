@@ -6,11 +6,11 @@
 
 package servlets;
 
-import db.DatabaseManager;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -45,7 +45,6 @@ public class RegisterServlet extends HttpServlet {
         String type = request.getParameter("type");
         String errorMsg = "";
         
-        //TODO: Check that no one else has the same id
         if (user_id == null || user_id.equals("")) {
             errorMsg += "User ID can't be empty.\n";
         }
@@ -62,15 +61,35 @@ public class RegisterServlet extends HttpServlet {
             errorMsg += "Email can't be empty.\n";
         }
         
+        Connection con = (Connection) getServletContext().getAttribute("DBConnection");
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        // Check for a new user
+        try {
+            ps = con.prepareStatement("select user_id from User where user_id=?");
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            
+            if (!(rs != null && rs.next()) || rs.getString("user_id").equals(user_id)) {
+                errorMsg += "user ID already exists.";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+               
         if (!errorMsg.equals("")) {
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/register.jsp");
             PrintWriter out = response.getWriter();
             out.println("<font color=red>" + errorMsg + "</font>");
             rd.include(request, response);
         } else {
-            Connection con = (Connection) getServletContext().getAttribute("DBConnection");
-            PreparedStatement ps = null;
-            
             try {
                 ps = con.prepareStatement("insert into User(user_id,first_name,last_name,password,type,email) values(?,?,?,?,?,?)");
                 ps.setString(1, user_id);

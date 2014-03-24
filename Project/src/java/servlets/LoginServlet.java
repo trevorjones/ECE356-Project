@@ -44,10 +44,7 @@ public class LoginServlet extends HttpServlet {
         String errorMsg = null;
         
         if (user_id == null || user_id.equals("") || password == null || password.equals("")) {
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
-            PrintWriter out = response.getWriter();
-            out.println("<font color=red>Invalid email or password</font>");
-            rd.include(request, response);
+            invalidUser(request, response);
         } else {
 
             Connection con = (Connection) getServletContext().getAttribute("DBConnection");
@@ -55,7 +52,7 @@ public class LoginServlet extends HttpServlet {
             ResultSet rs = null;
 
             try {
-                ps = con.prepareStatement("select user_id, first_name, last_name, password, type, email from User where user_id=? and password=? limit 1");
+                ps = con.prepareStatement("select * from User where user_id=? and password=? limit 1");
                 ps.setString(1, user_id);
                 ps.setString(2, password);
                 rs = ps.executeQuery();
@@ -65,6 +62,8 @@ public class LoginServlet extends HttpServlet {
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
                     response.sendRedirect("logged_in.jsp");
+                } else {
+                    invalidUser(request, response);
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -78,6 +77,13 @@ public class LoginServlet extends HttpServlet {
                 }
             }
         }        
+    }
+    
+    private void invalidUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+        PrintWriter out = response.getWriter();
+        out.println("<font color=red>Invalid email or password</font>");
+        rd.include(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
