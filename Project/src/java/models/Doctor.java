@@ -14,6 +14,10 @@ public class Doctor {
     String user_id;
     String specialization;
     
+    public Doctor() {
+        
+    }
+    
     public Doctor(String id, String specialization) {
         this.user_id = id;
         this.specialization = specialization;

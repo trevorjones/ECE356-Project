@@ -14,15 +14,17 @@ public class User {
     String user_id;
     String first_name;
     String last_name;
-    String password;
     String type; /* Either patient, doctor, staff, or financial officer */
     String email;
     
-    public User(String id, String first_name, String last_name, String password, String type, String email) {
+    public User() {
+        
+    }
+    
+    public User(String id, String first_name, String last_name, String type, String email) {
         this.user_id = id;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.password = password;
         this.type = type;
         this.email = email;
     }
@@ -49,14 +51,6 @@ public class User {
     
     public void setLastName(String ln) {
         this.last_name = ln;
-    }
-    
-    public String getPassword() {
-        return this.password;
-    }
-    
-    public void setPassword(String pw) {
-        this.password = pw;
     }
     
     public String getType() {

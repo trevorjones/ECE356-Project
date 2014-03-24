@@ -15,6 +15,10 @@ public class DoctorStaff {
     String staff_id;
     boolean permission;
     
+    public DoctorStaff() {
+        
+    }
+    
     public DoctorStaff(String doctor_id, String staff_id, boolean permission) {
         this.doctor_id = doctor_id;
         this.staff_id = staff_id;

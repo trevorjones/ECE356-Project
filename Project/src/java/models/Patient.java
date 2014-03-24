@@ -18,6 +18,10 @@ public class Patient {
     int phone;
     int sin;
     
+    public Patient() {
+        
+    }
+    
     public Patient(String id, String address, String current_health, String ohip, int phone, int sin) {
         this.user_id = id;
         this.address = address;

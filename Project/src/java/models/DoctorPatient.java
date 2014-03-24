@@ -15,6 +15,10 @@ public class DoctorPatient {
     String doctor_id;
     boolean permissions[];
     
+    public DoctorPatient() {
+        
+    }
+    
     public DoctorPatient(String patient_id, String doctor_id, boolean permissions[]) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;

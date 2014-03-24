@@ -19,6 +19,10 @@ public class Appointment {
     String procedure;
     Date estimated_length;
     
+    public Appointment() {
+        
+    }
+    
     public Appointment(String patient_id, String doctor_id, Date scheduled_date, String status, String procedure, Date estimated_length) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;

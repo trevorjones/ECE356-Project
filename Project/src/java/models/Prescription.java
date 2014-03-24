@@ -15,6 +15,10 @@ public class Prescription {
     String alias;
     String description;
     
+    public Prescription() {
+        
+    }
+    
     public Prescription(String name, String alias, String description) {
         this.name = name;
         this.alias = alias;

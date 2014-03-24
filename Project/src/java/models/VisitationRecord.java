@@ -25,6 +25,10 @@ public class VisitationRecord {
     String diagnosis;
     String prescription_name;
     
+    public VisitationRecord() {
+        
+    }
+    
     public VisitationRecord(String patient_id, String doctor_id, Date visit_date, Date updated_at, Date length_of_visit, String procedure, Date scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
