@@ -15,14 +15,14 @@ public class Patient {
     String address;
     String current_health;
     String ohip;
-    int phone;
+    String phone;
     int sin;
     
     public Patient() {
         
     }
     
-    public Patient(String id, String address, String current_health, String ohip, int phone, int sin) {
+    public Patient(String id, String address, String current_health, String ohip, String phone, int sin) {
         this.user_id = id;
         this.address = address;
         this.current_health = current_health;
@@ -63,11 +63,11 @@ public class Patient {
         this.ohip = ohip;
     }
     
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
     
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
     

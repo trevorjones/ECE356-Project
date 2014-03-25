@@ -6,6 +6,7 @@
 
 package servlets;
 
+import Controllers.UserController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -71,7 +72,7 @@ public class RegisterServlet extends HttpServlet {
             ps.setString(1, user_id);
             rs = ps.executeQuery();
             
-            if (!(rs != null && rs.next()) || rs.getString("user_id").equals(user_id)) {
+            if (rs == null || rs.next() || rs.getString("user_id").equals(user_id)) {
                 errorMsg += "user ID already exists.";
             }
         } catch (Exception e) {
@@ -91,16 +92,8 @@ public class RegisterServlet extends HttpServlet {
             rd.include(request, response);
         } else {
             try {
-                ps = con.prepareStatement("insert into User(user_id,first_name,last_name,password,type,email) values(?,?,?,?,?,?)");
-                ps.setString(1, user_id);
-                ps.setString(2, first_name);
-                ps.setString(3,last_name);
-                ps.setString(4, password);
-                ps.setString(5, type);
-                ps.setString(6, email);
-                
-                ps.execute();
-                
+                UserController.create(con, user_id, first_name, last_name, password, type, email);
+                                
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
                 PrintWriter out = response.getWriter();
                 out.println("<font color=green>Registration successful, please login.</font>");

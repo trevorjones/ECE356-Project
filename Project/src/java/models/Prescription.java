@@ -25,6 +25,10 @@ public class Prescription {
         this.description = description;
     }
     
+    public Prescription(String name, String alias, String description, boolean add) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public String getName() {
         return this.name;
     }

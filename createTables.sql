@@ -29,8 +29,8 @@ user_id CHAR(20) NOT NULL,
 address CHAR(30) NOT NULL,
 current_health TEXT NOT NULL,
 ohip CHAR(12) NOT NULL,
-phone TINYINT(10) NOT NULL,
-sin TINYINT(9) NOT NULL,
+phone CHAR(10) NOT NULL,
+sin INT(9) NOT NULL,
 PRIMARY KEY (user_id),
 FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
@@ -64,11 +64,11 @@ FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id)
 CREATE TABLE Appointment (
 patient_user_id CHAR(20) NOT NULL,
 doctor_user_id CHAR(20) NOT NULL,
-scheduled_date DATETIME NOT NULL,
+start_date DATETIME NOT NULL,
+end_date DATETIME NOT NULL,
 status ENUM ('scheduled', 'cancelled', 'done') NOT NULL,
 proc CHAR(30) NOT NULL,
-estimated_length TIME NOT NULL,
-PRIMARY KEY (patient_user_id , doctor_user_id, scheduled_date),
+PRIMARY KEY (patient_user_id , doctor_user_id, start_date),
 FOREIGN KEY (patient_user_id) REFERENCES Doctor_Patient(patient_user_id),
 FOREIGN KEY (doctor_user_id) REFERENCES Doctor_Patient(doctor_user_id)
 );

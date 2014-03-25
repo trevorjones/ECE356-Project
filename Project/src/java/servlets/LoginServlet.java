@@ -61,7 +61,9 @@ public class LoginServlet extends HttpServlet {
                     User user = new User(rs.getString("user_id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("type"), rs.getString("email"));
                     HttpSession session = request.getSession();
                     session.setAttribute("user", user);
-                    response.sendRedirect("logged_in.jsp");
+                    
+                    // Redirect to difference pages depending on user type
+                    response.sendRedirect("home.jsp");
                 } else {
                     invalidUser(request, response);
                 }

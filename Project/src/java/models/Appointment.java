@@ -12,48 +12,63 @@ import java.util.Date;
  * @author william
  */
 public class Appointment {
-    String patient_id;
-    String doctor_id;
-    Date scheduled_date;
-    String status; /* Either scheduled, cancelled, done */
-    String procedure;
-    Date estimated_length;
+    private String patient_id;
+    private String doctor_id;
+    private String appt_start;
+    private String appt_end;
+    private String status;
+    private String proc;
     
-    public Appointment() {
+    
+    public Appointment(String patient_id, String doctor_id, Date start, Date end,
+            String status, String proc) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
-    }
-    
-    public Appointment(String patient_id, String doctor_id, Date scheduled_date, String status, String procedure, Date estimated_length) {
+        String appt_start = sdf.format(start);
+        String appt_end = sdf.format(end);
+        
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
-        this.scheduled_date = scheduled_date;
+        this.appt_start = appt_start;
+        this.appt_end = appt_end;
         this.status = status;
-        this.procedure = procedure;
-        this.estimated_length = estimated_length;
+        this.proc = proc;
     }
+    
+    public Appointment(String patient_id, String doctor_id, String start, String end,
+            String status, String proc) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       
+        this.patient_id = patient_id;
+        this.doctor_id = doctor_id;
+        this.appt_start = start;
+        this.appt_end = end;
+        this.status = status;
+        this.proc = proc;
+    }    
     
     public String getPatientId() {
         return this.patient_id;
     }
     
-    public void setPatientId(String id) {
-        this.patient_id = id;
+    public void setPatientId(String patient_id) {
+        this.patient_id = patient_id;
     }
     
     public String getDoctorId() {
         return this.doctor_id;
     }
     
-    public void setDoctorId(String id) {
-        this.doctor_id = id;
+    public void setDoctorId(String doctor_id) {
+        this.doctor_id = doctor_id;
     }
     
-    public Date getScheduledDate() {
-        return this.scheduled_date;
+    public String getApptStart() {
+        return this.appt_start;
     }
     
-    public void setScheduledDate(Date scheduled_date) {
-        this.scheduled_date = scheduled_date;
+    public String getApptEnd() {
+        return this.appt_end;
     }
     
     public String getStatus() {
@@ -61,22 +76,14 @@ public class Appointment {
     }
     
     public void setStatus(String status) {
-        this.status = status;
+        this.status= status;
     }
     
-    public String getProcedure() {
-        return this.procedure;
+    public String getProc() {
+        return this.proc;
     }
     
-    public void setProcedure(String procedure) {
-        this.procedure = procedure;
-    }
-    
-    public Date getEstimatedLength() {
-        return this.estimated_length;
-    }
-    
-    public void setEstimatedLength(Date estimated_length) {
-        this.estimated_length = estimated_length;
+    public void setProc(String proc) {
+        this.proc = proc;
     }
 }
