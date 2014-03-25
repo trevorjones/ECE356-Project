@@ -96,7 +96,7 @@ public class RegisterServlet extends HttpServlet {
                                 
                 RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
                 PrintWriter out = response.getWriter();
-                out.println("<font color=green>Registration successful, please login.</font>");
+                out.println("<div class=\"container\" style=\"width:300px;\"><span class=\"label label-success\" style=\"display:block;\">Registration successful, please login.</span></div>");
                 rd.include(request, response);
             } catch (SQLException e) {
                 e.printStackTrace();
