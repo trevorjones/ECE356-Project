@@ -19,14 +19,25 @@
 
     <%! ArrayList<Appointment> apptList;%>
     <%! ArrayList<Patient> patientList;%>
+    <%! Integer conflicts;%>
     <% apptList = (ArrayList<Appointment>) request.getAttribute("apptList");%>
     <% patientList = (ArrayList<Patient>) request.getAttribute("patientList");%>
+    <% conflicts = (Integer) request.getAttribute("conflicts");%>
 
     <body>
         <%
             if (apptList != null) {
         %>
         <h1>Appointments</h1>
+        <%
+            if (conflicts != null) {
+                if (conflicts != 0) {
+        %>
+        <p>Failed to insert due to scheduling conflict.  Please select a different time.</p>
+        <%
+                }
+            }
+        %>
         <div>
             <form method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
                 <h2>Insert Appointment</h2>
@@ -56,7 +67,7 @@
                                 for (Appointment a : apptList) {
                             %>
                     <tr>
-                        <td><input type="checkbox" name="delAppt" value="<%=a.getApptDate()+" " + a.getApptStart()%>"/></td>
+                        <td><input type="checkbox" name="delAppt" value="<%=a.getApptDate() + " " + a.getApptStart()%>"/></td>
                         <td><%= a.getPatientId()%></td>
                         <td><%= a.getDoctorId()%></td>
                         <td><%= a.getApptDate()%></td>

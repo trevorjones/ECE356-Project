@@ -308,4 +308,42 @@ public class ProjectDBAO {
             }
         }
     }   
+     
+    public static int sanityCheckAppt(String datetime_start, String datetime_end)
+            throws ClassNotFoundException, SQLException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+
+        try {
+            con = getConnection();
+
+            //Build SQL Query
+            String query = "SELECT COUNT(*) FROM Appointment "
+                    + "WHERE (Appointment.scheduled_date <= ? AND Appointment.end_date > ?) "
+                    + "OR (Appointment.scheduled_date < ? AND Appointment.end_date >= ?) "
+                    + "OR (Appointment.scheduled_date >= ? AND Appointment.end_date <= ?)";
+
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, datetime_start);
+            pstmt.setString(2, datetime_start);
+            pstmt.setString(3, datetime_end);
+            pstmt.setString(4, datetime_end);
+            pstmt.setString(5, datetime_start);
+            pstmt.setString(6, datetime_end);
+
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+            
+            resultSet.next();
+            return resultSet.getInt(1);
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }  
+    } 
 }
