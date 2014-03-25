@@ -285,4 +285,27 @@ public class ProjectDBAO {
             }
         }
     }
+    
+     public static void delAppointment(String scheduled_date)
+            throws ClassNotFoundException, SQLException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ArrayList ret = null;
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement("DELETE FROM Appointment "
+                    + "WHERE scheduled_date = ?");
+            pstmt.setString(1, scheduled_date);
+ 
+            pstmt.executeUpdate();
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }   
 }

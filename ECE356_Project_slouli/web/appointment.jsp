@@ -28,7 +28,7 @@
         %>
         <h1>Appointments</h1>
         <div>
-            <form method="post" action="AddAppointment">
+            <form method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
                 <h2>Insert Appointment</h2>
                 Patient: 
                 <select name="patient_id">
@@ -40,31 +40,36 @@
                         }
                     %>
                 </select><br/>
-                Doctor id: <label name='doctor_id'><%=request.getParameter("doctor_id")%></label><br/>
                 Appt. Start: <input type='text' name='start_time'/><br/>
                 Appt. End: <input type='text' name='end_time'/><br/>
                 <!--Appt status -->
                 Procedure: <input type='text' name='procedure'/><br/>
-                <input type='submit' value='Insert Appt'/>
+                <input type='submit' name="submit" value='Insert_Appt'/>
             </form>
         </div>
-        <table border=1>
-            <tr><th>Patient</th><th>Doctor</th><th>Appointment Start</th><th>Appointment End</th><th>Appt Status</th><th>Procedure</th></tr>
+        <div>
+            <form method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
+                <table border=1>
+                    <tr><th><input type="checkbox" name="delAllAppt"/></th><th>Patient</th><th>Doctor</th><th>Appointment Start</th><th>Appointment End</th><th>Appt Status</th><th>Procedure</th></tr>
+                            <%
+                                for (Appointment a : apptList) {
+                            %>
+                    <tr>
+                        <td><input type="checkbox" name="delAppt" value="<%=a.getApptStart()%>"/></td>
+                        <td><%= a.getPatientId()%></td>
+                        <td><%= a.getDoctorId()%></td>
+                        <td><%= a.getApptStart()%></td>
+                        <td><%= a.getApptEnd()%></td>
+                        <td><%= a.getStatus()%></td>
+                        <td><%= a.getProc()%></td>
+                    </tr>
                     <%
-                        for (Appointment a : apptList) {
+                        }
                     %>
-            <tr>
-                <td><%= a.getPatientId()%></a></td>
-                <td><%= a.getDoctorId()%></td>
-                <td><%= a.getApptStart()%></td>
-                <td><%= a.getApptEnd()%></td>
-                <td><%= a.getStatus()%></td>
-                <td><%= a.getProc()%></td>
-            </tr>
-            <%
-                }
-            %>
-        </table>
+                </table>
+                <input type='submit' name="submit" value='Delete_Appt'/>
+            </form>
+        </div>
         <%
         } else {
         %>

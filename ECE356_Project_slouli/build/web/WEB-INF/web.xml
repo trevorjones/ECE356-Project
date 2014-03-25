@@ -5,16 +5,16 @@
         <servlet-class>ece356.QueryServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>AddAppointment</servlet-name>
-        <servlet-class>ece356.AddAppointment</servlet-class>
+        <servlet-name>EditAppointment</servlet-name>
+        <servlet-class>ece356.EditAppointment</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/QueryServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>AddAppointment</servlet-name>
-        <url-pattern>/AddAppointment</url-pattern>
+        <servlet-name>EditAppointment</servlet-name>
+        <url-pattern>/EditAppointment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
