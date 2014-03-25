@@ -40,6 +40,7 @@
                         }
                     %>
                 </select><br/>
+                Appt. Date: <input type='text' name='date'/><br/>
                 Appt. Start: <input type='text' name='start_time'/><br/>
                 Appt. End: <input type='text' name='end_time'/><br/>
                 <!--Appt status -->
@@ -50,14 +51,15 @@
         <div>
             <form method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
                 <table border=1>
-                    <tr><th><input type="checkbox" name="delAllAppt"/></th><th>Patient</th><th>Doctor</th><th>Appointment Start</th><th>Appointment End</th><th>Appt Status</th><th>Procedure</th></tr>
+                    <tr><th><input type="checkbox" name="delAllAppt"/></th><th>Patient</th><th>Doctor</th><th>Date</th><th>Appointment Start</th><th>Appointment End</th><th>Appt Status</th><th>Procedure</th></tr>
                             <%
                                 for (Appointment a : apptList) {
                             %>
                     <tr>
-                        <td><input type="checkbox" name="delAppt" value="<%=a.getApptStart()%>"/></td>
+                        <td><input type="checkbox" name="delAppt" value="<%=a.getApptDate()+" " + a.getApptStart()%>"/></td>
                         <td><%= a.getPatientId()%></td>
                         <td><%= a.getDoctorId()%></td>
+                        <td><%= a.getApptDate()%></td>
                         <td><%= a.getApptStart()%></td>
                         <td><%= a.getApptEnd()%></td>
                         <td><%= a.getStatus()%></td>
