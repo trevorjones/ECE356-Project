@@ -10,37 +10,54 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:useBean id="user" class="models.User" scope="session"/>
+        <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link rel="icon" href="resources/favicon.ico"/>
         <title>Welcome <%= user.getFirstName() %> <%= user.getLastName() %></title>
     </head>
     <body>
-        <h1>Menu</h1>
-        <form method="post" action="LogoutServlet">
-            <input type="submit" value="Logout">
-        </form>
-        <a href="home.jsp">Home</a><br/>
-        <% if (user.getType().equals("financial officer")) { %>
-            <a href="doctorList.jsp">Doctor List</a><br/>
-            <a href="patientList.jsp">Patient List</a>
-        <% } else if (user.getType().equals("doctor")) { %>
-            <a href="QueryServlet?query=<%= QueryServlet.PRESCRIPTIONS_ALL %>">Prescription List</a>
-        <% } %>
-        
-        <h1>Profile Information</h1>
-        <table border="1" width="100%">
-            <tr>
-               <th>User ID</th>
-               <th>First Name</th>
-               <th>Last Name</th>
-               <th>Type</th>
-               <th>Email</th>
-            </tr>
-            <tr>
-               <td><%= user.getId() %></td>
-               <td><%= user.getFirstName() %></td>
-               <td><%= user.getLastName() %></td>
-               <td><%= user.getType() %></td>
-               <td><%= user.getEamil() %></td>
-            </tr>
-        </table>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+            <div class="container">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="home.jsp">Home</a>
+                    </li>
+                    <% if (user.getType().equals("financial officer")) { %>
+                        <li>
+                            <a href="doctorList.jsp">Doctor List</a>
+                        </li>
+                        <li>
+                            <a href="patientList.jsp">Patient List</a>
+                        </li>
+                    <% } else if (user.getType().equals("doctor")) { %>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.PRESCRIPTIONS_ALL %>">Prescription List</a>
+                        </li>
+                    <% } %>
+                    <li>
+                        <a href="LogoutServlet">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container" style="padding-top:40px;">
+            <h1>Profile Information</h1>
+            <table class="table">
+                <tr>
+                   <th>User ID</th>
+                   <th>First Name</th>
+                   <th>Last Name</th>
+                   <th>Type</th>
+                   <th>Email</th>
+                </tr>
+                <tr>
+                   <td><%= user.getId() %></td>
+                   <td><%= user.getFirstName() %></td>
+                   <td><%= user.getLastName() %></td>
+                   <td><%= user.getType() %></td>
+                   <td><%= user.getEamil() %></td>
+                </tr>
+            </table>
+        </div>
     </body>
 </html>
