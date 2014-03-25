@@ -18,7 +18,6 @@ public class Appointment {
     private String doctor_id;
     private String appt_start;
     private String appt_end;
-    
     private String status;
     private String proc;
     
@@ -37,6 +36,18 @@ public class Appointment {
         this.status = status;
         this.proc = proc;
     }
+    
+    public Appointment(String patient_id, String doctor_id, String start, String end,
+            String status, String proc) {
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       
+        this.patient_id = patient_id;
+        this.doctor_id = doctor_id;
+        this.appt_start = start;
+        this.appt_end = end;
+        this.status = status;
+        this.proc = proc;
+    }    
     
     public String getPatientId() {
         return this.patient_id;

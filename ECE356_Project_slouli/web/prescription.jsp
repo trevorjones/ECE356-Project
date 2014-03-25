@@ -24,8 +24,9 @@
         %>
         <h1>Prescriptions</h1>
         <form method="post" action="QueryServlet?qnum=1">
-            Prescription Search<input type='text' name='prescription_query'/></br>
+            Prescription Search: <input type='text' name='prescription_query'/></br>
         <input type='submit' value='Submit Query'/>
+        </form>
         <table border=1>
             <tr><th>Name</th><th>Alias</th><th>Descriptions</th></tr>
             <%

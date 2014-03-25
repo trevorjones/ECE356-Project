@@ -25,7 +25,7 @@
         %>
         <h1>Doctors</h1>
         <form method="post" action="QueryServlet?qnum=2">
-            Doctor Search<input type='text' name='doctor_query'/></br>
+            Doctor Search: <input type='text' name='doctor_query'/></br>
         <input type='submit' value='Submit Query'/>
         </form>
         <table border=1>

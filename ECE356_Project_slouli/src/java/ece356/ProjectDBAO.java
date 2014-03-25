@@ -3,6 +3,7 @@ package ece356;
 import java.sql.*;
 import java.util.ArrayList;
 //Test commit
+
 public class ProjectDBAO {
 
     public static final String url = "jdbc:mysql://localhost:3306/";
@@ -101,7 +102,7 @@ public class ProjectDBAO {
                 con.close();
             }
         }
-    }    
+    }
 
     public static ArrayList<Doctor> getDoctors()
             throws ClassNotFoundException, SQLException {
@@ -176,7 +177,7 @@ public class ProjectDBAO {
 
     public static ArrayList<Appointment> queryDoctorAppt(String doctor_id)
             throws ClassNotFoundException, SQLException {
-        
+
         Connection con = null;
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
@@ -213,7 +214,75 @@ public class ProjectDBAO {
             if (con != null) {
                 con.close();
             }
-        } 
-        
+        }
+    }
+
+    public static ArrayList<Patient> queryDoctorPatient(String doctor_id)
+            throws ClassNotFoundException, SQLException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ArrayList<Patient> ret;
+
+        try {
+            con = getConnection();
+
+            //Build SQL Query
+            String query = "SELECT * FROM Doctor_Patient, Patient "
+                    + "WHERE Doctor_Patient.doctor_user_id = ? "
+                    + "AND Doctor_Patient.patient_user_id = Patient.user_id";
+
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, doctor_id);
+
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+
+            ret = new ArrayList<Patient>();
+            while (resultSet.next()) {
+                Patient a = new Patient(
+                        resultSet.getString("Patient.user_id"),
+                        resultSet.getString("Patient.address"),
+                        resultSet.getString("Patient.current_health"),
+                        resultSet.getString("Patient.ohip"),
+                        resultSet.getString("Patient.phone"),
+                        resultSet.getInt("Patient.sin"));
+                ret.add(a);
+            }
+            return ret;
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+
+    public static void addAppointment(Appointment appt)
+            throws ClassNotFoundException, SQLException {
+
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        ArrayList ret = null;
+        try {
+            con = getConnection();
+            pstmt = con.prepareStatement("INSERT INTO Appointment VALUES(?, ?, ?, ?, ?, ?)");
+            pstmt.setString(1, appt.getPatientId());
+            pstmt.setString(2, appt.getDoctorId());
+            pstmt.setString(3, appt.getApptStart());
+            pstmt.setString(4, appt.getApptEnd());
+            pstmt.setString(5, appt.getStatus());
+            pstmt.setString(6, appt.getProc());
+            pstmt.executeUpdate();
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
     }
 }

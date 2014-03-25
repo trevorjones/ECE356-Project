@@ -59,6 +59,8 @@ public class QueryServlet extends HttpServlet {
             } else if (intQueryNum == 3) {
                 ArrayList ret = query3Helper(request, response);
                 request.setAttribute("apptList", ret);
+                ret = query3PatientList(request,response);
+                request.setAttribute("patientList", ret);
                 url = "/appointment.jsp";
             } else {
                 throw new RuntimeException("Invalid query number: " + intQueryNum);
@@ -91,7 +93,15 @@ public class QueryServlet extends HttpServlet {
             throws java.sql.SQLException, ClassNotFoundException {
         String doctor_id = request.getParameter("doctor_id");
 
-        ArrayList ret = ProjectDBAO.queryDoctorAppt(doctor_id);
+        ArrayList<Appointment> ret = ProjectDBAO.queryDoctorAppt(doctor_id);
+        return ret;
+    }
+    
+    protected ArrayList query3PatientList(HttpServletRequest request, HttpServletResponse response)
+            throws java.sql.SQLException, ClassNotFoundException {
+        String doctor_id = request.getParameter("doctor_id");
+
+        ArrayList<Patient> ret = ProjectDBAO.queryDoctorPatient(doctor_id);
         return ret;
     }
 

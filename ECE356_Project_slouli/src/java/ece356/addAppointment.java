@@ -8,6 +8,7 @@ package ece356;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author slouli
  */
-public class addAppointment extends HttpServlet {
+public class AddAppointment extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,11 +32,30 @@ public class addAppointment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        
-        
-    }
 
+        String patient_id = request.getParameter("patient_id");
+        String doctor_id = "tpain";
+        String start_time = request.getParameter("start_time");
+        String end_time = request.getParameter("end_time");
+        String status = "scheduled";
+        String procedure = request.getParameter("procedure");
+
+        Appointment appt = new Appointment(patient_id, doctor_id, start_time, end_time, status, procedure);
+
+        String url;
+        try {
+            ProjectDBAO.addAppointment(appt);
+            ArrayList<Appointment> ret = ProjectDBAO.queryDoctorAppt(doctor_id);
+            request.setAttribute("apptList", ret);
+            ArrayList<Patient> ret2 = ProjectDBAO.queryDoctorPatient(doctor_id);
+            request.setAttribute("patientList", ret2);
+            url = "/appointment.jsp";
+        } catch (Exception e) {
+            request.setAttribute("exception", e);
+            url = "/error.jsp";
+        }
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
