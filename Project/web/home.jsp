@@ -57,7 +57,7 @@
         </nav>
 
         <div class="container" style="padding-top:40px;">
-            <h1>Profile Information</h1>
+            <h2>Profile Information</h2>
             <table class="table">
                 <tr>
                    <th>User ID</th>
