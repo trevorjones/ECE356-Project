@@ -66,14 +66,20 @@ public class QueryServlet extends HttpServlet {
             } else if (intQueryNum ==8){  //individual record
                 query8helper (request, response);
                 url = "/record_detail.jsp";
-            } else if (intQueryNum ==9){  //individual record
+            } else if (intQueryNum ==9){  //record search
                 query9helper (request, response);
                 url = "/records.jsp";
-            } else if (intQueryNum ==10){  //add a new patient
-                query10helper (request, response);
-                url = "/new_patient.jsp";
-            } else if (intQueryNum ==11){  //update patient details
+            } else if (intQueryNum ==10){  //record edit
+                query8helper (request, response);
+                url = "/record_edit.jsp";
+            } else if (intQueryNum ==11){  //record update
                 query11helper (request, response);
+                url = "/record_detail.jsp";
+            } else if (intQueryNum ==12){  //add a new patient
+                query12helper (request, response);
+                url = "/new_patient.jsp";
+            } else if (intQueryNum ==13){  //update patient details
+                query13helper (request, response);
                 query6helper (request, response);
                 url = "/patient_detail.jsp";
             }
@@ -138,7 +144,26 @@ public class QueryServlet extends HttpServlet {
         request.setAttribute("record_list", ret);
     }
     
-    protected void query10helper(HttpServletRequest request, HttpServletResponse response)
+    protected void query11helper(HttpServletRequest request, HttpServletResponse response)
+            throws java.sql.SQLException, ClassNotFoundException {
+        String patient_id = request.getParameter("patient_id");
+        String visit_date = request.getParameter("visit_date");
+        String length_of_visit = request.getParameter("length_of_visit");
+        String proc = request.getParameter("proc");
+        String scheduling_of_treatment = request.getParameter("scheduling_of_treatment");
+        String freeform_comments = request.getParameter("freeform_comments");
+        String surgery_performed = request.getParameter("surgery_performed");
+        String diagnosis = request.getParameter("diagnosis");
+        String prescription = request.getParameter("prescription");
+        
+
+        ProjectDBAO.updateRecord_detail(patient_id, visit_date, length_of_visit, proc, 
+                scheduling_of_treatment, freeform_comments, surgery_performed, diagnosis, prescription);
+        ArrayList ret = ProjectDBAO.getRecord_detail(patient_id, visit_date);
+        request.setAttribute("record_detail", ret);
+    }
+    
+        protected void query12helper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException {
         String patient_id = request.getParameter("username");
         String first_name = request.getParameter("firstname");
@@ -157,7 +182,7 @@ public class QueryServlet extends HttpServlet {
         request.setAttribute("insertflag", insertFlag);
     }
     
-    protected void query11helper(HttpServletRequest request, HttpServletResponse response)
+    protected void query13helper(HttpServletRequest request, HttpServletResponse response)
             throws java.sql.SQLException, ClassNotFoundException {
         String patient_id = request.getParameter("patient_id");
         String first_name = request.getParameter("firstname");
@@ -175,7 +200,6 @@ public class QueryServlet extends HttpServlet {
             phone,sin,email);
         request.setAttribute("insertflag", insertFlag);
     }
-    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

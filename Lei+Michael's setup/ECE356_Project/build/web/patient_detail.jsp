@@ -28,7 +28,7 @@
         <%
             if (patient_detail != null) {
         %>
-        <form method="post" action="QueryServlet?qnum=11">
+        <form method="post" action="QueryServlet?qnum=13">
             <h1>Patients</h1>
             <%
                     for (Patient_detail pd : patient_detail) {
@@ -41,7 +41,7 @@
                 <tr><th>Current Health</th><td><input type="text" name="currenthealth" value=<%= pd.getCurrent_health()%>></td><th>OHIP Number</th><td><input type="text" name="ohip" value=<%= pd.getOHIP()%>></td></tr>
                 <tr><th>Phone Number</th><td><input type="number" name="phone" value=<%= pd.getPhone()%>></td><th>SIN Number</th><td><input type="number" name="sin" value=<%= pd.getSIN()%>></td></tr>
                 <tr><td><a href="QueryServlet?qnum=7&patient_id=<%= pd.getUserid()%>">Click here to view list of patient's visitation record</a></td>
-                <td><input type='submit' value='Modify Patient Info'/></td></tr>
+                <td><input type='submit' value='Submit Changes'/></td></tr>
                     
             </table>
                 <%

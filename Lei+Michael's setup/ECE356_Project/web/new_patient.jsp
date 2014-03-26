@@ -24,7 +24,7 @@
             }
     %>
     <body>
-        <form method="post" action="QueryServlet?qnum=10">
+        <form method="post" action="QueryServlet?qnum=12">
         <h1>Add a New Patient</h1>
 
         <table border=1>

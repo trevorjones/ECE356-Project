@@ -243,100 +243,6 @@ public class ProjectDBAO {
         }
     }
     
-    public static String newPatient_detail(
-            String patient_id, String first_name, 
-            String last_name, String address, 
-            String current_health, String ohip,
-            int phone, int sin, String email)
-            throws ClassNotFoundException, SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        PreparedStatement pstmt2 = null;
-        Statement stmt = null;
-        try {
-            con = getConnection();
-            con.setAutoCommit(false);
-            String query1 = "INSERT INTO User "
-                    + "VALUES ( ? , ? , ? , 'newpass' , 'patient' , ? )";
-            String query2 = " INSERT INTO Patient "
-                    + "VALUES (?,?,?,?,?,?) ";
-            
-            pstmt = con.prepareStatement(query1);
-            pstmt.setString(1, patient_id);
-            pstmt.setString(2, first_name);
-            pstmt.setString(3, last_name);
-            pstmt.setString(4, email);
-            pstmt.executeUpdate();
-
-            pstmt2 = con.prepareStatement(query2);
-            pstmt2.setString(1, patient_id);
-            pstmt2.setString(2, address);
-            pstmt2.setString(3, current_health);
-            pstmt2.setString(4, ohip);
-            pstmt2.setInt(5, phone);
-            pstmt2.setInt(6, sin);
-            pstmt2.executeUpdate();
-            con.commit();
-            con.setAutoCommit(true);
-            
-            return "1";
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-    }
-    
-    public static String updatePatient_detail(
-            String patient_id, String first_name, 
-            String last_name, String address, 
-            String current_health, String ohip,
-            int phone, int sin, String email)
-            throws ClassNotFoundException, SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        PreparedStatement pstmt2 = null;
-        Statement stmt = null;
-        try {
-            con = getConnection();
-            String query = "UPDATE User,Patient SET "
-                    + "User.first_name = ? , "
-                    + "User.last_name = ? , "
-                    + "User.email = ? , "
-                    + "Patient.address = ? , "
-                    + "Patient.current_health = ? , "
-                    + "Patient.ohip = ? , "
-                    + "Patient.phone = ? , "
-                    + "Patient.sin = ?  "
-                    + "WHERE User.user_id = Patient.user_id "
-                    + "AND Patient.user_id = ? ";
-            
-            pstmt = con.prepareStatement(query);;
-            pstmt.setString(1, first_name);
-            pstmt.setString(2, last_name);
-            pstmt.setString(3, email);
-            pstmt.setString(4, address);
-            pstmt.setString(5, current_health);
-            pstmt.setString(6, ohip);
-            pstmt.setInt(7, phone);
-            pstmt.setInt(8, sin);
-            pstmt.setString(9, patient_id);
-            pstmt.executeUpdate();
-            
-            return "1";
-        } finally {
-            if (stmt != null) {
-                stmt.close();
-            }
-            if (con != null) {
-                con.close();
-            }
-        }
-    }
-    
     public static ArrayList<Record_list> getRecords(String patient_id)
             throws ClassNotFoundException, SQLException {
         Connection con = null;
@@ -450,6 +356,161 @@ public class ProjectDBAO {
                         ret.add(rd);
             }
             return ret;
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    public static String newPatient_detail(
+            String patient_id, String first_name, 
+            String last_name, String address, 
+            String current_health, String ohip,
+            int phone, int sin, String email)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        Statement stmt = null;
+        try {
+            con = getConnection();
+            con.setAutoCommit(false);
+            String query1 = "INSERT INTO User "
+                    + "VALUES ( ? , ? , ? , 'newpass' , 'patient' , ? )";
+            String query2 = " INSERT INTO Patient "
+                    + "VALUES (?,?,?,?,?,?) ";
+            
+            pstmt = con.prepareStatement(query1);
+            pstmt.setString(1, patient_id);
+            pstmt.setString(2, first_name);
+            pstmt.setString(3, last_name);
+            pstmt.setString(4, email);
+            pstmt.executeUpdate();
+
+            pstmt2 = con.prepareStatement(query2);
+            pstmt2.setString(1, patient_id);
+            pstmt2.setString(2, address);
+            pstmt2.setString(3, current_health);
+            pstmt2.setString(4, ohip);
+            pstmt2.setInt(5, phone);
+            pstmt2.setInt(6, sin);
+            pstmt2.executeUpdate();
+            con.commit();
+            con.setAutoCommit(true);
+            
+            return "1";
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    public static String updatePatient_detail(
+            String patient_id, String first_name, 
+            String last_name, String address, 
+            String current_health, String ohip,
+            int phone, int sin, String email)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        PreparedStatement pstmt2 = null;
+        Statement stmt = null;
+        try {
+            con = getConnection();
+            String query = "UPDATE User,Patient SET "
+                    + "User.first_name = ? , "
+                    + "User.last_name = ? , "
+                    + "User.email = ? , "
+                    + "Patient.address = ? , "
+                    + "Patient.current_health = ? , "
+                    + "Patient.ohip = ? , "
+                    + "Patient.phone = ? , "
+                    + "Patient.sin = ?  "
+                    + "WHERE User.user_id = Patient.user_id "
+                    + "AND Patient.user_id = ? ";
+            
+            pstmt = con.prepareStatement(query);;
+            pstmt.setString(1, first_name);
+            pstmt.setString(2, last_name);
+            pstmt.setString(3, email);
+            pstmt.setString(4, address);
+            pstmt.setString(5, current_health);
+            pstmt.setString(6, ohip);
+            pstmt.setInt(7, phone);
+            pstmt.setInt(8, sin);
+            pstmt.setString(9, patient_id);
+            pstmt.executeUpdate();
+            
+            return "1";
+        } finally {
+            if (stmt != null) {
+                stmt.close();
+            }
+            if (con != null) {
+                con.close();
+            }
+        }
+    }
+    
+    public static void updateRecord_detail(String patient_id, String visit_date, String length_of_visit, String proc, 
+                String scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription)
+            throws ClassNotFoundException, SQLException {
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        Statement stmt = null;
+
+        try {
+            con = getConnection();
+            String update ="UPDATE project.Visitationrecord "
+                    + "SET length_of_visit = ? , "
+                    + "proc = ? , "
+                    + "scheduling_of_treatment = ? , "
+                    + "freeform_comments = ? , "
+                    + "surgery_performed = ? , "
+                    + "diagnosis = ? , "
+                    + "prescription_name = ? "
+                    + "WHERE visitationrecord.patient_user_id = ? "
+                    + "AND visitationrecord.visit_date= ? ";
+
+                    
+            
+            pstmt = con.prepareStatement(update);
+
+            pstmt.setString(1, length_of_visit);
+            pstmt.setString(2, proc);
+            pstmt.setString(3, scheduling_of_treatment);
+            pstmt.setString(4, freeform_comments);
+            pstmt.setString(5, surgery_performed);
+            pstmt.setString(6, diagnosis);
+            pstmt.setString(7, prescription);
+            pstmt.setString(8, patient_id);
+            pstmt.setString(9, visit_date);
+            
+            pstmt.executeUpdate();
+            /*while (resultSet.next()) {
+                Record_detail rd = new Record_detail(
+                        resultSet.getString("visitationrecord.patient_user_id"),
+                        resultSet.getString("visitationrecord.doctor_user_id"),
+                        resultSet.getDate ("visitationrecord.visit_date"),
+                        resultSet.getTimestamp("visitationrecord.updated_at"),
+                        resultSet.getTime("visitationrecord.length_of_visit"),
+                        resultSet.getString("visitationrecord.proc"),
+                        resultSet.getDate("visitationrecord.scheduling_of_treatment"),
+                        resultSet.getString("visitationrecord.freeform_comments"),
+                        resultSet.getString("visitationrecord.surgery_performed"),
+                        resultSet.getString("visitationrecord.diagnosis"),
+                        resultSet.getString("visitationrecord.prescription_name"));
+                        
+                        ret.add(rd);
+            }*/
         } finally {
             if (stmt != null) {
                 stmt.close();

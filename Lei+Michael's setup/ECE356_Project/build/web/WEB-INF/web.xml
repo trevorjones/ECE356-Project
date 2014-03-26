@@ -8,10 +8,6 @@
         <servlet-name>QueryServlet</servlet-name>
         <servlet-class>ece356.QueryServlet</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>NewPatient</servlet-name>
-        <servlet-class>ece356.NewPatient</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>UserDBAO</servlet-name>
         <url-pattern>/UserDBAO</url-pattern>
@@ -19,10 +15,6 @@
     <servlet-mapping>
         <servlet-name>QueryServlet</servlet-name>
         <url-pattern>/QueryServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewPatient</servlet-name>
-        <url-pattern>/NewPatient</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

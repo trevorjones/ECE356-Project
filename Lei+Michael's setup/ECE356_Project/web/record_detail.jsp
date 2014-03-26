@@ -18,7 +18,7 @@
         <%
             if (record_detail != null) {
         %>
-        <h1>Patients</h1>
+        <h1>Visitation Record Detail</h1>
         <%
                 for (Record_detail rd : record_detail) {
             %>
@@ -33,9 +33,14 @@
             <tr><th>Surgery Performed</th><td><%=rd.getSurgery_performed()%></td><th>Diagnosis</th><td><%= rd.getDiagnosis()%></td><th>Prescription</th><td><%= rd.getPrescription()%></td></tr>
             <tr><th>Last Update</th><td><%= rd.getUpdated_at()%></td></tr>
            
-                
-            
         </table>
+            
+                    
+        <form method="post" action="QueryServlet?qnum=10">
+             <input type ="hidden" name ="patient_id" value ="<%=rd.getPuserid()%>">
+             <input type ="hidden" name ="visit_date" value ="<%=rd.getVisit_date()%>">
+             <input type="submit" value ="Edit Record">
+        </form>
             <%
                 }
             %>
