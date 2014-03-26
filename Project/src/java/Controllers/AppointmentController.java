@@ -19,8 +19,7 @@ import models.Appointment;
  */
 public class AppointmentController {
     
-    public static void create(Connection con, String patient_id, String doctor_id, String start_time, String end_time, String status, String procedure) throws ClassNotFoundException, SQLException {
-        Appointment appt = new Appointment(patient_id, doctor_id, start_time, end_time, status, procedure);
+    public static void create(Connection con, Appointment appt) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
         
@@ -40,14 +39,14 @@ public class AppointmentController {
         }
     }
     
-    public static void delete(Connection con, String doctor_id, String patient_id, String scheduled_date) throws ClassNotFoundException, SQLException {
+    public static void delete(Connection con, String doctor_id, String patient_id, String start_date) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
         
         try {
             pstmt = con.prepareStatement("DELETE FROM Appointment "
-                    + "WHERE scheduled_date = ?, doctor_user_id=?, patient_user_id=?");
-            pstmt.setString(1, scheduled_date);
+                    + "WHERE start_date = ?, doctor_user_id=?, patient_user_id=?");
+            pstmt.setString(1, start_date);
             pstmt.setString(2, doctor_id);
             pstmt.setString(3, patient_id);
  
@@ -93,23 +92,25 @@ public class AppointmentController {
         }
     }
     
-    public static int sanityCheck(Connection con, String datetime_start, String datetime_end) throws ClassNotFoundException, SQLException {
+    public static int sanityCheck(Connection con, String doctor_id, String datetime_start, String datetime_end) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
 
         try {
             //Build SQL Query
             String query = "SELECT COUNT(*) FROM Appointment "
-                    + "WHERE (Appointment.scheduled_date <= ? AND Appointment.end_date > ?) "
-                    + "OR (Appointment.scheduled_date < ? AND Appointment.end_date >= ?) "
-                    + "OR (Appointment.scheduled_date >= ? AND Appointment.end_date <= ?)";
+                    + "WHERE Appointment.doctor_user_id = ? "
+                    + "AND ((Appointment.start_date <= ? AND Appointment.end_date > ?) "
+                    + "OR (Appointment.start_date < ? AND Appointment.end_date >= ?) "
+                    + "OR (Appointment.start_date >= ? AND Appointment.end_date <= ?))";
 
             pstmt = con.prepareStatement(query);
-            pstmt.setString(1, datetime_start);
+            pstmt.setString(1, doctor_id);
             pstmt.setString(2, datetime_start);
-            pstmt.setString(3, datetime_end);
+            pstmt.setString(3, datetime_start);
             pstmt.setString(4, datetime_end);
-            pstmt.setString(5, datetime_start);
-            pstmt.setString(6, datetime_end);
+            pstmt.setString(5, datetime_end);
+            pstmt.setString(6, datetime_start);
+            pstmt.setString(7, datetime_end);
 
             ResultSet resultSet;
             resultSet = pstmt.executeQuery();
