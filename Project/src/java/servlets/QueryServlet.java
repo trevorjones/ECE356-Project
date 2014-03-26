@@ -37,7 +37,6 @@ public class QueryServlet extends HttpServlet {
     public static final String DOCTORS_QUERY = "doctors_query";
     public static final String DOCTORS_QUERY_BY_STAFF = "doctors_query_by_staff";
     public static final String APPOINTMENTS_FOR_DOCTOR = "appointments for doctor";
-    public static final String STAFF_NOT_ASSIGNED = "staff_not_assigned";
     public static final String STAFF_QUERY = "staff_query";
     public static final String PATIENTS_ALL = "patients_all";
     public static final String PATIENTS_SEARCH = "patients_search";
@@ -88,13 +87,11 @@ public class QueryServlet extends HttpServlet {
                 request.setAttribute("patientList", ret);
                 
                 url = "/appointment.jsp";
-            } else if(query.equals(STAFF_NOT_ASSIGNED)) {
-                ArrayList ret = DoctorStaffController.queryStaffNotWorkingForDoctor(con, request.getParameter("doctor_id"));
-                request.setAttribute("staffList", ret);
-                url = "/addStaff.jsp";
             } else if(query.equals(STAFF_QUERY)) {
                 ArrayList ret = DoctorStaffController.queryByDoctor(con, request.getParameter("doctor_id"));
-                request.setAttribute("staffList", ret);
+                request.setAttribute("staffRemoveList", ret);
+                ret = DoctorStaffController.queryStaffNotWorkingForDoctor(con, request.getParameter("doctor_id"));
+                request.setAttribute("staffAddList", ret);
                 url = "/staff.jsp";
             } else if(query.equals(DOCTORS_QUERY_BY_STAFF)) {
                 ArrayList ret = DoctorStaffController.queryByStaff(con, request.getParameter("staff_id"));

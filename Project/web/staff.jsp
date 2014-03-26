@@ -18,8 +18,8 @@
         <title>Staff List</title>
     </head>
     
-    <%! ArrayList<Staff> staffList;%>
-    <% staffList = (ArrayList<Staff>) request.getAttribute("staffList");%>
+    <% ArrayList<Staff> staffRemoveList = (ArrayList<Staff>) request.getAttribute("staffRemoveList");%>
+    <% ArrayList<Staff> staffAddList = (ArrayList<Staff>) request.getAttribute("staffAddList");%>
     
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -64,12 +64,12 @@
         </nav>
         <div class="container" style="padding-top:40px;">
             <div>
-                <% if (staffList != null) { %>
                 <h2>Add Staff</h2>
+                <% if (staffAddList != null) { %>
                     <form method="post" action="CreateStaffServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                         <table class="table table-striped">
                             <tr><th></th><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th></tr>
-                            <% for (Staff staff : staffList) { %>
+                            <% for (Staff staff : staffAddList) { %>
                                 <tr>
                                         <td><input type="checkbox" name="add" value="<%= staff.getId() %>"/></td>
                                         <td><%= staff.getId() %></td>
@@ -87,11 +87,11 @@
             </div>
             <div>
                 <h2>Associated Staff</h2>
-                <% if (staffList != null) { %>
+                <% if (staffRemoveList != null) { %>
                     <form method="post" action="DeleteStaffServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                         <table class="table table-striped">
                             <tr><th><input type="checkbox" name="deleteAll"/></th><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Permission</th></tr>
-                            <% for (Staff staff : staffList) { %>
+                            <% for (Staff staff : staffRemoveList) { %>
                                 <tr>
                                         <td><input type="checkbox" name="delete" value="<%= staff.getId() %>"/></td>
                                         <td><%= staff.getId() %></td>
@@ -113,7 +113,6 @@
                 <% } else { %>
                     <p>Empty List</p>
                 <% } %>
-                </br><a href="QueryServlet?query=<%= QueryServlet.STAFF_NOT_ASSIGNED %>&doctor_id=<%= request.getParameter("doctor_id") %>">Add Staff Member</a>
             </div>
         </div>
     </body>

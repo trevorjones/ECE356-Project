@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/william/workspace/University/ECE356/Project/Project/src/java/Controllers/PatientController.java</file>
-            <file>file:/home/william/workspace/University/ECE356/Project/Project/src/java/models/Patient.java</file>
+            <file>file:/home/william/workspace/University/ECE356/Project/Project/src/java/servlets/CreateStaffServlet.java</file>
             <file>file:/home/william/workspace/University/ECE356/Project/Project/src/java/servlets/QueryServlet.java</file>
-            <file>file:/home/william/workspace/University/ECE356/Project/Project/web/patient_detail.jsp</file>
-            <file>file:/home/william/workspace/University/ECE356/Project/Project/src/java/servlets/UpdatePatient.java</file>
-            <file>file:/home/william/workspace/University/ECE356/Project/Project/web/patient.jsp</file>
+            <file>file:/home/william/workspace/University/ECE356/Project/Project/web/staff.jsp</file>
         </group>
     </open-files>
 </project-private>
