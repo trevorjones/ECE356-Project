@@ -13,7 +13,7 @@
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Register</title>
     </head>
-    <body>
+    <body style="background-image: url('http://holykaw.alltop.com/wp-content/uploads/2013/03/foto-hospital.jpg'); background-size: 2000px auto; background-position-y: -500px;">
         <div class="container" style="max-width: 330px;">
             <form form class="form-signin" method="post" action="RegisterServlet">
                 <h2 class="form-signin-heading">Register</h2>
