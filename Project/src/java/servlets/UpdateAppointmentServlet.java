@@ -55,9 +55,9 @@ public class UpdateAppointmentServlet extends HttpServlet {
             Appointment appt = new Appointment(patient_id, doctor_id, start_datetime, end_datetime, status, procedure);
 
             try {
-                Integer conflicts = AppointmentController.sanityCheck(con, start_datetime, end_datetime);
-                if(conflicts == 0) {
-                    AppointmentController.create(con, patient_id, doctor_id, start_time, end_time, status, procedure);
+                Integer conflicts = AppointmentController.sanityCheck(con, doctor_id, start_datetime, end_datetime);
+                if(conflicts == 0 && start_datetime.compareTo(end_datetime) < 0) {
+                    AppointmentController.create(con, appt);
                 } else {
                     request.setAttribute("conflicts", conflicts);
                 }
