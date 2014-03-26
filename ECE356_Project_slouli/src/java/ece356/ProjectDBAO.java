@@ -200,7 +200,7 @@ public class ProjectDBAO {
                 Appointment a = new Appointment(
                         resultSet.getString("Appointment.patient_user_id"),
                         resultSet.getString("Appointment.doctor_user_id"),
-                        resultSet.getTimestamp("Appointment.scheduled_date"),
+                        resultSet.getTimestamp("Appointment.start_date"),
                         resultSet.getTimestamp("Appointment.end_date"),
                         resultSet.getString("Appointment.status"),
                         resultSet.getString("Appointment.proc"));
@@ -286,7 +286,7 @@ public class ProjectDBAO {
         }
     }
     
-     public static void delAppointment(String scheduled_date)
+     public static void delAppointment(String start_date)
             throws ClassNotFoundException, SQLException {
 
         Connection con = null;
@@ -295,8 +295,8 @@ public class ProjectDBAO {
         try {
             con = getConnection();
             pstmt = con.prepareStatement("DELETE FROM Appointment "
-                    + "WHERE scheduled_date = ?");
-            pstmt.setString(1, scheduled_date);
+                    + "WHERE start_date = ?");
+            pstmt.setString(1, start_date);
  
             pstmt.executeUpdate();
         } finally {
@@ -320,9 +320,9 @@ public class ProjectDBAO {
 
             //Build SQL Query
             String query = "SELECT COUNT(*) FROM Appointment "
-                    + "WHERE (Appointment.scheduled_date <= ? AND Appointment.end_date > ?) "
-                    + "OR (Appointment.scheduled_date < ? AND Appointment.end_date >= ?) "
-                    + "OR (Appointment.scheduled_date >= ? AND Appointment.end_date <= ?)";
+                    + "WHERE (Appointment.start_date <= ? AND Appointment.end_date > ?) "
+                    + "OR (Appointment.start_date < ? AND Appointment.end_date >= ?) "
+                    + "OR (Appointment.start_date >= ? AND Appointment.end_date <= ?)";
 
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, datetime_start);
