@@ -20,6 +20,43 @@ import models.Patient;
  */
 public class PatientController {
     
+    public static void create(Connection con, String patient_id, String address, String current_health, String ohip, String phone, int sin) throws SQLException {
+        PreparedStatement pstmt = con.prepareStatement("INSERT INTO Patient VALUES (?,?,?,?,?,?)");
+        pstmt.setString(1, patient_id);
+        pstmt.setString(2, address);
+        pstmt.setString(3, current_health);
+        pstmt.setString(4, ohip);
+        pstmt.setString(5, phone);
+        pstmt.setInt(6, sin);
+        pstmt.execute();
+        pstmt.close();
+    }
+    
+    public static void update(Connection con, String patient_id, String first_name, String last_name, String email, String address, String current_health, String ohip, String phone, int sin) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("UPDATE User,Patient SET "
+                    + "User.first_name = ? , "
+                    + "User.last_name = ? , "
+                    + "User.email = ? , "
+                    + "Patient.address = ? , "
+                    + "Patient.current_health = ? , "
+                    + "Patient.ohip = ? , "
+                    + "Patient.phone = ? , "
+                    + "Patient.sin = ?  "
+                    + "WHERE User.user_id = Patient.user_id "
+                    + "AND Patient.user_id = ? ");
+        ps.setString(1, first_name);
+        ps.setString(2, last_name);
+        ps.setString(3, email);
+        ps.setString(4, address);
+        ps.setString(5, current_health);
+        ps.setString(6, ohip);
+        ps.setString(7, phone);
+        ps.setInt(8, sin);
+        ps.setString(9, patient_id);
+        ps.execute();
+        ps.close();
+    }
+    
     public static ArrayList<Patient> getAll(Connection con) throws SQLException {
         ArrayList<Patient> ret = null;
         Statement stmt = null;
@@ -40,6 +77,14 @@ public class PatientController {
                 stmt.close();
             }
         }
+    }
+    
+    public static Patient getPatient(Connection con, String patient_id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Patient,User WHERE Patient.user_id = User.user_id AND Patient.user_id = ?");
+        ps.setString(1, patient_id);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return new Patient(rs);
     }
     
     public static ArrayList<Patient> queryPatient(Connection con, String query, String doctor_id) throws ClassNotFoundException, SQLException {

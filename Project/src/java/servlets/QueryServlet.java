@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Patient;
 
 /**
  *
@@ -41,6 +42,7 @@ public class QueryServlet extends HttpServlet {
     public static final String PATIENTS_ALL = "patients_all";
     public static final String PATIENTS_SEARCH = "patients_search";
     public static final String PATIENTS_BY_DOCTOR = "patients_by_doctor";
+    public static final String PATIENT_DETAILS = "patient_details";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -110,6 +112,10 @@ public class QueryServlet extends HttpServlet {
                 ArrayList ret = DoctorPatientController.queryByDoctor(con, request.getParameter("doctor_id"));
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
+            } else if(query.equals(PATIENT_DETAILS)) {
+                Patient p = PatientController.getPatient(con, request.getParameter("patient_id"));
+                request.setAttribute("patient", p);
+                url = "/patient_detail.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
             }
