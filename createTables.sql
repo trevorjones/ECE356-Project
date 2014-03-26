@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS project;
+
 DROP TABLE IF EXISTS VisitationRecord;
 DROP TABLE IF EXISTS Appointment;
 DROP TABLE IF EXISTS Doctor_Patient;
