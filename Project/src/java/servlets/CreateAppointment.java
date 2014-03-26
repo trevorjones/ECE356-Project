@@ -39,7 +39,7 @@ public class CreateAppointment extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         String patient_id = request.getParameter("patient_id");
-        String doctor_id = "tpain";
+        String doctor_id = request.getParameter("doctor_id");
         String start_time = request.getParameter("start_time");
         String end_time = request.getParameter("end_time");
         String status = "scheduled";

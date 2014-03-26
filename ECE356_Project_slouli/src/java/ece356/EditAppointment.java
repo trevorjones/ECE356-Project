@@ -49,9 +49,10 @@ public class EditAppointment extends HttpServlet {
 
             try {
                 Integer conflicts = ProjectDBAO.sanityCheckAppt(start_datetime, end_datetime);
-                if(conflicts == 0) {
+                if(conflicts == 0 && start_datetime.compareTo(end_datetime) == 0) {
                     ProjectDBAO.addAppointment(appt);
                 } else {
+                    conflicts = 1;
                     request.setAttribute("conflicts", conflicts);
                 }
                 apptHelper(request,response);
