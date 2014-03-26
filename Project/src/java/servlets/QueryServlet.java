@@ -10,6 +10,7 @@ import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Controllers.DoctorPatientController;
 import Controllers.DoctorStaffController;
+import Controllers.PatientController;
 import Controllers.PrescriptionController;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,6 +38,9 @@ public class QueryServlet extends HttpServlet {
     public static final String APPOINTMENTS_FOR_DOCTOR = "appointments for doctor";
     public static final String STAFF_NOT_ASSIGNED = "staff_not_assigned";
     public static final String STAFF_QUERY = "staff_query";
+    public static final String PATIENTS_ALL = "patients_all";
+    public static final String PATIENTS_SEARCH = "patients_search";
+    public static final String PATIENTS_BY_DOCTOR = "patients_by_doctor";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -94,6 +98,18 @@ public class QueryServlet extends HttpServlet {
                 ArrayList ret = DoctorStaffController.queryByStaff(con, request.getParameter("staff_id"));
                 request.setAttribute("doctorList", ret);
                 url = "/doctor.jsp";
+            } else if(query.equals(PATIENTS_ALL)) {
+                ArrayList ret = PatientController.getAll(con);
+                request.setAttribute("patientList", ret);
+                url = "/patient.jsp";
+            } else if(query.equals(PATIENTS_SEARCH)) {
+                ArrayList ret = PatientController.queryPatient(con, request.getParameter("patient_query"), request.getParameter("doctor_id"));
+                request.setAttribute("patientList", ret);
+                url = "/patient.jsp";
+            } else if(query.equals(PATIENTS_BY_DOCTOR)) {
+                ArrayList ret = DoctorPatientController.queryByDoctor(con, request.getParameter("doctor_id"));
+                request.setAttribute("patientList", ret);
+                url = "/patient.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
             }

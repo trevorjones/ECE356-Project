@@ -63,7 +63,7 @@ public class DoctorStaffController {
             ResultSet resultSet = pstmt.executeQuery();
             ret = new ArrayList<Staff>();
             while (resultSet.next()) {
-                ret.add(createStaff(resultSet));
+                ret.add(new Staff(resultSet));
             }
             return ret;
         } finally {
@@ -91,7 +91,7 @@ public class DoctorStaffController {
 
             ret = new ArrayList<Staff>();
             while (resultSet.next()) {
-                ret.add(createStaff(resultSet));
+                ret.add(new Staff(resultSet));
             }
             return ret;
         } finally {
@@ -114,7 +114,7 @@ public class DoctorStaffController {
 
             ret = new ArrayList<Doctor>();
             while (resultSet.next()) {
-                ret.add(createDoctor(resultSet));
+                ret.add(new Doctor(resultSet));
             }
             return ret;
         } finally {
@@ -122,27 +122,5 @@ public class DoctorStaffController {
                 pstmt.close();
             }
         }
-    }
-    
-    private static Staff createStaff(ResultSet rs) throws SQLException {
-        boolean permission = rs.getInt("Doctor_Staff.permission") == 1;
-        Staff a = new Staff(
-                rs.getString("User.user_id"),
-                rs.getString("User.first_name"),
-                rs.getString("User.last_name"),
-                rs.getString("User.email"),
-                permission);
-        return a;
-    }
-    
-    private static Doctor createDoctor(ResultSet rs) throws SQLException {
-        Doctor d = new Doctor(
-                rs.getString("User.user_id"),
-                rs.getString("User.first_name"),
-                rs.getString("User.last_name"),
-                rs.getString("User.email"),
-                rs.getString("Doctor.specialization"));
-        return d;
-    }
-    
+    }    
 }

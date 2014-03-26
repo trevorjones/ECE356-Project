@@ -25,9 +25,9 @@ public class DoctorPatientController {
 
         try {
             //Build SQL Query
-            String query = "SELECT * FROM Doctor_Patient, Patient "
+            String query = "SELECT * FROM Doctor_Patient, Patient, User "
                     + "WHERE Doctor_Patient.doctor_user_id = ? "
-                    + "AND Doctor_Patient.patient_user_id = Patient.user_id";
+                    + "AND Doctor_Patient.patient_user_id = Patient.user_id AND User.user_id = Patient.user_id";
 
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, doctor_id);
@@ -37,14 +37,7 @@ public class DoctorPatientController {
 
             ret = new ArrayList<Patient>();
             while (resultSet.next()) {
-                Patient a = new Patient(
-                        resultSet.getString("Patient.user_id"),
-                        resultSet.getString("Patient.address"),
-                        resultSet.getString("Patient.current_health"),
-                        resultSet.getString("Patient.ohip"),
-                        resultSet.getString("Patient.phone"),
-                        resultSet.getInt("Patient.sin"));
-                ret.add(a);
+                ret.add(new Patient(resultSet));
             }
             return ret;
         } finally {
