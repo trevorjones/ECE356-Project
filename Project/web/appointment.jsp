@@ -39,7 +39,7 @@
             }
         %>
         <div>
-            <form method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
+            <form method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                 <h2>Insert Appointment</h2>
                 Patient: 
                 <select name="patient_id">
