@@ -4,8 +4,8 @@
     Author     : slouli
 --%>
 
+<%@page import="servlets.QueryServlet"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="models.Prescription"%>
 <%@page import="models.Doctor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,23 +20,20 @@
     <% doctorList = (ArrayList<Doctor>) request.getAttribute("doctorList");%>
     
     <body>
-        <h1>Doctors</h1>
+        <h1>Doctors Associated with You</h1>
         <%
             if (doctorList != null) {
         %>
-        <form method="post" action="QueryServlet?qnum=2">
-            Doctor Search: <input type='text' name='doctor_query'/></br>
-        <input type='submit' value='Submit Query'/>
-        </form>
         <table border=1>
-            <tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Specialization</th></tr>
+            <tr><th>User ID</th><th>First Name</th><th>Last Name</th><th>Email</th><th>Specialization</th></tr>
             <%
                 for (Doctor d : doctorList) {
             %>
             <tr>
-                <td><a href="QueryServlet?qnum=3&doctor_id=<%= d.getId()%>"><%= d.getId()%></a></td>
+                <td><a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= d.getId() %>"><%= d.getId()%></a></td>
                 <td><%= d.getFirstName()%></td>
                 <td><%= d.getLastName()%></td>
+                <td><%= d.getEmail() %></td>
                 <td><%= d.getSpecialization()%></td>
             </tr>
             <%

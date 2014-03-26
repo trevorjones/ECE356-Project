@@ -10,8 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
+import models.Doctor;
 import models.Staff;
 
 /**
@@ -101,6 +101,29 @@ public class DoctorStaffController {
         }
     }
     
+    public static ArrayList<Doctor> queryByStaff(Connection con, String staff_id) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+        ArrayList<Doctor> ret;
+
+        try {
+            pstmt = con.prepareStatement("SELECT * FROM Doctor_Staff,User,Doctor WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Staff.doctor_user_id = User.user_id AND User.user_id = Doctor.user_id");
+            pstmt.setString(1, staff_id);
+
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+
+            ret = new ArrayList<Doctor>();
+            while (resultSet.next()) {
+                ret.add(createDoctor(resultSet));
+            }
+            return ret;
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }
+    }
+    
     private static Staff createStaff(ResultSet rs) throws SQLException {
         boolean permission = rs.getInt("Doctor_Staff.permission") == 1;
         Staff a = new Staff(
@@ -110,6 +133,16 @@ public class DoctorStaffController {
                 rs.getString("User.email"),
                 permission);
         return a;
+    }
+    
+    private static Doctor createDoctor(ResultSet rs) throws SQLException {
+        Doctor d = new Doctor(
+                rs.getString("User.user_id"),
+                rs.getString("User.first_name"),
+                rs.getString("User.last_name"),
+                rs.getString("User.email"),
+                rs.getString("Doctor.specialization"));
+        return d;
     }
     
 }

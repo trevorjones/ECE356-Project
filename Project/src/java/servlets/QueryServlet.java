@@ -33,6 +33,7 @@ public class QueryServlet extends HttpServlet {
     public static final String PRESCRIPTIONS_QUERY = "prescriptions_query";
     public static final String DOCTORS_ALL = "doctors_all";
     public static final String DOCTORS_QUERY = "doctors_query";
+    public static final String DOCTORS_QUERY_BY_STAFF = "doctors_query_by_staff";
     public static final String APPOINTMENTS_FOR_DOCTOR = "appointments for doctor";
     public static final String STAFF_NOT_ASSIGNED = "staff_not_assigned";
     public static final String STAFF_QUERY = "staff_query";
@@ -89,6 +90,10 @@ public class QueryServlet extends HttpServlet {
                 ArrayList ret = DoctorStaffController.queryByDoctor(con, request.getParameter("doctor_id"));
                 request.setAttribute("staffList", ret);
                 url = "/staff.jsp";
+            } else if(query.equals(DOCTORS_QUERY_BY_STAFF)) {
+                ArrayList ret = DoctorStaffController.queryByStaff(con, request.getParameter("staff_id"));
+                request.setAttribute("doctorList", ret);
+                url = "/doctor.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
             }
