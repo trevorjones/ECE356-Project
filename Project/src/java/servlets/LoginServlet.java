@@ -84,7 +84,7 @@ public class LoginServlet extends HttpServlet {
     private void invalidUser(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
         PrintWriter out = response.getWriter();
-        out.println("<div class=\"container\" style=\"width:300px;\"><span class=\"label label-danger\" style=\"display:block;\">Invalid email or password</span></div>");
+        out.println("<div class=\"container\" style=\"width:300px;\"><span class=\"label label-danger\" style=\"display:block;\">Invalid user id or password</span></div>");
         rd.include(request, response);
     }
 

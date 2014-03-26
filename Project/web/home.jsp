@@ -33,6 +33,9 @@
                             <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= user.getId()%>">Schedule</a>
                         </li>
                         <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Patients</a>
+                        </li>
+                        <li>
                             <a href="QueryServlet?query=<%= QueryServlet.STAFF_QUERY %>&doctor_id=<%= user.getId()%>">Staff Members</a>
                         </li>
                         <li>
@@ -41,6 +44,9 @@
                     <% } else if (user.getType().equals("staff")) { %>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_QUERY_BY_STAFF %>&staff_id=<%= user.getId()%>">Associated Doctors</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_ALL %>">Patients</a>
                         </li>
                     <% } %>
                     <li>

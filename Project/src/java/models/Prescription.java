@@ -6,6 +6,9 @@
 
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author william
@@ -27,6 +30,12 @@ public class Prescription {
     
     public Prescription(String name, String alias, String description, boolean add) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public Prescription(ResultSet rs) throws SQLException {
+        this.name = rs.getString("name");
+        this.alias = rs.getString("alias");
+        this.description = rs.getString("description");
     }
     
     public String getName() {

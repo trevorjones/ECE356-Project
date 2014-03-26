@@ -28,11 +28,7 @@ public class PrescriptionController {
             ResultSet resultSet = stmt.executeQuery("SELECT * FROM Prescription");
             ret = new ArrayList<Prescription>();
             while (resultSet.next()) {
-                Prescription p = new Prescription(
-                        resultSet.getString("name"),
-                        resultSet.getString("alias"),
-                        resultSet.getString("description"));
-                ret.add(p);
+                ret.add(new Prescription(resultSet));
             }
             return ret;
         } finally {
@@ -61,11 +57,7 @@ public class PrescriptionController {
 
             ret = new ArrayList<Prescription>();
             while (resultSet.next()) {
-                Prescription p = new Prescription(
-                        resultSet.getString("Prescription.name"),
-                        resultSet.getString("Prescription.alias"),
-                        resultSet.getString("Prescription.description"));
-                ret.add(p);
+                ret.add(new Prescription(resultSet));
             }
             return ret;
         } finally {

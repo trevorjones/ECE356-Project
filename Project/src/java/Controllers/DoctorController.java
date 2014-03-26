@@ -30,13 +30,7 @@ public class DoctorController {
                     + "WHERE User.user_id = Doctor.user_id");
             ret = new ArrayList<Doctor>();
             while (resultSet.next()) {
-                Doctor d = new Doctor(
-                        resultSet.getString("User.user_id"),
-                        resultSet.getString("User.first_name"),
-                        resultSet.getString("User.last_name"),
-                        resultSet.getString("User.email"),
-                        resultSet.getString("Doctor.specialization"));
-                ret.add(d);
+                ret.add(new Doctor(resultSet));
             }
             return ret;
         } finally {

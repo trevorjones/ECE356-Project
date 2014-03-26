@@ -6,12 +6,14 @@
 
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author william
  */
-public class Patient {
-    String user_id;
+public class Patient extends User {
     String address;
     String current_health;
     String ohip;
@@ -22,8 +24,8 @@ public class Patient {
         
     }
     
-    public Patient(String id, String address, String current_health, String ohip, String phone, int sin) {
-        this.user_id = id;
+    public Patient(String id, String first_name, String last_name, String email, String address, String current_health, String ohip, String phone, int sin) {
+        super(id, first_name, last_name, "patient", email);
         this.address = address;
         this.current_health = current_health;
         this.ohip = ohip;
@@ -31,12 +33,13 @@ public class Patient {
         this.sin = sin;
     }
     
-    public String getId() {
-        return user_id;
-    }
-    
-    public void setId(String id) {
-        this.user_id = id;
+    public Patient(ResultSet rs) throws SQLException {
+        super(rs.getString("User.user_id"), rs.getString("User.first_name"), rs.getString("User.last_name"), "patient", rs.getString("User.email"));
+        this.address = rs.getString("Patient.address");
+        this.current_health = rs.getString("Patient.current_health");
+        this.ohip = rs.getString("Patient.ohip");
+        this.phone = rs.getString("Patient.phone");
+        this.sin = rs.getInt("Patient.sin");
     }
     
     public String getAddress() {
