@@ -61,7 +61,7 @@ public class User {
         this.type = tp;
     }
     
-    public String getEamil() {
+    public String getEmail() {
         return this.email;
     }
     

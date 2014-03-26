@@ -10,45 +10,16 @@ package models;
  *
  * @author william
  */
-public class Doctor {
-    String user_id;
-    String first_name;
-    String last_name;
+public class Doctor extends User {
     String specialization;
     
     public Doctor() {
         
     }
     
-    public Doctor(String id, String first_name, String last_name, String specialization) {
-        this.user_id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
+    public Doctor(String id, String first_name, String last_name, String email, String specialization) {
+        super(id, first_name, last_name, "doctor", email);
         this.specialization = specialization;
-    }
-    
-    public String getId() {
-        return user_id;
-    }
-    
-    public void setId(String id) {
-        this.user_id = id;
-    }
-    
-    public String getFirstName() {
-        return this.first_name;
-    }
-    
-    public void setFirstName(String fn) {
-        this.first_name = fn;
-    }
-    
-    public String getLastName() {
-        return this.last_name;
-    }
-    
-    public void setLastName(String ln) {
-        this.last_name = ln;
     }
     
     public String getSpecialization() {

@@ -46,7 +46,7 @@ UNIQUE (alias)
 CREATE TABLE Doctor_Staff (
 doctor_user_id CHAR(20) NOT NULL,
 staff_user_id CHAR(20) NOT NULL,
-permission TINYINT(1) DEFAULT 0,
+permission INT(1) DEFAULT 0,
 PRIMARY KEY (doctor_user_id, staff_user_id),
 FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id),
 FOREIGN KEY (staff_user_id) REFERENCES User(user_id)
@@ -55,7 +55,7 @@ FOREIGN KEY (staff_user_id) REFERENCES User(user_id)
 CREATE TABLE Doctor_Patient (
 patient_user_id CHAR(20) NOT NULL,
 doctor_user_id CHAR(20) NOT NULL,
-permission TINYINT(1) DEFAULT 0,
+permission INT(1) DEFAULT 0,
 PRIMARY KEY (patient_user_id , doctor_user_id),
 FOREIGN KEY (patient_user_id) REFERENCES Patient(user_id),
 FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id)

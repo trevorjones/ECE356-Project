@@ -9,6 +9,7 @@ package servlets;
 import Controllers.AppointmentController;
 import Controllers.DoctorController;
 import Controllers.DoctorPatientController;
+import Controllers.DoctorStaffController;
 import Controllers.PrescriptionController;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,6 +34,8 @@ public class QueryServlet extends HttpServlet {
     public static final String DOCTORS_ALL = "doctors_all";
     public static final String DOCTORS_QUERY = "doctors_query";
     public static final String APPOINTMENTS_FOR_DOCTOR = "appointments for doctor";
+    public static final String STAFF_NOT_ASSIGNED = "staff_not_assigned";
+    public static final String STAFF_QUERY = "staff_query";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -78,6 +81,14 @@ public class QueryServlet extends HttpServlet {
                 request.setAttribute("patientList", ret);
                 
                 url = "/appointment.jsp";
+            } else if(query.equals(STAFF_NOT_ASSIGNED)) {
+                ArrayList ret = DoctorStaffController.queryStaffNotWorkingForDoctor(con, request.getParameter("doctor_id"));
+                request.setAttribute("staffList", ret);
+                url = "/addStaff.jsp";
+            } else if(query.equals(STAFF_QUERY)) {
+                ArrayList ret = DoctorStaffController.queryByDoctor(con, request.getParameter("doctor_id"));
+                request.setAttribute("staffList", ret);
+                url = "/staff.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
             }

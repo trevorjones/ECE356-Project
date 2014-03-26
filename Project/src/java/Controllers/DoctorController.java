@@ -34,6 +34,7 @@ public class DoctorController {
                         resultSet.getString("User.user_id"),
                         resultSet.getString("User.first_name"),
                         resultSet.getString("User.last_name"),
+                        resultSet.getString("User.email"),
                         resultSet.getString("Doctor.specialization"));
                 ret.add(d);
             }
@@ -67,6 +68,7 @@ public class DoctorController {
                         resultSet.getString("User.user_id"),
                         resultSet.getString("User.first_name"),
                         resultSet.getString("User.last_name"),
+                        resultSet.getString("User.email"),
                         resultSet.getString("Doctor.specialization"));
                 ret.add(d);
             }

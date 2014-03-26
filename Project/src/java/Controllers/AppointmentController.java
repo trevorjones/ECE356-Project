@@ -40,6 +40,25 @@ public class AppointmentController {
         }
     }
     
+    public static void delete(Connection con, String doctor_id, String patient_id, String scheduled_date) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+        ArrayList ret = null;
+        
+        try {
+            pstmt = con.prepareStatement("DELETE FROM Appointment "
+                    + "WHERE scheduled_date = ?, doctor_user_id=?, patient_user_id=?");
+            pstmt.setString(1, scheduled_date);
+            pstmt.setString(2, doctor_id);
+            pstmt.setString(3, patient_id);
+ 
+            pstmt.executeUpdate();
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }
+    }
+    
     public static ArrayList<Appointment> queryDoctorAppt(Connection con, String doctor_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
@@ -60,7 +79,7 @@ public class AppointmentController {
                 Appointment a = new Appointment(
                         resultSet.getString("Appointment.patient_user_id"),
                         resultSet.getString("Appointment.doctor_user_id"),
-                        resultSet.getTimestamp("Appointment.scheduled_date"),
+                        resultSet.getTimestamp("Appointment.start_date"),
                         resultSet.getTimestamp("Appointment.end_date"),
                         resultSet.getString("Appointment.status"),
                         resultSet.getString("Appointment.proc"));
@@ -74,5 +93,33 @@ public class AppointmentController {
         }
     }
     
-    
+    public static int sanityCheck(Connection con, String datetime_start, String datetime_end) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+
+        try {
+            //Build SQL Query
+            String query = "SELECT COUNT(*) FROM Appointment "
+                    + "WHERE (Appointment.scheduled_date <= ? AND Appointment.end_date > ?) "
+                    + "OR (Appointment.scheduled_date < ? AND Appointment.end_date >= ?) "
+                    + "OR (Appointment.scheduled_date >= ? AND Appointment.end_date <= ?)";
+
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, datetime_start);
+            pstmt.setString(2, datetime_start);
+            pstmt.setString(3, datetime_end);
+            pstmt.setString(4, datetime_end);
+            pstmt.setString(5, datetime_start);
+            pstmt.setString(6, datetime_end);
+
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+            
+            resultSet.next();
+            return resultSet.getInt(1);
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }  
+    } 
 }

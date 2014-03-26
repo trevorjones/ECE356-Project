@@ -20,10 +20,10 @@
     <% doctorList = (ArrayList<Doctor>) request.getAttribute("doctorList");%>
     
     <body>
+        <h1>Doctors</h1>
         <%
             if (doctorList != null) {
         %>
-        <h1>Doctors</h1>
         <form method="post" action="QueryServlet?qnum=2">
             Doctor Search: <input type='text' name='doctor_query'/></br>
         <input type='submit' value='Submit Query'/>
@@ -46,7 +46,7 @@
         <%
             } else {
         %>
-        <p>FAILED</p>
+        <p>Empty List</p>
         <%
             }
         %>        

@@ -30,6 +30,12 @@
                         </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= user.getId()%>">Schedule</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.STAFF_QUERY %>&doctor_id=<%= user.getId()%>">Staff Members</a>
+                        </li>
+                        <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PRESCRIPTIONS_ALL %>">Prescription List</a>
                         </li>
                     <% } %>
@@ -55,7 +61,7 @@
                    <td><%= user.getFirstName() %></td>
                    <td><%= user.getLastName() %></td>
                    <td><%= user.getType() %></td>
-                   <td><%= user.getEamil() %></td>
+                   <td><%= user.getEmail() %></td>
                 </tr>
             </table>
         </div>
