@@ -38,18 +38,14 @@ public class DeleteStaffServlet extends HttpServlet {
         String doctor_id = request.getParameter("doctor_id");
         
         try {
-            String param = request.getParameter("deleteAll");
-            if (param != null) {
-                boolean deleteAll = param.equals("on");
-
-                if (deleteAll) {
-                    DoctorStaffController.deleteAllFromDoctor(con, doctor_id);
-                } else {
-                    String[] staff_ids = request.getParameterValues("delete");
-                    if (staff_ids != null) {
-                        for (String staff_id : staff_ids) {
-                            DoctorStaffController.delete(con, doctor_id, staff_id);
-                        }
+            String deleteAll = request.getParameter("deleteAll");
+            if (deleteAll != null) {
+                DoctorStaffController.deleteAllFromDoctor(con, doctor_id);
+            } else {
+                String[] staff_ids = request.getParameterValues("delete");
+                if (staff_ids != null) {
+                    for (String staff_id : staff_ids) {
+                        DoctorStaffController.delete(con, doctor_id, staff_id);
                     }
                 }
             }
