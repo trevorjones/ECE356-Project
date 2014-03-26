@@ -309,7 +309,7 @@ public class ProjectDBAO {
         }
     }   
      
-    public static int sanityCheckAppt(String datetime_start, String datetime_end)
+    public static int sanityCheckAppt(String doctor_id, String datetime_start, String datetime_end)
             throws ClassNotFoundException, SQLException {
 
         Connection con = null;
@@ -320,17 +320,19 @@ public class ProjectDBAO {
 
             //Build SQL Query
             String query = "SELECT COUNT(*) FROM Appointment "
-                    + "WHERE (Appointment.start_date <= ? AND Appointment.end_date > ?) "
+                    + "WHERE Appointment.doctor_user_id = ? "
+                    + "AND ((Appointment.start_date <= ? AND Appointment.end_date > ?) "
                     + "OR (Appointment.start_date < ? AND Appointment.end_date >= ?) "
-                    + "OR (Appointment.start_date >= ? AND Appointment.end_date <= ?)";
+                    + "OR (Appointment.start_date >= ? AND Appointment.end_date <= ?))";
 
             pstmt = con.prepareStatement(query);
-            pstmt.setString(1, datetime_start);
+            pstmt.setString(1, doctor_id);
             pstmt.setString(2, datetime_start);
-            pstmt.setString(3, datetime_end);
+            pstmt.setString(3, datetime_start);
             pstmt.setString(4, datetime_end);
-            pstmt.setString(5, datetime_start);
-            pstmt.setString(6, datetime_end);
+            pstmt.setString(5, datetime_end);
+            pstmt.setString(6, datetime_start);
+            pstmt.setString(7, datetime_end);
 
             ResultSet resultSet;
             resultSet = pstmt.executeQuery();
