@@ -25,9 +25,11 @@ public class Staff extends User {
         this.permission = permission;
     }
     
-    public Staff(ResultSet rs) throws SQLException {
+    public Staff(ResultSet rs, boolean setPerm) throws SQLException {
         super(rs.getString("User.user_id"), rs.getString("User.first_name"), rs.getString("User.last_name"), "staff", rs.getString("User.email"));
-        this.permission = rs.getInt("Doctor_Staff.permission") == 1;
+        if (setPerm) {
+            this.permission = rs.getInt("Doctor_Staff.permission") == 1;
+        }
     }
     
     public boolean getPermission() {

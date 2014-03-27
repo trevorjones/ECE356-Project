@@ -57,13 +57,13 @@ public class DoctorStaffController {
         PreparedStatement pstmt = null;
         ArrayList<Staff> ret = null;
         try {
-            pstmt = con.prepareStatement("SELECT * from Doctor_Staff,User WHERE Doctor_Staff.staff_user_id=User.user_id AND Doctor_Staff.staff_user_id NOT IN (SELECT staff_user_id FROM Doctor_Staff WHERE doctor_user_id=?)");
+            pstmt = con.prepareStatement("SELECT * from User WHERE User.type = 'staff' AND User.user_id NOT IN (SELECT staff_user_id FROM Doctor_Staff WHERE doctor_user_id=?)");
             pstmt.setString(1, doctor_id);
             
             ResultSet resultSet = pstmt.executeQuery();
             ret = new ArrayList<Staff>();
             while (resultSet.next()) {
-                ret.add(new Staff(resultSet));
+                ret.add(new Staff(resultSet, false));
             }
             return ret;
         } finally {
@@ -91,7 +91,7 @@ public class DoctorStaffController {
 
             ret = new ArrayList<Staff>();
             while (resultSet.next()) {
-                ret.add(new Staff(resultSet));
+                ret.add(new Staff(resultSet, true));
             }
             return ret;
         } finally {
