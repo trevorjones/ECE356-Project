@@ -4,24 +4,37 @@
     Author     : Lei Wu
 --%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="models.Patient"%>
 <%@page import="models.VisitationRecord"%>
+<%@page import="servlets.QueryServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <jsp:useBean id="user" class="models.User" scope="session"/>
         <title>Visitation Records</title>
     </head>
         <%! ArrayList<VisitationRecord> recordlist;%>
     <% recordlist = (ArrayList<VisitationRecord>) request.getAttribute("visitation_record_list");%>
-    <%  String puserid = recordlist.get(0).getPatientId(); %>
+    <%  String puserid = request.getParameter("patient_id"); %>
     
     <body>
         <h1>Visitation Records for Patient <%= puserid %></h1>
+        <% if (user.getType().equals("doctor")) { %>
+            <a href="new_patient.jsp">Create new record</a>    
+        <% } %>
+        
         <%
             if (recordlist != null) {
         %>
+        <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<% } %><%= user.getId() %>&patient_id=<%= puserid %>">
+            <div class="form-group">
+                <input class="form-control" placeholder="Records Search" type='text' name='record_query'/></br>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn btn-default" type='submit' value='Submit Query'/>
+            </div>
+        </form>
         
         <table border=1>
             <tr>
