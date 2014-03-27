@@ -63,6 +63,8 @@
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
                     <% } %>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
                     <li>
                         <a href="LogoutServlet">Logout</a>
                     </li>
