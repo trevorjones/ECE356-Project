@@ -52,6 +52,7 @@ public class LoginServlet extends HttpServlet {
             Connection con = (Connection) getServletContext().getAttribute("DBConnection");
             PreparedStatement ps = null;
             ResultSet rs = null;
+            ResultSet rs2 = null;
 
             try {
                 ps = con.prepareStatement("select * from User where user_id=? and password=? limit 1");
@@ -66,15 +67,21 @@ public class LoginServlet extends HttpServlet {
                     if (type.equals("doctor")) {
                         ps = con.prepareStatement("select * from User,Doctor where User.user_id=? and User.user_id=Doctor.user_id");
                         ps.setString(1, user_id);
-                        rs = ps.executeQuery();
-                        rs.next();
-                        session.setAttribute("user", new Doctor(rs));
+                        rs2 = ps.executeQuery();
+                        if (rs2.next()) {
+                            session.setAttribute("user", new Doctor(rs2));
+                        } else {
+                            session.setAttribute("user", new User(rs));
+                        }
                     } else if (type.equals("patient")) {
                         ps = con.prepareStatement("select * from User,Patient where User.user_id=? and User.user_id=Patient.user_id");
                         ps.setString(1, user_id);
-                        rs = ps.executeQuery();
-                        rs.next();
-                        session.setAttribute("user", new Patient(rs));
+                        rs2 = ps.executeQuery();
+                        if (rs2.next()) {
+                            session.setAttribute("user", new Patient(rs2));
+                        } else {
+                            session.setAttribute("user", new User(rs));
+                        }
                     } else {
                         type = "user";
                         session.setAttribute("user", new User(rs));
