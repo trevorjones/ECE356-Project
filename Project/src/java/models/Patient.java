@@ -20,6 +20,7 @@ public class Patient extends User {
     String phone;
     int sin;
     boolean permission;
+    String defaultDoctorID;
     
     public Patient() {
         
@@ -43,6 +44,11 @@ public class Patient extends User {
         this.sin = rs.getInt("Patient.sin");
     }
     
+    public Patient(ResultSet rs, String defaultDoctorID) throws SQLException {
+        this(rs);
+        this.defaultDoctorID = defaultDoctorID;
+    }
+    
     public Patient(ResultSet rs, boolean setPerm) throws SQLException {
         super(rs.getString("user_id"), rs.getString("first_name"), rs.getString("last_name"), "patient", rs.getString("email"));
         this.address = rs.getString("address");
@@ -50,7 +56,9 @@ public class Patient extends User {
         this.ohip = rs.getString("ohip");
         this.phone = rs.getString("phone");
         this.sin = rs.getInt("sin");
-        this.permission = rs.getInt("permission") == 1;
+        this.defaultDoctorID = rs.getString("doctor_user_id");
+        if (setPerm)
+            this.permission = rs.getInt("permission") == 1;
     }
     
     public String getAddress() {
@@ -99,5 +107,13 @@ public class Patient extends User {
     
     public void setPermission(boolean permission) {
         this.permission = permission;
+    }
+    
+    public String getDefaultDoctorID() {
+        return this.defaultDoctorID;
+    }
+    
+    public void setDefaultDoctorID(String defaultDoctorId) {
+        this.defaultDoctorID = defaultDoctorId;
     }
 }

@@ -6,6 +6,8 @@
 
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 
 /**
@@ -41,6 +43,10 @@ public class VisitationRecord {
         this.surgery_performed = surgery_performed;
         this.diagnosis = diagnosis;
         this.prescription_name = prescription_name;
+    }
+    
+    public VisitationRecord(ResultSet rs) throws SQLException {
+        this(rs.getString("patient_user_id"), rs.getString("doctor_user_id"), rs.getDate("visit_date"), rs.getDate("updated_at"), rs.getDate("length_of_visit"), rs.getString("proc"), rs.getDate("scheduling_of_treatment"), rs.getString("freeform_comments"), rs.getString("surgery_performed"), rs.getString("diagnosis"), rs.getString("prescription_name"));
     }
     
     public String getPatientId() {

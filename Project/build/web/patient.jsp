@@ -93,6 +93,7 @@
                     <th>OHIP</th>
                     <th>Phone</th>
                     <th>SIN</th>
+                    <th>Default Doctor ID</th>
                     <th>Visitation Record</th>
                 </tr>
                 <%
@@ -112,9 +113,10 @@
                     <td><%= p.getOHIP()%></td>
                     <td><%= p.getPhone()%></td>
                     <td><%= p.getSIN()%></td>
+                    <td><%= p.getDefaultDoctorID() %></td>
                     <td>
                         <% if (user.getType().equals("doctor") || (user.getType().equals("staff") && p.getPermission())) { %>
-                            <a href="Records">View</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT %>&patient_id=<%= p.getId() %>">View</a>
                         <% } else { %>
                             N/A
                         <% } %>

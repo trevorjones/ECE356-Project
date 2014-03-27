@@ -57,7 +57,7 @@ FOREIGN KEY (staff_user_id) REFERENCES User(user_id)
 CREATE TABLE Doctor_Patient (
 patient_user_id CHAR(20) NOT NULL,
 doctor_user_id CHAR(20) NOT NULL,
-permission INT(1) DEFAULT 0,
+default_doctor INT(1) DEFAULT 0,
 PRIMARY KEY (patient_user_id , doctor_user_id),
 FOREIGN KEY (patient_user_id) REFERENCES Patient(user_id),
 FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id)

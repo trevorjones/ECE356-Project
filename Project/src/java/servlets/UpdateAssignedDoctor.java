@@ -37,7 +37,7 @@ public class UpdateAssignedDoctor extends HttpServlet {
         
         try {
             String patient_id = request.getParameter("patient_id");
-            DoctorPatientController.changeDoctors(con, request.getParameter("curdoc_id"), request.getParameter("assigned_doctor"), patient_id);
+            DoctorPatientController.changeDoctors(con, request.getParameter("curdoc_id"), request.getParameter("assigned_doctor"), patient_id, true);
             getServletContext().getRequestDispatcher("/QueryServlet?query="+QueryServlet.PATIENT_DETAILS+"&patient_id="+patient_id).forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

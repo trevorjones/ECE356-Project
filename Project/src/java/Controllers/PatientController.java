@@ -81,7 +81,7 @@ public class PatientController {
     
     public static ArrayList<Patient> getAllWithPermission(Connection con, String staff_id) throws SQLException {
         ArrayList<Patient> ret = null;
-        PreparedStatement stmt = con.prepareStatement("SELECT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id) AS q2 on q1.user_id = q2.patient_user_id);");
+        PreparedStatement stmt = con.prepareStatement("SELECT * FROM (SELECT DISTINCT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id AND Doctor_Patient.default_doctor = 1) AS q2 on q1.user_id = q2.patient_user_id)) AS q3 LEFT OUTER JOIN (SELECT * FROM Doctor_Patient WHERE Doctor_Patient.default_doctor = 1) AS q4 on q3.user_id = q4.patient_user_id;");
         stmt.setString(1, staff_id);
         
         try {
@@ -110,7 +110,7 @@ public class PatientController {
         ArrayList<Patient> ret;
 
         try {
-            String stmt = "SELECT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id) AS q2 on q1.user_id = q2.patient_user_id)"
+            String stmt = "SELECT * FROM (SELECT DISTINCT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id AND Doctor_Patient.default_doctor = 1) AS q2 on q1.user_id = q2.patient_user_id)) AS q3 LEFT OUTER JOIN (SELECT * FROM Doctor_Patient WHERE Doctor_Patient.default_doctor = 1) AS q4 on q3.user_id = q4.patient_user_id"
                         + "WHERE user_id LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR address LIKE ? OR current_health LIKE ? OR ohip LIKE ? OR phone LIKE ? OR sin LIKE ?";
             
             pstmt = con.prepareStatement(stmt);

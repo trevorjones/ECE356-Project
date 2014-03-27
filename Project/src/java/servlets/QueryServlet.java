@@ -12,6 +12,7 @@ import Controllers.DoctorPatientController;
 import Controllers.DoctorStaffController;
 import Controllers.PatientController;
 import Controllers.PrescriptionController;
+import Controllers.VisitationRecordController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -44,6 +45,7 @@ public class QueryServlet extends HttpServlet {
     public static final String PATIENTS_SEARCH_BY_DOCTOR = "patients_search_by_doctor";
     public static final String PATIENTS_BY_DOCTOR = "patients_by_doctor";
     public static final String PATIENT_DETAILS = "patient_details";
+    public static final String RECORDS_BY_PATIENT = "records_by_patient";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -124,6 +126,10 @@ public class QueryServlet extends HttpServlet {
                 String curDocID = DoctorPatientController.getDoctorIDOfPatient(con, patient_id);
                 request.setAttribute("curDocID", curDocID);
                 url = "/patient_detail.jsp";
+            } else if(query.equals(RECORDS_BY_PATIENT)) {
+                ArrayList ret = VisitationRecordController.queryByPatient(con, request.getParameter("patient_id"));
+                request.setAttribute("visitation_record_list", ret);
+                url = "/records.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
             }
