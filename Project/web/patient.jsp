@@ -115,8 +115,10 @@
                     <td><%= p.getSIN()%></td>
                     <td><%= p.getDefaultDoctorID() %></td>
                     <td>
-                        <% if (user.getType().equals("doctor") || (user.getType().equals("staff") && p.getPermission())) { %>
-                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT %>&patient_id=<%= p.getId() %>">View</a>
+                        <% if (user.getType().equals("doctor")) { %>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR %>&patient_id=<%= p.getId() %>&doctor_id=<%= user.getId() %>">View</a>
+                        <% } else if ((user.getType().equals("staff") && p.getPermission())) { %>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT_AS_STAFF %>&patient_id=<%= p.getId() %>&staff_id=<%= user.getId() %>">View</a>
                         <% } else { %>
                             N/A
                         <% } %>
