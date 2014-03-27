@@ -71,8 +71,8 @@ end_date DATETIME NOT NULL,
 status ENUM ('scheduled', 'cancelled', 'done') NOT NULL,
 proc CHAR(30) NOT NULL,
 PRIMARY KEY (patient_user_id , doctor_user_id, start_date),
-FOREIGN KEY (patient_user_id) REFERENCES Doctor_Patient(patient_user_id),
-FOREIGN KEY (doctor_user_id) REFERENCES Doctor_Patient(doctor_user_id)
+FOREIGN KEY (patient_user_id) REFERENCES Patient(user_id),
+FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id)
 );
 
 CREATE TABLE VisitationRecord (
@@ -88,7 +88,7 @@ surgery_performed CHAR(30),
 diagnosis TEXT NOT NULL,
 prescription_name CHAR(20) NOT NULL,
 PRIMARY KEY (patient_user_id , doctor_user_id, visit_date, updated_at),
-FOREIGN KEY (patient_user_id) REFERENCES Doctor_Patient(patient_user_id),
-FOREIGN KEY (doctor_user_id) REFERENCES Doctor_Patient(doctor_user_id),
+FOREIGN KEY (patient_user_id) REFERENCES Patient(user_id),
+FOREIGN KEY (doctor_user_id) REFERENCES Doctor(user_id),
 FOREIGN KEY (prescription_name) REFERENCES Prescription(name)
 ); 

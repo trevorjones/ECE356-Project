@@ -61,16 +61,17 @@
                     <th>Phone Number</th>
                     <td><input type="text" name="phone" value=<%= p.getPhone()%>></td>
                     <th>SIN Number</th>
-                    <td><input type="text" name="sin" value=<%= p.getSIN()%></td>
+                    <td><input type="text" name="sin" value=<%= p.getSIN()%>></td>
                 </tr>                    
             </table>
             <input type='submit' value='Submit Changes'/>
         </form>
-        <h1>Change Assigned Doctor (Doesn't work at the moment)</h1>
+        <h1>Change Assigned Doctor</h1>
         <form method="post" action="UpdateAssignedDoctor?patient_id=<%= p.getId() %>&curdoc_id=<%= curDoc %>" >
             <select name="assigned_doctor">
+                <option value="none" <% if (curDoc == null) { %>selected="selected"<% } %>>None</option>
                 <% for (Doctor d : doctors) { %>
-                    <option value="<%= d.getId() %>"><%= d.getFirstName() %> <%= d.getLastName() %></option>
+                    <option value="<%= d.getId() %>" <% if (d.getId().equals(curDoc)) { %>selected="selected"<% } %>><%= d.getFirstName() %> <%= d.getLastName() %></option>
                 <% } %>
             </select>
             <input type='submit' value='Submit Change'/>
