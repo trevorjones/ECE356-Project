@@ -51,7 +51,7 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_QUERY_BY_STAFF %>&staff_id=<%= user.getId()%>">Associated Doctors</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
                     <% } %>
@@ -62,13 +62,58 @@
             </div>
         </nav>
         <div class="container" style="padding-top:40px;">
-            <h1>Patients</h1>
             <% if (user.getType().equals("staff")) { %>
-                <a href="new_patient.jsp">Create new patient</a>    
+                <h2>Add a New Patient</h2>
+                <form class="form-horizontal" method="post" action="CreatePatientServlet">
+
+                   <div class="form-group">
+                       <label for="user_id" class="col-sm-2 control-label" style="width:140px;">Patient ID</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="user_id" name="user_id"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="address" class="col-sm-2 control-label" style="width:140px;">Address</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="address" name="address"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="currenthealth" class="col-sm-2 control-label" style="width:140px;">Current Health</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="currenthealth" name="currenthealth"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="ohip" class="col-sm-2 control-label" style="width:140px;">OHIP</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="ohip" name="ohip"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="phone" class="col-sm-2 control-label" style="width:140px;">Phone Number</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="phone" name="phone"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label for="sin" class="col-sm-2 control-label" style="width:140px;">SIN</label>
+                       <div class="col-sm-10">
+                           <input type="text" class="form-control" style="width:200px;" id="sin" name="sin"></input>
+                       </div>
+                   </div>
+                   <div class="form-group">
+                       <label class="col-sm-2 control-label" style="width:140px;"></label>
+                       <div class="col-sm-10">
+                           <input class="form-control btn btn-success" style="width:200px;" type='submit' name="submit" value='Create Patient'/>
+                       </div>
+                   </div>
+               </form>    
             <% } %>
             <%
                 if (patientList != null) {
             %>
+            <h2>Patients</h2>
             <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.PATIENTS_SEARCH_BY_DOCTOR %>&doctor_id=<% } else { %><%= QueryServlet.PATIENTS_SEARCH_BY_STAFF %>&staff_id=<% } %><%= user.getId() %>">
                 <div class="form-group">
                     <input class="form-control" placeholder="Patient Search" type='text' name='patient_query'/></br>
