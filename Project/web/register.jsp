@@ -13,10 +13,10 @@
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Register</title>
     </head>
-    <body style="background-image: url('http://holykaw.alltop.com/wp-content/uploads/2013/03/foto-hospital.jpg'); background-size: 2000px auto; background-position-y: -500px;">
+    <body style="background-image: url('resources/hospital.jpg'); background-size: 2000px auto; background-position-y: -500px;">
         <div class="container" style="max-width: 330px;">
             <form form class="form-signin" method="post" action="RegisterServlet">
-                <h2 class="form-signin-heading">Register</h2>
+                <h2 class="form-signin-heading" style="text-shadow: 1px 1px white;">Register</h2>
                 <input class="form-control" placeholder="First Name" type="text" name="first_name" required autofocus/></br>
                 <input class="form-control" placeholder="Last Name" type="text" name="last_name" required/></br>
                 <input class="form-control" placeholder="Email Address" type="email" name="email" required/></br>
