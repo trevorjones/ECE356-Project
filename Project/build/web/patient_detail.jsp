@@ -52,8 +52,11 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_QUERY_BY_STAFF %>&staff_id=<%= user.getId()%>">Associated Doctors</a>
                         </li>
-                        <li class="active">
+                        <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
+                        </li>
+                        <li class="active">
+                            <a> / <%= p.getId()%></a>
                         </li>
                     <% } %>
                 </ul>
