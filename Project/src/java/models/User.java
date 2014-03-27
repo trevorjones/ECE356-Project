@@ -6,6 +6,9 @@
 
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 /**
  *
  * @author william
@@ -27,6 +30,10 @@ public class User {
         this.last_name = last_name;
         this.type = type;
         this.email = email;
+    }
+    
+    public User(ResultSet rs) throws SQLException {
+        this(rs.getString("user_id"), rs.getString("first_name"),rs.getString("last_name"), rs.getString("type"), rs.getString("email"));
     }
     
     public String getId() {

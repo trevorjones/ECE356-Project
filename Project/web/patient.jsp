@@ -93,7 +93,7 @@
                     <th>OHIP</th>
                     <th>Phone</th>
                     <th>SIN</th>
-                    <th>Record</th>
+                    <th>Visitation Record</th>
                 </tr>
                 <%
                     for (Patient p : patientList) {

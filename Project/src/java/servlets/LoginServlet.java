@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Doctor;
+import models.Patient;
 import models.User;
 
 /**
@@ -58,9 +60,27 @@ public class LoginServlet extends HttpServlet {
                 rs = ps.executeQuery();
 
                 if (rs != null && rs.next()) {
-                    User user = new User(rs.getString("user_id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("type"), rs.getString("email"));
                     HttpSession session = request.getSession();
-                    session.setAttribute("user", user);
+                    String type = rs.getString("type");
+                    
+                    if (type.equals("doctor")) {
+                        ps = con.prepareStatement("select * from User,Doctor where User.user_id=? and User.user_id=Doctor.user_id");
+                        ps.setString(1, user_id);
+                        rs = ps.executeQuery();
+                        rs.next();
+                        session.setAttribute("user", new Doctor(rs));
+                    } else if (type.equals("patient")) {
+                        ps = con.prepareStatement("select * from User,Patient where User.user_id=? and User.user_id=Patient.user_id");
+                        ps.setString(1, user_id);
+                        rs = ps.executeQuery();
+                        rs.next();
+                        session.setAttribute("user", new Patient(rs));
+                    } else {
+                        type = "user";
+                        session.setAttribute("user", new User(rs));
+                    }
+                    session.setAttribute("type", type);
+                    
                     
                     // Redirect to difference pages depending on user type
                     response.sendRedirect("home.jsp");

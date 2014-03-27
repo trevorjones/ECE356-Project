@@ -6,6 +6,7 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.Patient"%>
+<%@page import="models.Doctor"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -14,8 +15,9 @@
         <jsp:useBean id="user" class="models.User" scope="session"/>
         <title>Patient Details</title>
     </head>
-    <%! Patient p;%>
-    <% p = (Patient) request.getAttribute("patient");%>
+    <% Patient p = (Patient) request.getAttribute("patient");%>
+    <% String curDoc = (String) request.getAttribute("curDocID");%>
+    <% ArrayList<Doctor> doctors = (ArrayList<Doctor>) request.getAttribute("doctors");%>
     <body>
         <%! String successflag;%>
         <% successflag =(String) request.getAttribute("insertflag");%>
@@ -28,8 +30,9 @@
         <%
             if (p != null) {
         %>
+        <h1>Patient</h1>
         <form method="post" action="UpdatePatient?staff_id=<%= user.getId() %>">
-            <h1>Patients</h1>
+            
             <table border=1>
 
                 <tr>
@@ -50,22 +53,27 @@
                 </tr>
                 <tr>
                     <th>Current Health</th>
-                    <td><input type="text" name="current_health" value=<%= p.getCurrentHealth()%> <% if (user.getType().equals("patient")) { %>style="background-color: lightgrey;" readonly<% } %>></td>
+                    <td><input type="text" name="current_health" value=<%= p.getCurrentHealth()%>></td>
                     <th>OHIP Number</th>
-                    <td><input type="text" name="ohip" value=<%= p.getOHIP()%> <% if (user.getType().equals("patient")) { %>style="background-color: lightgrey;" readonly<% } %>></td>
+                    <td><input type="text" name="ohip" value=<%= p.getOHIP()%>></td>
                 </tr>
                 <tr>
                     <th>Phone Number</th>
                     <td><input type="text" name="phone" value=<%= p.getPhone()%>></td>
                     <th>SIN Number</th>
-                    <td><input type="text" name="sin" value=<%= p.getSIN()%> <% if (user.getType().equals("patient")) { %>style="background-color: lightgrey;" readonly<% } %>></td>
-                </tr>
-                <tr>
-                    <td><a href="QueryServlet?qnum=7&patient_id=<%= p.getId()%>">Click here to view list of patient's visitation record</a></td>
-                    <td><input type='submit' value='Submit Changes'/></td>
-                </tr>
-                    
+                    <td><input type="text" name="sin" value=<%= p.getSIN()%></td>
+                </tr>                    
             </table>
+            <input type='submit' value='Submit Changes'/>
+        </form>
+        <h1>Change Assigned Doctor (Doesn't work at the moment)</h1>
+        <form method="post" action="UpdateAssignedDoctor?patient_id=<%= p.getId() %>&curdoc_id=<%= curDoc %>" >
+            <select name="assigned_doctor">
+                <% for (Doctor d : doctors) { %>
+                    <option value="<%= d.getId() %>"><%= d.getFirstName() %> <%= d.getLastName() %></option>
+                <% } %>
+            </select>
+            <input type='submit' value='Submit Change'/>
         </form>
         <%
             } else {

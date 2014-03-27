@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.Doctor;
 import models.Patient;
 
 /**
@@ -18,6 +19,36 @@ import models.Patient;
  * @author william
  */
 public class DoctorPatientController {
+    
+    public static void create(Connection con, String doctor_id, String patient_id, boolean permission) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("INSERT INO Doctor_Patient values(?,?,?)");
+        ps.setString(1, patient_id);
+        ps.setString(2, doctor_id);
+        ps.setInt(3, permission ? 1 : 0);
+        ps.execute();
+        ps.close();
+    }
+    
+    public static void delete(Connection con, String doctor_id, String patient_id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("DELETE FROM Doctor_Patient WHERE doctor_user_id = ? AND patient_user_id = ?");
+        ps.setString(1, doctor_id);
+        ps.setString(2, patient_id);
+        ps.execute();
+        ps.close();
+    }
+    
+    public static void changeDoctors(Connection con, String doctor_id_old, String doctor_id_new, String patient_id) throws SQLException {
+        delete(con, doctor_id_old, patient_id);
+        create(con, doctor_id_new, patient_id, false);
+    }
+    
+    public static String getDoctorIDOfPatient(Connection con, String patient_id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor,Doctor_Patient WHERE Doctor.user_id=Doctor_Patient.doctor_user_id AND Doctor_Patient.patient_user_id = ?");
+        ps.setString(1, patient_id);
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        return rs.getString("Doctor.user_id");
+    }
     
     public static ArrayList<Patient> queryByDoctor(Connection con, String doctor_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;

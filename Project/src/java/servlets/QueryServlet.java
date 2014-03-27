@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Doctor;
 import models.Patient;
 
 /**
@@ -115,8 +116,13 @@ public class QueryServlet extends HttpServlet {
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
             } else if(query.equals(PATIENT_DETAILS)) {
-                Patient p = PatientController.getPatient(con, request.getParameter("patient_id"));
+                String patient_id = request.getParameter("patient_id");
+                Patient p = PatientController.getPatient(con, patient_id);
                 request.setAttribute("patient", p);
+                ArrayList<Doctor> ds = DoctorController.getAll(con);
+                request.setAttribute("doctors", ds);
+                String curDocID = DoctorPatientController.getDoctorIDOfPatient(con, patient_id);
+                request.setAttribute("curDocID", curDocID);
                 url = "/patient_detail.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
