@@ -19,6 +19,7 @@ public class Patient extends User {
     String ohip;
     String phone;
     int sin;
+    boolean permission;
     
     public Patient() {
         
@@ -40,6 +41,16 @@ public class Patient extends User {
         this.ohip = rs.getString("Patient.ohip");
         this.phone = rs.getString("Patient.phone");
         this.sin = rs.getInt("Patient.sin");
+    }
+    
+    public Patient(ResultSet rs, boolean setPerm) throws SQLException {
+        super(rs.getString("user_id"), rs.getString("first_name"), rs.getString("last_name"), "patient", rs.getString("email"));
+        this.address = rs.getString("address");
+        this.current_health = rs.getString("current_health");
+        this.ohip = rs.getString("ohip");
+        this.phone = rs.getString("phone");
+        this.sin = rs.getInt("sin");
+        this.permission = rs.getInt("permission") == 1;
     }
     
     public String getAddress() {
@@ -80,5 +91,13 @@ public class Patient extends User {
     
     public void setSIN(int sin) {
         this.sin = sin;
+    }
+    
+    public boolean getPermission() {
+        return this.permission;
+    }
+    
+    public void setPermission(boolean permission) {
+        this.permission = permission;
     }
 }

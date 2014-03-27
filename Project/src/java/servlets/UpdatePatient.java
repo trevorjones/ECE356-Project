@@ -6,10 +6,8 @@
 
 package servlets;
 
-import Controllers.DoctorStaffController;
 import Controllers.PatientController;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,8 +37,9 @@ public class UpdatePatient extends HttpServlet {
         
         try {
             String patient_id = request.getParameter("patient_id");
+            String staff_id = request.getParameter("staff_id");
             PatientController.update(con, patient_id, request.getParameter("first_name"), request.getParameter("last_name"), request.getParameter("email"), request.getParameter("address"), request.getParameter("current_health"), request.getParameter("ohip"), request.getParameter("phone"), Integer.parseInt(request.getParameter("sin")));
-            getServletContext().getRequestDispatcher("/QueryServlet?query="+QueryServlet.PATIENTS_ALL).forward(request, response);
+            getServletContext().getRequestDispatcher("/QueryServlet?query="+QueryServlet.PATIENTS_BY_STAFF+"&staff_id="+staff_id).forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }

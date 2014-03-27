@@ -79,6 +79,24 @@ public class PatientController {
         }
     }
     
+    public static ArrayList<Patient> getAllWithPermission(Connection con, String staff_id) throws SQLException {
+        ArrayList<Patient> ret = null;
+        PreparedStatement stmt = con.prepareStatement("SELECT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id) AS q2 on q1.user_id = q2.patient_user_id);");
+        stmt.setString(1, staff_id);
+        
+        try {
+            ResultSet resultSet = stmt.executeQuery();
+            ret = new ArrayList<Patient>();
+            while (resultSet.next()) {
+                ret.add(new Patient(resultSet, true));
+            }
+            
+            return ret;
+        } finally {
+            stmt.close();
+        }
+    }
+    
     public static Patient getPatient(Connection con, String patient_id) throws SQLException {
         PreparedStatement ps = con.prepareStatement("SELECT * FROM Patient,User WHERE Patient.user_id = User.user_id AND Patient.user_id = ?");
         ps.setString(1, patient_id);
@@ -87,18 +105,49 @@ public class PatientController {
         return new Patient(rs);
     }
     
-    public static ArrayList<Patient> queryPatient(Connection con, String query, String doctor_id) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Patient> queryPatientByStaff(Connection con, String query, String staff_id) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+        ArrayList<Patient> ret;
+
+        try {
+            String stmt = "SELECT * FROM ((SELECT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT Doctor_Patient.patient_user_id,Doctor_Staff.permission FROM Doctor_Staff, Doctor_Patient WHERE Doctor_Staff.staff_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor_Staff.doctor_user_id) AS q2 on q1.user_id = q2.patient_user_id)"
+                        + "WHERE user_id LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR address LIKE ? OR current_health LIKE ? OR ohip LIKE ? OR phone LIKE ? OR sin LIKE ?";
+            
+            pstmt = con.prepareStatement(stmt);
+            pstmt.setString(1, staff_id);
+            pstmt.setString(2, "%"+query+"%");
+            pstmt.setString(3, "%"+query+"%");
+            pstmt.setString(4, "%"+query+"%");
+            pstmt.setString(5, "%"+query+"%");
+            pstmt.setString(6, "%"+query+"%");
+            pstmt.setString(7, "%"+query+"%");
+            pstmt.setString(8, "%"+query+"%");
+            pstmt.setString(9, "%"+query+"%");
+            pstmt.setString(10, "%"+query+"%");
+            
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+ 
+            ret = new ArrayList<Patient>();
+            while (resultSet.next()) {
+                ret.add(new Patient(resultSet, true));
+            }
+            return ret;
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }
+    }
+    
+    public static ArrayList<Patient> queryPatientByDoctor(Connection con, String query, String doctor_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Patient> ret;
 
         try {
             String stmt = "SELECT * FROM User, Patient, Doctor_Patient "
                     + "WHERE User.user_id = Patient.user_id AND Doctor_Patient.patient_user_id = User.user_id "
-                    + "AND (User.user_id LIKE ? OR User.first_name LIKE ? OR User.last_name LIKE ? OR User.email LIKE ? OR Patient.address LIKE ? OR Patient.current_health LIKE ? OR Patient.ohip LIKE ? OR Patient.phone LIKE ? OR Patient.sin LIKE ?)";
-            
-            if (doctor_id != null) {
-                stmt += " AND Doctor_Patient.doctor_user_id = ?";
-            }
+                    + "AND (User.user_id LIKE ? OR User.first_name LIKE ? OR User.last_name LIKE ? OR User.email LIKE ? OR Patient.address LIKE ? OR Patient.current_health LIKE ? OR Patient.ohip LIKE ? OR Patient.phone LIKE ? OR Patient.sin LIKE ?) AND Doctor_Patient.doctor_user_id = ?";
             
             pstmt = con.prepareStatement(stmt);
             pstmt.setString(1, "%"+query+"%");
@@ -110,10 +159,7 @@ public class PatientController {
             pstmt.setString(7, "%"+query+"%");
             pstmt.setString(8, "%"+query+"%");
             pstmt.setString(9, "%"+query+"%");
-            
-            if (doctor_id != null) {
-                pstmt.setString(10, doctor_id);
-            }
+            pstmt.setString(10, doctor_id);
             
             ResultSet resultSet;
             resultSet = pstmt.executeQuery();

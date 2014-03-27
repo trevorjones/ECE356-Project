@@ -28,7 +28,7 @@
         <%
             if (p != null) {
         %>
-        <form method="post" action="UpdatePatient">
+        <form method="post" action="UpdatePatient?staff_id=<%= user.getId() %>">
             <h1>Patients</h1>
             <table border=1>
 

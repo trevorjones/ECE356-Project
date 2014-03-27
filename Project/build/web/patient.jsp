@@ -52,7 +52,7 @@
                             <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_QUERY_BY_STAFF %>&staff_id=<%= user.getId()%>">Associated Doctors</a>
                         </li>
                         <li>
-                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_ALL %>">Patients</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
                     <% } %>
                     <li>
@@ -69,7 +69,7 @@
             <%
                 if (patientList != null) {
             %>
-            <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<%= QueryServlet.PATIENTS_SEARCH %><% if (request.getParameter("doctor_id") != null) { %>&doctor_id=<%= request.getParameter("doctor_id") %><% } %>">
+            <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.PATIENTS_SEARCH_BY_DOCTOR %>&doctor_id=<% } else { %><%= QueryServlet.PATIENTS_SEARCH_BY_STAFF %>&staff_id=<% } %><%= user.getId() %>">
                 <div class="form-group">
                     <input class="form-control" placeholder="Patient Search" type='text' name='patient_query'/></br>
                 </div>
@@ -77,6 +77,11 @@
                     <input class="form-control btn btn-default" type='submit' value='Submit Query'/>
                 </div>
             </form>
+            <% if (user.getType().equals("doctor")) { %>
+                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Show All</a>
+            <% } else { %>
+                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Show All</a>
+            <% } %>
             <table class="table table-striped">
                 <tr>
                     <th>User ID</th>
@@ -88,6 +93,7 @@
                     <th>OHIP</th>
                     <th>Phone</th>
                     <th>SIN</th>
+                    <th>Record</th>
                 </tr>
                 <%
                     for (Patient p : patientList) {
@@ -96,7 +102,7 @@
                     <% if (user.getType().equals("staff")) { %>
                         <td><a href="QueryServlet?query=<%= QueryServlet.PATIENT_DETAILS %>&patient_id=<%= p.getId()%>"><%= p.getId()%></a></td>
                     <% } else { %>
-                        <td>To Record<a href="QueryServlet?qnum=6&patient_id=<%= p.getId()%>"><%= p.getId()%></a></td>
+                        <td><%= p.getId()%></td>
                     <% } %>
                     <td><%= p.getFirstName()%></td>
                     <td><%= p.getLastName()%></td>
@@ -106,6 +112,13 @@
                     <td><%= p.getOHIP()%></td>
                     <td><%= p.getPhone()%></td>
                     <td><%= p.getSIN()%></td>
+                    <td>
+                        <% if (user.getType().equals("doctor") || (user.getType().equals("staff") && p.getPermission())) { %>
+                            <a href="Records">View</a>
+                        <% } else { %>
+                            N/A
+                        <% } %>
+                    </td>
                 </tr>
                 <%
                     }
