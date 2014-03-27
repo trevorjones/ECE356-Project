@@ -20,6 +20,14 @@ import models.Doctor;
  */
 public class DoctorController {
     
+    public static void create(Connection con, String user_id, String specialization) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("INSERT INTO Doctor VALUES(?,?)");
+        ps.setString(1, user_id);
+        ps.setString(2, specialization);
+        ps.execute();
+        ps.close();
+    }
+    
     public static ArrayList<Doctor> getAll(Connection con) throws ClassNotFoundException, SQLException {
         Statement stmt = null;
         ArrayList<Doctor> ret = null;

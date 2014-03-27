@@ -26,6 +26,15 @@ public class UserController {
         ps.setString(6, email);
         ps.execute();
         ps.close();
+        
+        // Create the associated type
+        if (type.equals("patient")) {
+            PatientController.create(con, user_id, "", "", "", "", 0);
+        } else if (type.equals("doctor")) {
+            DoctorController.create(con, user_id, "Not Set");
+        } else {
+            
+        }
     }
     
 }
