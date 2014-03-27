@@ -40,7 +40,7 @@ public class CreateStaffServlet extends HttpServlet {
             String[] staff_ids = request.getParameterValues("add");
             if (staff_ids != null) {
                 for (String staff_id : staff_ids) {
-                    DoctorStaffController.create(con, doctor_id, staff_id, true);
+                    DoctorStaffController.create(con, doctor_id, staff_id, false);
                 }
             }
             getServletContext().getRequestDispatcher("/QueryServlet?query="+QueryServlet.STAFF_QUERY+"&doctor_id="+doctor_id).forward(request, response);
