@@ -10,7 +10,9 @@ import Controllers.VisitationRecordController;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,21 +41,34 @@ public class CreateVisitationRecord extends HttpServlet {
         
         String patient_id = request.getParameter("patient_id");
         String doctor_id = request.getParameter("doctor_id");
-        String visit_date = Date.valueOf(request.getParameter("visit_date")).toString();
         String length_of_visit = request.getParameter("length_of_visit");
         String proc = request.getParameter("procedure");
-        String scheduling_of_treatment = Date.valueOf(request.getParameter("scheduling_of_treatment_date")).toString();
         String freeform_comments = request.getParameter("freeform_comments");
         String surgery_performed = request.getParameter("surgery_performed");
         String diagnosis = request.getParameter("diagnosis");
         String prescription_name = request.getParameter("prescription_name");
         
         try {
+            String visit_date = parseDateTime(request.getParameter("visit_date"), request.getParameter("visit_time"));
+            String scheduling_of_treatment = Date.valueOf(request.getParameter("scheduling_of_treatment_date")).toString();
             VisitationRecordController.create(con, patient_id, doctor_id, visit_date, length_of_visit, proc, scheduling_of_treatment, freeform_comments, surgery_performed, diagnosis, prescription_name);
             getServletContext().getRequestDispatcher("/QueryServlet?query=" + QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR + "&patient_id=" + patient_id + "&doctor_id=" + doctor_id).forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace();;
+            e.printStackTrace();
         }
+    }
+    
+    private String parseDateTime(String date, String time) throws ParseException {
+        Date d = Date.valueOf(date);
+        Date t = Date.valueOf((new SimpleDateFormat("HH:mm").parse(time)).toString());
+        
+        return dateTime(d, t);
+    }
+    
+    private String dateTime(Date date, Date time) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(date.getYear(), date.getMonth(), date.getDay(), time.getHours(), time.getMinutes(), 0);
+        return cal.getTime().toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
