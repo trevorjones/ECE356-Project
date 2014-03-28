@@ -16,6 +16,7 @@ import Controllers.VisitationRecordController;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import models.Doctor;
 import models.Patient;
+import models.Prescription;
+import models.VisitationRecord;
 
 /**
  *
@@ -138,8 +141,7 @@ public class QueryServlet extends HttpServlet {
             } else if(query.equals(RECORDS_BY_PATIENT_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.getAllByPatientAsDoctor(con, patient_id, request.getParameter("doctor_id"));
-                request.setAttribute("visitation_record_list", ret);
-                request.setAttribute("patient_id", patient_id);
+                buildRecordDoctorResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
             } else if(query.equals(RECORDS_SEARCH_AS_STAFF)) {
                 String patient_id = request.getParameter("patient_id");
@@ -150,8 +152,7 @@ public class QueryServlet extends HttpServlet {
             } else if(query.equals(RECORDS_SEARCH_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.queryAsDoctor(con, patient_id, request.getParameter("doctor_id"));
-                request.setAttribute("visitation_record_list", ret);
-                request.setAttribute("patient_id", patient_id);
+                buildRecordDoctorResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
@@ -162,7 +163,24 @@ public class QueryServlet extends HttpServlet {
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
         
-    }   
+    }
+    
+    private static void buildRecordDoctorResponse(HttpServletRequest request, Connection con, ArrayList ret, String patient_id) throws ClassNotFoundException, SQLException {
+        String assigned_doctor_id = DoctorPatientController.getDoctorIDOfPatient(con, patient_id);
+        ArrayList<Prescription> prescription_list = PrescriptionController.getAll(con);
+        String visit_date = request.getParameter("visit_date");
+        String updated_at = request.getParameter("updated_at");
+        
+        if (visit_date != null && updated_at != null) {
+            VisitationRecord current_visitation_record = VisitationRecordController.get(con, patient_id, assigned_doctor_id, visit_date, updated_at);
+            request.setAttribute("current_visitation_record", current_visitation_record);
+        }
+
+        request.setAttribute("visitation_record_list", ret);
+        request.setAttribute("patient_id", patient_id);
+        request.setAttribute("assigned_doctor_id", assigned_doctor_id);
+        request.setAttribute("prescription_list", prescription_list);
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

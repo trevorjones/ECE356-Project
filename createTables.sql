@@ -79,7 +79,7 @@ CREATE TABLE VisitationRecord (
 patient_user_id CHAR(20) NOT NULL,
 doctor_user_id CHAR(20) NOT NULL,
 visit_date DATETIME NOT NULL,
-updated_at TIMESTAMP NOT NULL,
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 length_of_visit TIME NOT NULL,
 proc CHAR(30),
 scheduling_of_treatment DATETIME,

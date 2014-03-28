@@ -29,5 +29,5 @@ insert into Doctor_Patient values('patient1','doctor2',0);
 insert into Appointment values('patient1','doctor1','2014-04-04 12:12:12','2014-04-04 13:12:12','scheduled','none');
 insert into Appointment values('patient2','doctor2','2014-04-04 12:12:12','2014-04-04 13:12:12','scheduled','none');
 
-insert into VisitationRecord values('patient1','doctor1','2014-04-04 12:12:12','2014-04-04 13:12:12','2014-04-04 13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription1');
-insert into VisitationRecord values('patient2','doctor2','2014-04-04 12:12:12','2014-04-04 13:12:12','2014-04-04 13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription2');
+insert into VisitationRecord values('patient1','doctor1','2014-04-04 12:12:12',NULL,'13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription1');
+insert into VisitationRecord values('patient2','doctor2','2014-04-04 12:12:12',NULL,'13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription2');

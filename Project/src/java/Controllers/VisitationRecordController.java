@@ -19,6 +19,35 @@ import models.VisitationRecord;
  */
 public class VisitationRecordController {
     
+    public static void create(Connection con, String patient_id, String doctor_id, String visit_date, String length_of_visit, String proc, String scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("INSERT INTO VisitationRecord VALUES(?,?,?,NULL,?,?,?,?,?,?,?)");
+        ps.setString(1, patient_id);
+        ps.setString(2, doctor_id);
+        ps.setString(3, visit_date);
+        ps.setString(4, length_of_visit);
+        ps.setString(5, proc);
+        ps.setString(6, scheduling_of_treatment);
+        ps.setString(7, freeform_comments);
+        ps.setString(8, surgery_performed);
+        ps.setString(9, diagnosis);
+        ps.setString(10, prescription_name);
+        ps.execute();
+        ps.close();
+    }
+    
+    public static VisitationRecord get(Connection con, String patient_id, String doctor_id, String visit_date, String updated_at) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM VisitationRecord WHERE patient_user_id = ? AND doctor_user_id = ? AND visit_date = ? AND updated_at = ?");
+        ps.setString(1, patient_id);
+        ps.setString(2, doctor_id);
+        ps.setString(3, visit_date);
+        ps.setString(4, updated_at);
+        
+        ResultSet rs = ps.executeQuery();
+        rs.next();
+        ps.close();
+        return new VisitationRecord(rs);
+    }
+    
     public static ArrayList<VisitationRecord> getAllByPatientAsStaff(Connection con, String patient_id, String staff_id) throws SQLException {
         PreparedStatement ps = con.prepareStatement("SELECT * FROM VisitationRecord,Doctor_Staff WHERE patient_user_id = ? AND Doctor_Staff.doctor_user_id = VisitationRecord.doctor_user_id AND Doctor_Staff.staff_user_id = ? AND permission = 1");
         ps.setString(1, patient_id);

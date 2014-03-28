@@ -46,11 +46,11 @@ public class DoctorPatientController {
     }
     
     public static String getDoctorIDOfPatient(Connection con, String patient_id) throws SQLException {
-        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor,Doctor_Patient WHERE Doctor.user_id=Doctor_Patient.doctor_user_id AND Doctor_Patient.patient_user_id = ?");
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor_Patient WHERE Doctor_Patient.default_doctor = 1 AND Doctor_Patient.patient_user_id = ?");
         ps.setString(1, patient_id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return rs.getString("Doctor.user_id");
+            return rs.getString("Doctor_Patient.doctor_user_id");
         } else {
             return null;
         }
