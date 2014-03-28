@@ -43,6 +43,9 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Patients</a>
                         </li>
+                        <li class="active">
+                            <a> / <%= puserid %></a>
+                        </li>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.STAFF_QUERY %>&doctor_id=<%= user.getId()%>">Staff Members</a>
                         </li>
@@ -56,6 +59,9 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
+                        <li class="active">
+                            <a> / <%= puserid %></a>
+                        </li>
                     <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -68,45 +74,92 @@
         
         <div class="container" style="padding-top:40px;">
             <% if (user.getType().equals("doctor") && user.getId().equals(assignedDoctorID)) { %>
-                <h2>Create/Update Visitation Record for Patient <%= puserid %></h2>
+                <h2>Record a Visit</h2>
                 <% ArrayList<Prescription> prescriptionlist = (ArrayList<Prescription>) request.getAttribute("prescription_list"); %>
                 <% VisitationRecord vr = (VisitationRecord) request.getAttribute("current_visitation_record"); %>
 
-                <form method="post" action="CreateVisitationRecord?doctor_id=<%= user.getId() %>&patient_id=<%= puserid %>">
-                    <table border=1>
-                        <tr>
-                            <th>Visit Date</th>
-                            <th>Length of Visit</th>
-                            <th>Procedure</th>
-                            <th>Scheduling of Treatment</th>
-                            <th>Freeform Comments</th>
-                            <th>Surgery Performed</th>
-                            <th>Diagnosis</th>
-                            <th>Prescription</th>
-                        </tr>
-                        <tr>
-                            <td><input type="date" name ="visit_date" ><input type="time" name ="visit_time" ></td>
-                            <td><input type="time" name ="length_of_visit" ></td>
-                            <td><input type="text" name ="procedure" ></td>
-                            <td><input type="date" name ="scheduling_of_treatment_date" ><input type="time" name ="scheduling_of_treatment_time" ></td>
-                            <td><input type="text" name ="freeform_comments" ></td>
-                            <td><input type="text" name ="surgery_performed" ></td>
-                            <td><input type="text" name ="diagnosis" ></td>
-                            <td>
-                                <select class="form-control" style="width:200px;" name="prescription_name">
-                                    <option value="none" <% if (vr == null || vr.getPrescriptionName().equals("none")) { %>selected="selected"<% } %>>None</option>
-                                    <% for (Prescription p : prescriptionlist) { %>
-                                        <option value="<%= p.getName() %>" <% if (vr != null && vr.getPrescriptionName().equals(p.getName())) { %>selected="selected"<% } %>><%= p.getName() %></option>
-                                    <% } %>
-                                </select>
-                            </td>
-                        </tr>
-                    </table>
-                    <input class="form-control btn btn-default" type='submit' value='Submit Record'/>
+                <form class="form-inline" method="post" action="CreateVisitationRecord?doctor_id=<%= user.getId() %>&patient_id=<%= puserid %>">
+                    <div class="form-group" style="width:250px;">
+                        <label for="visit_date" class="col-sm-2 control-label" style="width:200px;">Visit Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" style="width:200px;" id="visit_date" placeholder="03/28/14" name="visit_date">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width:250px;">
+                        <label for="visit_time" class="col-sm-2 control-label" style="width:200px;">Visit Start</label>
+                        <div class="col-sm-10">
+                            <input type="time" class="form-control" style="width:200px;" id="visit_time" placeholder="11:07" name="visit_time">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width:250px;">
+                        <label for="length_of_visit" class="col-sm-2 control-label" style="width:200px;">Visit Length</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" style="width:200px;" id="length_of_visit" placeholder="HH:MM" name="length_of_visit">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group" style="width:250px;">
+                        <label for="scheduling_of_treatment_date" class="col-sm-2 control-label" style="width:200px;">Treatment Date</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" style="width:200px;" id="scheduling_of_treatment_date" placeholder="03/28/14" name="scheduling_of_treatment_date">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width:250px;">
+                        <label for="scheduling_of_treatment_time" class="col-sm-2 control-label" style="width:200px;">Treatment Time</label>
+                        <div class="col-sm-10">
+                            <input type="time" class="form-control" style="width:200px;" id="scheduling_of_treatment_time" placeholder="11:07" name="scheduling_of_treatment_time">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group" style="width:250px;">
+                        <label for="procedure" class="col-sm-2 control-label" style="width:200px;">Procedure</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" style="width:200px;" id="procedure" name="procedure">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width:250px;">
+                        <label for="surgery_performed" class="col-sm-2 control-label" style="width:200px;">Surgery Performed</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" style="width:200px;" id="surgery_performed" name="surgery_performed">
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group" style="width:250px;">
+                        <label for="diagnosis" class="col-sm-2 control-label" style="width:200px;">Diagnosis</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" style="width:200px;" id="diagnosis" name="diagnosis">
+                        </div>
+                    </div>
+                    <div class="form-group" style="width:250px;">
+                        <label for="prescription_name" class="col-sm-2 control-label" style="width:200px;">Prescription</label>
+                        <div class="col-sm-10"> 
+                            <select class="form-control" style="width:200px;" name="prescription_name">
+                                <option value="none" <% if (vr == null || vr.getPrescriptionName().equals("none")) { %>selected="selected"<% } %>>None</option>
+                                <% for (Prescription p : prescriptionlist) { %>
+                                    <option value="<%= p.getName() %>" <% if (vr != null && vr.getPrescriptionName().equals(p.getName())) { %>selected="selected"<% } %>><%= p.getName() %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <div class="form-group" style="width:250px;">
+                        <label for="freeform_comments" class="col-sm-2 control-label" style="width:200px;">Comments</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" style="width:200px;" id="freeform_comments" name="freeform_comments">
+                        </div>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="form-group" style="width:250px;">
+                        <div class="col-sm-10">
+                            <input class="form-control btn btn-success" style="width:200px;" type='submit' name="submit" value='Add Record'/>
+                        </div>
+                    </div>
                 </form>
+                
             <% } %>
             
-            <h2>Past Visitation Records for Patient <%= puserid %></h2>
+            <h2>Visitation Record</h2>
             <% if (recordlist != null) { %>
                 <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<% } %><%= user.getId() %>&patient_id=<%= puserid %>">
                     <div class="form-group">
