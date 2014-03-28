@@ -48,6 +48,10 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
+                    <% } else if (user.getType().equals("patient")) { %>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_AS_PATIENT %>&patient_id=<%= user.getId()%>">Visitation Records</a>
+                        </li>
                     <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">

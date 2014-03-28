@@ -6,6 +6,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="models.VisitationRecord"%>
 <%@page import="models.Prescription"%>
+<%@page import="models.Doctor"%>
 <%@page import="servlets.QueryServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -162,7 +163,7 @@
             
             <h2>Visitation Record</h2>
             <% if (recordlist != null) { %>
-                <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<% } %><%= user.getId() %>&patient_id=<%= puserid %>">
+            <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<%= user.getId() %><% } else if (user.getType().equals("staff")) { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<%= user.getId() %><% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_PATIENT %><% } %>&patient_id=<%= puserid %>">
                     <div class="form-group">
                         <input class="form-control" placeholder="Records Search" type='text' name='record_query'/></br>
                     </div>
@@ -179,7 +180,7 @@
                         <th>Length of Visit</th>
                         <th>Procedure</th>
                         <th>Scheduling of Treatment</th>
-                        <th>Freeform Comments</th>
+                        <% if (!user.getType().equals("patient")) { %><th>Freeform Comments</th><% } %>
                         <th>Surgery Performed</th>
                         <th>Diagnosis</th>
                         <th>Prescription</th>
@@ -195,7 +196,7 @@
                         <td><%= rl.getLengthOfVisit() %></td>
                         <td><%= rl.getProcedure() %></td>
                         <td><%= rl.getSchedulingOfTreatment() %></td>
-                        <td><%= rl.getFreeformComments() %></td>
+                        <% if (!user.getType().equals("patient")) { %><td><%= rl.getFreeformComments() %></td><% } %>
                         <td><%= rl.getSurgeryPerformed() %></td>
                         <td><%= rl.getDiagnosis() %></td>
                         <td><%= rl.getPrescriptionName() %></td>

@@ -52,6 +52,8 @@ public class QueryServlet extends HttpServlet {
     public static final String RECORDS_BY_PATIENT_AS_DOCTOR = "records_by_patient_as_doctor";
     public static final String RECORDS_SEARCH_AS_STAFF = "records_search_as_staff";
     public static final String RECORDS_SEARCH_AS_DOCTOR = "records_search_as_doctor";
+    public static final String RECORDS_SEARCH_AS_PATIENT = "records_search_as_patient";
+    public static final String RECORDS_AS_PATIENT = "records_as_patient";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -153,6 +155,18 @@ public class QueryServlet extends HttpServlet {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.queryAsDoctor(con, request.getParameter("record_query"), patient_id, request.getParameter("doctor_id"));
                 buildRecordDoctorResponse(request, con, ret, patient_id);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_AS_PATIENT)) {
+                String patient_id = request.getParameter("patient_id");
+                ArrayList ret = VisitationRecordController.getAllByPatient(con, patient_id);
+                request.setAttribute("visitation_record_list", ret);
+                request.setAttribute("patient_id", patient_id);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_SEARCH_AS_PATIENT)) {
+                String patient_id = request.getParameter("patient_id");
+                ArrayList ret = VisitationRecordController.queryAsPatient(con, request.getParameter("record_query"), patient_id);
+                request.setAttribute("visitation_record_list", ret);
+                request.setAttribute("patient_id", patient_id);
                 url = "/records.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
