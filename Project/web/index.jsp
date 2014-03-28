@@ -21,11 +21,6 @@
                 <input class="form-control" placeholder="Password" type="password" name="password" required/></br>
                 <input class="btn btn-lg btn-default btn-block" type="submit" value="Login"/>
             </form>
-            <div style="padding-top:20px;">
-                <a href="register.jsp">
-                    <button class="btn btn-lg btn-primary btn-block">Register</button>
-                </a>
-            </div>
         </div>
     </body>
 </html>

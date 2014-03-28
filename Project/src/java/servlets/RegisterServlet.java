@@ -94,9 +94,9 @@ public class RegisterServlet extends HttpServlet {
             try {
                 UserController.create(con, user_id, first_name, last_name, password, type, email);
                                 
-                RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
+                RequestDispatcher rd = getServletContext().getRequestDispatcher("/home.jsp");
                 PrintWriter out = response.getWriter();
-                out.println("<div class=\"container\" style=\"width:300px;\"><span class=\"label label-success\" style=\"display:block;\">Registration successful, please login.</span></div>");
+                out.println("<div class=\"container\" style=\"width:300px; padding-top:50px;\"><span class=\"label label-success\" style=\"display:block;\">Registration successful, please login.</span></div>");
                 rd.include(request, response);
             } catch (SQLException e) {
                 e.printStackTrace();
