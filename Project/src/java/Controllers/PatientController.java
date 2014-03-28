@@ -32,6 +32,25 @@ public class PatientController {
         pstmt.close();
     }
     
+    public static void update(Connection con, String patient_id, String first_name, String last_name, String email, String address, String phone) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("UPDATE User,Patient SET "
+                    + "User.first_name = ? , "
+                    + "User.last_name = ? , "
+                    + "User.email = ? , "
+                    + "Patient.address = ? , "
+                    + "Patient.phone = ? "
+                    + "WHERE User.user_id = Patient.user_id "
+                    + "AND Patient.user_id = ? ");
+        ps.setString(1, first_name);
+        ps.setString(2, last_name);
+        ps.setString(3, email);
+        ps.setString(4, address);
+        ps.setString(5, phone);
+        ps.setString(6, patient_id);
+        ps.execute();
+        ps.close();
+    }
+    
     public static void update(Connection con, String patient_id, String first_name, String last_name, String email, String address, String current_health, String ohip, String phone, int sin) throws SQLException {
         PreparedStatement ps = con.prepareStatement("UPDATE User,Patient SET "
                     + "User.first_name = ? , "

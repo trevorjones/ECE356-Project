@@ -39,8 +39,8 @@ public class LoginServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
         String user_id = request.getParameter("user_id");
         String password = request.getParameter("password");
         String errorMsg = null;
@@ -60,30 +60,8 @@ public class LoginServlet extends HttpServlet {
                 rs = ps.executeQuery();
 
                 if (rs != null && rs.next()) {
-                    HttpSession session = request.getSession();
                     String type = rs.getString("type");
-                    
-                    if (type.equals("doctor")) {
-                        ps = con.prepareStatement("select * from User,Doctor where User.user_id = ? and User.user_id = Doctor.user_id");
-                        ps.setString(1, user_id);
-                        rs = ps.executeQuery();
-                        rs.next();
-                        session.setAttribute("user", new Doctor(rs));
-                    } else if (type.equals("patient")) {
-                        ps = con.prepareStatement("select * from User,Patient where User.user_id = ? and User.user_id = Patient.user_id");
-                        ps.setString(1, user_id);
-                        rs = ps.executeQuery();
-                        rs.next();
-                        session.setAttribute("user", new Patient(rs));
-                    } else {
-                        type = "user";
-                        session.setAttribute("user", new User(rs));
-                    }
-                    session.setAttribute("type", type);
-                    
-                    
-                    // Redirect to difference pages depending on user type
-                    response.sendRedirect("home.jsp");
+                    setupSession(request, response, con, user_id, type);
                 } else {
                     invalidUser(request, response);
                 }
@@ -106,6 +84,34 @@ public class LoginServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<div class=\"container\" style=\"width:300px;\"><span class=\"label label-danger\" style=\"display:block;\">Invalid user id or password</span></div>");
         rd.include(request, response);
+    }
+    
+    public static void setupSession(HttpServletRequest request, HttpServletResponse response, Connection con, String user_id, String type) throws SQLException, IOException {
+        HttpSession session = request.getSession();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        if (type.equals("doctor")) {
+            ps = con.prepareStatement("select * from User,Doctor where User.user_id = ? and User.user_id = Doctor.user_id");
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            rs.next();
+            session.setAttribute("user", new Doctor(rs));
+        } else if (type.equals("patient")) {
+            ps = con.prepareStatement("select * from User,Patient where User.user_id = ? and User.user_id = Patient.user_id");
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            rs.next();
+            session.setAttribute("user", new Patient(rs));
+        } else {
+            ps = con.prepareStatement("select * from User where User.user_id = ?");
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            rs.next();
+            session.setAttribute("user", new User(rs));
+        }
+
+        response.sendRedirect("home.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

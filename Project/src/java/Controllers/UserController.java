@@ -37,4 +37,14 @@ public class UserController {
         }
     }
     
+    public static void update(Connection con, String user_id, String first_name, String last_name, String email) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("UPDATE User SET first_name = ?, last_name = ?, email = ? WHERE user_id = ?");
+        ps.setString(1, first_name);
+        ps.setString(2, last_name);
+        ps.setString(3, email);
+        ps.setString(4, user_id);
+        ps.execute();
+        ps.close();
+    }
+    
 }

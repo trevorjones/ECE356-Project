@@ -4,6 +4,8 @@
     Author     : william
 --%>
 <%@page import="servlets.QueryServlet"%>
+<%@page import="models.Doctor"%>
+<%@page import="models.Patient"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -63,23 +65,34 @@
         </nav>
 
         <div class="container" style="padding-top:40px;">
-            <h2>Profile Information</h2>
+            <h2><span style="text-transform:capitalize;"><%= user.getType()%> <%= user.getFirstName() %> <%= user.getLastName() %></span>'s Profile Information</h2>
             <table class="table">
                 <tr>
                    <th>User ID</th>
                    <th>First Name</th>
                    <th>Last Name</th>
-                   <th>Type</th>
                    <th>Email</th>
+                   <% if (user.getType().equals("doctor")) { %>
+                        <th>Specialization</th>
+                   <% } else if (user.getType().equals("patient")) { %>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                   <% } %>
                 </tr>
                 <tr>
                    <td><%= user.getId() %></td>
                    <td><%= user.getFirstName() %></td>
                    <td><%= user.getLastName() %></td>
-                   <td><%= user.getType() %></td>
                    <td><%= user.getEmail() %></td>
+                   <% if (user.getType().equals("doctor")) { %>
+                        <td><%= ((Doctor) user).getSpecialization() %></td>
+                   <% } else if (user.getType().equals("patient")) { %>
+                        <td><%= ((Patient) user).getAddress()%></td>
+                        <td><%= ((Patient) user).getPhone()%></td>
+                   <% } %>
                 </tr>
             </table>
+            <a href='user_edit.jsp'>Edit Profile Information</a>
         </div>
     </body>
 </html>

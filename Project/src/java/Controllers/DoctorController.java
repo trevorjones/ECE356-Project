@@ -28,6 +28,17 @@ public class DoctorController {
         ps.close();
     }
     
+    public static void update(Connection con, String user_id, String first_name, String last_name, String email, String specialization) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("UPDATE Doctor,User SET User.first_name = ?, User.last_name = ?, User.email = ?, Doctor.specialization = ? WHERE Doctor.user_id = User.user_id AND User.user_id = ?");
+        ps.setString(1, first_name);
+        ps.setString(2, last_name);
+        ps.setString(3, email);
+        ps.setString(4, specialization);
+        ps.setString(5, user_id);
+        ps.execute();
+        ps.close();
+    }
+    
     public static ArrayList<Doctor> getAll(Connection con) throws ClassNotFoundException, SQLException {
         Statement stmt = null;
         ArrayList<Doctor> ret = null;
