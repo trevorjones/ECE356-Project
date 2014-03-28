@@ -82,32 +82,32 @@
                     <div class="form-group" style="width:250px;">
                         <label for="visit_date" class="col-sm-2 control-label" style="width:200px;">Visit Date</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" style="width:200px;" id="visit_date" placeholder="03/28/14" name="visit_date">
+                            <input type="date" class="form-control" style="width:200px;" id="visit_date" name="visit_date">
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="visit_time" class="col-sm-2 control-label" style="width:200px;">Visit Start</label>
                         <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="visit_time" placeholder="11:07" name="visit_time">
+                            <input type="time" class="form-control" style="width:200px;" id="visit_time" name="visit_time">
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="length_of_visit" class="col-sm-2 control-label" style="width:200px;">Visit Length</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="length_of_visit" placeholder="HH:MM" name="length_of_visit">
+                            <input type="time" class="form-control" style="width:200px;" id="length_of_visit" name="length_of_visit">
                         </div>
                     </div>
                     <br/>
                     <div class="form-group" style="width:250px;">
                         <label for="scheduling_of_treatment_date" class="col-sm-2 control-label" style="width:200px;">Treatment Date</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" style="width:200px;" id="scheduling_of_treatment_date" placeholder="03/28/14" name="scheduling_of_treatment_date">
+                            <input type="date" class="form-control" style="width:200px;" id="scheduling_of_treatment_date" name="scheduling_of_treatment_date">
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="scheduling_of_treatment_time" class="col-sm-2 control-label" style="width:200px;">Treatment Time</label>
                         <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="scheduling_of_treatment_time" placeholder="11:07" name="scheduling_of_treatment_time">
+                            <input type="time" class="form-control" style="width:200px;" id="scheduling_of_treatment_time" name="scheduling_of_treatment_time">
                         </div>
                     </div>
                     <br/>

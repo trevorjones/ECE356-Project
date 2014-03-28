@@ -151,7 +151,7 @@ public class QueryServlet extends HttpServlet {
                 url = "/records.jsp";
             } else if(query.equals(RECORDS_SEARCH_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
-                ArrayList ret = VisitationRecordController.queryAsDoctor(con, patient_id, request.getParameter("doctor_id"));
+                ArrayList ret = VisitationRecordController.queryAsDoctor(con, request.getParameter("record_query"), patient_id, request.getParameter("doctor_id"));
                 buildRecordDoctorResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
             } else {

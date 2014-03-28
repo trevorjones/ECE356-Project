@@ -18,10 +18,10 @@ import java.sql.Timestamp;
 public class VisitationRecord {
     String patient_id;
     String doctor_id;
-    Timestamp visit_date;
-    Time length_of_visit;
+    String visit_date;
+    String length_of_visit;
     String procedure;
-    Timestamp scheduling_of_treatment;
+    String scheduling_of_treatment;
     String freeform_comments;
     String surgery_performed;
     String diagnosis;
@@ -31,7 +31,7 @@ public class VisitationRecord {
         
     }
     
-    public VisitationRecord(String patient_id, String doctor_id, Timestamp visit_date, Time length_of_visit, String procedure, Timestamp scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name) {
+    public VisitationRecord(String patient_id, String doctor_id, String visit_date, String length_of_visit, String procedure, String scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
         this.visit_date = visit_date;
@@ -45,7 +45,7 @@ public class VisitationRecord {
     }
     
     public VisitationRecord(ResultSet rs) throws SQLException {
-        this(rs.getString("patient_user_id"), rs.getString("doctor_user_id"), rs.getTimestamp("visit_date"), rs.getTime("length_of_visit"), rs.getString("proc"), rs.getTimestamp("scheduling_of_treatment"), rs.getString("freeform_comments"), rs.getString("surgery_performed"), rs.getString("diagnosis"), rs.getString("prescription_name"));
+        this(rs.getString("patient_user_id"), rs.getString("doctor_user_id"), rs.getTimestamp("visit_date").toString(), rs.getTime("length_of_visit").toString(), rs.getString("proc"), rs.getTimestamp("scheduling_of_treatment").toString(), rs.getString("freeform_comments"), rs.getString("surgery_performed"), rs.getString("diagnosis"), rs.getString("prescription_name"));
     }
     
     public String getPatientId() {
@@ -64,19 +64,19 @@ public class VisitationRecord {
         this.doctor_id = id;
     }
     
-    public Timestamp getVisitDate() {
+    public String getVisitDate() {
         return this.visit_date;
     }
     
-    public void setVisitDate(Timestamp visit_date) {
+    public void setVisitDate(String visit_date) {
         this.visit_date = visit_date;
     }
     
-    public Time getLengthOfVisit() {
+    public String getLengthOfVisit() {
         return this.length_of_visit;
     }
     
-    public void setLengthOfVisit(Time length_of_visit) {
+    public void setLengthOfVisit(String length_of_visit) {
         this.length_of_visit = length_of_visit;
     }
     
@@ -88,11 +88,11 @@ public class VisitationRecord {
         this.procedure = procedure;
     }
     
-    public Timestamp getSchedulingOfTreatment() {
+    public String getSchedulingOfTreatment() {
         return this.scheduling_of_treatment;
     }
     
-    public void setSchedulingOfTreatment(Timestamp scheduling_of_treatment) {
+    public void setSchedulingOfTreatment(String scheduling_of_treatment) {
         this.scheduling_of_treatment = scheduling_of_treatment;
     }
     
