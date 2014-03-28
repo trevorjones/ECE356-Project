@@ -59,6 +59,9 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_QUERY_BY_STAFF %>&staff_id=<%= user.getId()%>">Associated Doctors</a>
                         </li>
+                        <li class="active">
+                            <a> / <%=request.getParameter("doctor_id")%></a>
+                        </li>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
