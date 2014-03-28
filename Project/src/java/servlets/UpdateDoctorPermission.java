@@ -6,7 +6,7 @@
 
 package servlets;
 
-import Controllers.VisitationRecordController;
+import Controllers.DoctorPatientController;
 import java.io.IOException;
 import java.sql.Connection;
 import javax.servlet.ServletException;
@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author william
  */
-@WebServlet(name = "CreateVisitationRecord", urlPatterns = {"/CreateVisitationRecord"})
-public class CreateVisitationRecord extends HttpServlet {
+@WebServlet(name = "UpdateDoctorPermission", urlPatterns = {"/UpdateDoctorPermission"})
+public class UpdateDoctorPermission extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,23 +34,22 @@ public class CreateVisitationRecord extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Connection con = (Connection) getServletContext().getAttribute("DBConnection");
-        
         String patient_id = request.getParameter("patient_id");
         String doctor_id = request.getParameter("doctor_id");
-        String visit_date = request.getParameter("visit_date") + " " + request.getParameter("visit_time");
-        String length_of_visit = request.getParameter("length_of_visit");
-        String proc = request.getParameter("procedure");
-        String freeform_comments = request.getParameter("freeform_comments");
-        String scheduling_of_treatment = request.getParameter("scheduling_of_treatment_date") + " " + request.getParameter("scheduling_of_treatment_time");
-        String surgery_performed = request.getParameter("surgery_performed");
-        String diagnosis = request.getParameter("diagnosis");
-        String prescription_name = request.getParameter("prescription_name");
+        String[] removeDoctors = request.getParameterValues("delete_permission");
+        String addDoctor = request.getParameter("add_permission");
         
         try {
-            VisitationRecordController.create(con, patient_id, doctor_id, visit_date, length_of_visit, proc, scheduling_of_treatment, freeform_comments, surgery_performed, diagnosis, prescription_name);
+            if (removeDoctors != null) {
+                for (String id : removeDoctors) {
+                    DoctorPatientController.delete(con, id, patient_id);
+                }
+            } else {
+                DoctorPatientController.create(con, addDoctor, patient_id, false);
+            }
             getServletContext().getRequestDispatcher("/QueryServlet?query=" + QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR + "&patient_id=" + patient_id + "&doctor_id=" + doctor_id).forward(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
+            e.printStackTrace();;
         }
     }
 

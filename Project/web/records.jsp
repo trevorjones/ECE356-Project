@@ -23,6 +23,8 @@
     <% String puserid = (String) request.getAttribute("patient_id"); %>
     <% String assignedDoctorID = (String) request.getAttribute("assigned_doctor_id"); %>
     <% boolean isAssignedDoctor = user.getType().equals("doctor") && user.getId().equals(assignedDoctorID);%>
+    <% ArrayList<Doctor> doctorsWithoutPermission = (ArrayList<Doctor>) request.getAttribute("doctors_without_permission"); %>
+    <% ArrayList<Doctor> doctorsWithPermission = (ArrayList<Doctor>) request.getAttribute("doctors_with_permission"); %>
     
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -158,6 +160,47 @@
                         </div>
                     </div>
                 </form>
+                
+                <% if (doctorsWithPermission.size() != 0) { %>
+                    <h2>Doctors with Viewing Permissions for this Patient's Records</h2>
+                    <form method="post" action="UpdateDoctorPermission?patient_id=<%= puserid %>&doctor_id=<%= user.getId() %>">
+                        <table class="table table-striped">
+                            <tr><th></th><th>User ID</th><th>First Name</th><th>Last Name</th></tr>
+                            <% for (Doctor d : doctorsWithPermission) { %>
+                                <tr>
+                                        <td><input type="checkbox" name="delete_permission" value="<%= d.getId() %>"/></td>
+                                        <td><%= d.getId() %></td>
+                                        <td><%= d.getFirstName()%></td>
+                                        <td><%= d.getLastName()%></td>
+                                </tr>
+                            <% } %>
+                        </table>
+                        <input class="form-control btn btn-danger" style="width:250px;" type='submit' name="submit" value='Remove Permission of Selected'/>
+                    </from>
+                <% } %>
+                
+                <% if (doctorsWithoutPermission.size() != 0) { %>
+                    <h2>Add Permission to Doctor</h2>
+                    <form class="form-horizontal" method="post" action="UpdateDoctorPermission?patient_id=<%= puserid %>&doctor_id=<%= user.getId() %>" >
+                        <div class="form-group">
+                            <label for="add_permission" class="col-sm-2 control-label" style="width:140px;">Add permission to</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" style="width:200px;" name="add_permission">
+                                    <% for (Doctor d : doctorsWithoutPermission) { %>
+                                        <option value="<%= d.getId() %>"><%= d.getFirstName() %> <%= d.getLastName() %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width:140px;"></label>
+                            <div class="col-sm-10">
+                                <input class="form-control btn btn-primary" style="width:200px;" type='submit' name="submit" value='Add'/>
+                            </div>
+                        </div>
+                    </form>
+                <% } %>
+                <br/>
                 
             <% } %>
             

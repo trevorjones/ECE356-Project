@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import models.Doctor;
 import models.Patient;
 
 /**
@@ -80,5 +81,28 @@ public class DoctorPatientController {
                 pstmt.close();
             }
         }
+    }
+    
+    public static ArrayList<Doctor> getAllDoctorsWithPermission(Connection con, String patient_id, String doctor_id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor_Patient,Doctor,User WHERE Doctor_Patient.patient_user_id = ? AND Doctor_Patient.doctor_user_id <> ? AND Doctor_Patient.doctor_user_id = Doctor.user_id AND Doctor.user_id = User.user_id");
+        ps.setString(1, patient_id);
+        ps.setString(2, doctor_id);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+        while (rs.next()) {
+            ret.add(new Doctor(rs));
+        }
+        return ret;
+    }
+    
+    public static ArrayList<Doctor> getAllDoctorsWithoutPermission(Connection con, String patient_id) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor,User WHERE Doctor.user_id = User.user_id AND Doctor.user_id NOT IN (SELECT Doctor_Patient.doctor_user_id FROM Doctor_Patient,Doctor,User WHERE Doctor_Patient.patient_user_id = ? AND Doctor_Patient.doctor_user_id = Doctor.user_id AND Doctor.user_id = User.user_id)");
+        ps.setString(1, patient_id);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+        while (rs.next()) {
+            ret.add(new Doctor(rs));
+        }
+        return ret;
     }
 }
