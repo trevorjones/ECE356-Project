@@ -8,8 +8,6 @@ package models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.sql.Timestamp;
 
 /**
  *
@@ -26,12 +24,13 @@ public class VisitationRecord {
     String surgery_performed;
     String diagnosis;
     String prescription_name;
+    String updated_at;
     
     public VisitationRecord() {
         
     }
     
-    public VisitationRecord(String patient_id, String doctor_id, String visit_date, String length_of_visit, String procedure, String scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name) {
+    public VisitationRecord(String patient_id, String doctor_id, String visit_date, String length_of_visit, String procedure, String scheduling_of_treatment, String freeform_comments, String surgery_performed, String diagnosis, String prescription_name, String updated_at) {
         this.patient_id = patient_id;
         this.doctor_id = doctor_id;
         this.visit_date = visit_date;
@@ -42,10 +41,11 @@ public class VisitationRecord {
         this.surgery_performed = surgery_performed;
         this.diagnosis = diagnosis;
         this.prescription_name = prescription_name;
+        this.updated_at = updated_at;
     }
     
     public VisitationRecord(ResultSet rs) throws SQLException {
-        this(rs.getString("patient_user_id"), rs.getString("doctor_user_id"), rs.getTimestamp("visit_date").toString(), rs.getTime("length_of_visit").toString(), rs.getString("proc"), rs.getTimestamp("scheduling_of_treatment").toString(), rs.getString("freeform_comments"), rs.getString("surgery_performed"), rs.getString("diagnosis"), rs.getString("prescription_name"));
+        this(rs.getString("patient_user_id"), rs.getString("doctor_user_id"), rs.getTimestamp("visit_date").toString(), rs.getTime("length_of_visit").toString(), rs.getString("proc"), rs.getTimestamp("scheduling_of_treatment").toString(), rs.getString("freeform_comments"), rs.getString("surgery_performed"), rs.getString("diagnosis"), rs.getString("prescription_name"), rs.getTimestamp("updated_at").toString());
     }
     
     public String getPatientId() {
@@ -66,6 +66,29 @@ public class VisitationRecord {
     
     public String getVisitDate() {
         return this.visit_date;
+    }
+    
+    public String getVisitDateFormated() {
+        return this.visit_date.split(" ")[0];
+    }
+    
+    public String getVisitTimeFormated() {
+        String[] time = this.visit_date.split(" ")[1].split(":");
+        return time[0]+":"+time[1];
+    }
+    
+    public String getSchedulingDateFormated() {
+        return this.scheduling_of_treatment.split(" ")[0];
+    }
+    
+    public String getSchedulingTimeFormated() {
+        String[] time = this.scheduling_of_treatment.split(" ")[1].split(":");
+        return time[0]+":"+time[1];
+    }
+    
+    public String getLengthTimeFormated() {
+        String[] time = this.length_of_visit.split(":");
+        return time[0]+":"+time[1];
     }
     
     public void setVisitDate(String visit_date) {
@@ -126,5 +149,13 @@ public class VisitationRecord {
     
     public void setPrescriptionName(String prescription_name) {
         this.prescription_name = prescription_name;
+    }
+    
+    public String getUpdatedAt() {
+        return this.updated_at;
+    }
+    
+    public void setUpdatedAt(String updated_at) {
+        this.updated_at = updated_at;
     }
 }

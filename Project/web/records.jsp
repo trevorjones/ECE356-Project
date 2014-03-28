@@ -21,6 +21,7 @@
     <% ArrayList<VisitationRecord> recordlist = (ArrayList<VisitationRecord>) request.getAttribute("visitation_record_list"); %>
     <% String puserid = (String) request.getAttribute("patient_id"); %>
     <% String assignedDoctorID = (String) request.getAttribute("assigned_doctor_id"); %>
+    <% boolean isAssignedDoctor = user.getType().equals("doctor") && user.getId().equals(assignedDoctorID);%>
     
     <body>
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -73,7 +74,7 @@
         </nav>
         
         <div class="container" style="padding-top:40px;">
-            <% if (user.getType().equals("doctor") && user.getId().equals(assignedDoctorID)) { %>
+            <% if (isAssignedDoctor) { %>
                 <h2>Record a Visit</h2>
                 <% ArrayList<Prescription> prescriptionlist = (ArrayList<Prescription>) request.getAttribute("prescription_list"); %>
                 <% VisitationRecord vr = (VisitationRecord) request.getAttribute("current_visitation_record"); %>
@@ -82,52 +83,52 @@
                     <div class="form-group" style="width:250px;">
                         <label for="visit_date" class="col-sm-2 control-label" style="width:200px;">Visit Date</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" style="width:200px;" id="visit_date" name="visit_date">
+                            <input type="date" class="form-control" style="width:200px;" id="visit_date" name="visit_date" <% if (vr != null) { %>value="<%= vr.getVisitDateFormated() %>"<% } %>>
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="visit_time" class="col-sm-2 control-label" style="width:200px;">Visit Start</label>
                         <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="visit_time" name="visit_time">
+                            <input type="time" class="form-control" style="width:200px;" id="visit_time" name="visit_time" <% if (vr != null) { %>value="<%= vr.getVisitTimeFormated() %>"<% } %>>
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="length_of_visit" class="col-sm-2 control-label" style="width:200px;">Visit Length</label>
                         <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="length_of_visit" name="length_of_visit">
+                            <input type="time" class="form-control" style="width:200px;" id="length_of_visit" name="length_of_visit" <% if (vr != null) { %>value="<%= vr.getLengthTimeFormated()%>"<% } %>>
                         </div>
                     </div>
                     <br/>
                     <div class="form-group" style="width:250px;">
                         <label for="scheduling_of_treatment_date" class="col-sm-2 control-label" style="width:200px;">Treatment Date</label>
                         <div class="col-sm-10">
-                            <input type="date" class="form-control" style="width:200px;" id="scheduling_of_treatment_date" name="scheduling_of_treatment_date">
+                            <input type="date" class="form-control" style="width:200px;" id="scheduling_of_treatment_date" name="scheduling_of_treatment_date" <% if (vr != null) { %>value="<%= vr.getSchedulingDateFormated()%>"<% } %>>
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="scheduling_of_treatment_time" class="col-sm-2 control-label" style="width:200px;">Treatment Time</label>
                         <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="scheduling_of_treatment_time" name="scheduling_of_treatment_time">
+                            <input type="time" class="form-control" style="width:200px;" id="scheduling_of_treatment_time" name="scheduling_of_treatment_time" <% if (vr != null) { %>value="<%= vr.getSchedulingTimeFormated()%>"<% } %>>
                         </div>
                     </div>
                     <br/>
                     <div class="form-group" style="width:250px;">
                         <label for="procedure" class="col-sm-2 control-label" style="width:200px;">Procedure</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="procedure" name="procedure">
+                            <input type="text" class="form-control" style="width:200px;" id="procedure" name="procedure" <% if (vr != null) { %>value="<%= vr.getProcedure()%>"<% } %>>
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
                         <label for="surgery_performed" class="col-sm-2 control-label" style="width:200px;">Surgery Performed</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="surgery_performed" name="surgery_performed">
+                            <input type="text" class="form-control" style="width:200px;" id="surgery_performed" name="surgery_performed" <% if (vr != null) { %>value="<%= vr.getSurgeryPerformed()%>"<% } %>>
                         </div>
                     </div>
                     <br/>
                     <div class="form-group" style="width:250px;">
                         <label for="diagnosis" class="col-sm-2 control-label" style="width:200px;">Diagnosis</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="diagnosis" name="diagnosis">
+                            <input type="text" class="form-control" style="width:200px;" id="diagnosis" name="diagnosis" <% if (vr != null) { %>value="<%= vr.getDiagnosis()%>"<% } %>>
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
@@ -145,7 +146,7 @@
                     <div class="form-group" style="width:250px;">
                         <label for="freeform_comments" class="col-sm-2 control-label" style="width:200px;">Comments</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="freeform_comments" name="freeform_comments">
+                            <input type="text" class="form-control" style="width:200px;" id="freeform_comments" name="freeform_comments" <% if (vr != null) { %>value="<%= vr.getFreeformComments()%>"<% } %>>
                         </div>
                     </div>
                     <br/>
@@ -182,6 +183,7 @@
                         <th>Surgery Performed</th>
                         <th>Diagnosis</th>
                         <th>Prescription</th>
+                        <% if (isAssignedDoctor) { %><th>Edit</th><% } %>
                     </tr>
                     <%
                         for (VisitationRecord rl : recordlist) {
@@ -197,6 +199,7 @@
                         <td><%= rl.getSurgeryPerformed() %></td>
                         <td><%= rl.getDiagnosis() %></td>
                         <td><%= rl.getPrescriptionName() %></td>
+                        <% if (isAssignedDoctor) { %><td><a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR %>&doctor_id=<%= rl.getDoctorId() %>&patient_id=<%= rl.getPatientId() %>&visit_date=<%= rl.getVisitDate() %>&updated_at=<%= rl.getUpdatedAt() %>">Edit</a></td><% } %>
                     </tr>
                     <%
                         }
