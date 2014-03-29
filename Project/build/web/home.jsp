@@ -28,7 +28,7 @@
                             <a href="doctorList.jsp">Doctor List</a>
                         </li>
                         <li>
-                            <a href="patientList.jsp">Patient List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patient Visits</a>
                         </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>

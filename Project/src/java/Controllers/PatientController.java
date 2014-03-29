@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import models.Patient;
 
 /**
@@ -192,6 +193,18 @@ public class PatientController {
                 pstmt.close();
             }
         }
+    }
+    
+    public static ArrayList<String[]> getAllWithNumberOfVisits(Connection con) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT User.user_id, COUNT(User.user_id) AS number_of_visits FROM User,Patient,VisitationRecord WHERE User.user_id = Patient.user_id AND VisitationRecord.patient_user_id = User.user_id GROUP BY User.user_id");
+        ResultSet rs = ps.executeQuery();
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+        while (rs.next()) {
+            String[] a = {rs.getString("user_id"), rs.getString("number_of_visits")};
+            ret.add(a);
+        }
+        
+        return ret;
     }
     
 }
