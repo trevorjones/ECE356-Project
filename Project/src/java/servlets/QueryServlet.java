@@ -41,7 +41,7 @@ public class QueryServlet extends HttpServlet {
     public static final String DOCTORS_ALL = "doctors_all";
     public static final String DOCTORS_QUERY = "doctors_query";
     public static final String DOCTORS_QUERY_BY_STAFF = "doctors_query_by_staff";
-    public static final String APPOINTMENTS_FOR_DOCTOR = "appointments for doctor";
+    public static final String APPOINTMENTS_FOR_DOCTOR = "appointments_for_doctor";
     public static final String STAFF_QUERY = "staff_query";
     public static final String PATIENTS_BY_STAFF = "patients_by_staff";
     public static final String PATIENTS_SEARCH_BY_STAFF = "patients_search_by_staff";

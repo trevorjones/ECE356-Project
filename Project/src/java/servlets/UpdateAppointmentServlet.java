@@ -41,7 +41,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
         String doctor_id = request.getParameter("doctor_id");
         
         String url = "/appointment.jsp";
-        if (request.getParameter("submit").equals("Insert_Appt")) {
+        if (request.getParameter("submit").equals("Add Appointment")) {
             String patient_id = request.getParameter("patient_id");
             String date = request.getParameter("date");
             String start_time = request.getParameter("start_time");
@@ -61,7 +61,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
                 } else {
                     request.setAttribute("conflicts", conflicts);
                 }
-                apptHelper(con, request,response);
+                apptHelper(con, request, response);
             } catch (Exception e) {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";

@@ -88,7 +88,7 @@
                 }
             %>
             <div>
-                <form class="form-horizontal" method="post" action="EditAppointment?doctor_id=<%=request.getParameter("doctor_id")%>">
+                <form class="form-horizontal" method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                     <h2>Add Appointment</h2>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" style="width:120px;">Patient</label>
@@ -107,19 +107,19 @@
                     <div class="form-group">
                         <label for="date" class="col-sm-2 control-label" style="width:120px;">Date</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="date" placeholder="Date" name="date">
+                            <input type="date" class="form-control" style="width:200px;" id="date" placeholder="Date" name="date">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="start_time" class="col-sm-2 control-label" style="width:120px;">Start Time</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="start_time" placeholder="Start Time" name="start_time">
+                            <input type="time" class="form-control" style="width:200px;" id="start_time" placeholder="Start Time" name="start_time">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="end_time" class="col-sm-2 control-label" style="width:120px;">End Time</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="end_time" placeholder="End Time" name="end_time">
+                            <input type="time" class="form-control" style="width:200px;" id="end_time" placeholder="End Time" name="end_time">
                         </div>
                     </div>
                     <!--Appt status -->
