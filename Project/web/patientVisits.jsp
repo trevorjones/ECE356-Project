@@ -4,6 +4,7 @@
     Author     : william
 --%>
 
+<%@page import="servlets.QueryServlet"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,17 +19,26 @@
     
     <body>
         <h2>Number of Visits per Patient</h2>
+        <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<%= QueryServlet.PATIENTS_SEARCH_BY_FO %>">
+            <div class="form-group">
+                <input class="form-control" placeholder="Patient Search" type='text' name='patient_query'/></br>
+            </div>
+            <div class="form-group">
+                <input class="form-control btn btn-default" type='submit' value='Submit Query'/>
+            </div>
+        </form>
         <table>
             <tr>
                 <th>Patient ID</th>
                 <th>Number of Visits</th>
             </tr>
-            <tr>
-                <% for (String[] p : patientList) { %>
+            
+            <% for (String[] p : patientList) { %>
+                <tr>
                     <td><%= p[0] %></td>
                     <td><%= p[1] %></td>
-                <% } %>
-            </tr>
+                </tr>
+            <% } %>
         </table>
         
     </body>

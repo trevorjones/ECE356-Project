@@ -15,6 +15,7 @@ import java.sql.SQLException;
  */
 public class Doctor extends User {
     String specialization;
+    int numberOfPatientsSeen;
     
     public Doctor() {
         
@@ -30,11 +31,27 @@ public class Doctor extends User {
         this.specialization = rs.getString("Doctor.specialization");
     }
     
+    public Doctor(ResultSet rs, boolean setNumberOfPatientsSeen) throws SQLException {
+        super(rs.getString("user_id"), rs.getString("first_name"), rs.getString("last_name"), "doctor", rs.getString("email"));
+        this.specialization = rs.getString("specialization");
+        if (setNumberOfPatientsSeen) {
+            this.numberOfPatientsSeen = rs.getInt("number_of_patients_seen");
+        }
+    }
+    
     public String getSpecialization() {
         return this.specialization;
     }
     
     public void setSpecialization(String spec) {
         this.specialization = spec;
+    }
+    
+    public int getNumberOfPatientsSeen() {
+        return this.numberOfPatientsSeen;
+    }
+    
+    public void setNumberOfPatientsSeen(int numberOfPatientsSeen) {
+        this.numberOfPatientsSeen = numberOfPatientsSeen;
     }
 }

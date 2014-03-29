@@ -25,7 +25,7 @@
                     </li>
                     <% if (user.getType().equals("financial officer")) { %>
                         <li>
-                            <a href="doctorList.jsp">Doctor List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_BY_FO %>">Doctor List</a>
                         </li>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patient Visits</a>
