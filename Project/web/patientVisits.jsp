@@ -8,10 +8,13 @@
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<jsp:useBean id="user" class="models.User" scope="session"/>
+<% if (user == null || user.getType() == null || !user.getType().equals("financial officer")) {
+    response.sendRedirect("home.jsp");
+} else { %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:useBean id="user" class="models.User" scope="session"/>
         <title>Patient Visits</title>
     </head>
     
@@ -43,3 +46,4 @@
         
     </body>
 </html>
+<% } %>

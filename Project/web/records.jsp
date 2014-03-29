@@ -10,10 +10,13 @@
 <%@page import="servlets.QueryServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<jsp:useBean id="user" class="models.User" scope="session"/>
+<% if (user == null || user.getType() == null || !(user.getType().equals("staff") || user.getType().equals("doctor") || user.getType().equals("patient"))) {
+    response.sendRedirect("home.jsp");
+} else { %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:useBean id="user" class="models.User" scope="session"/>
         <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Visitation Records</title>
@@ -48,7 +51,7 @@
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Patients</a>
                         </li>
                         <li class="active">
-                            <a> / <%= puserid %></a>
+                            <a style="text-transform:capitalize;"><%= puserid %></a>
                         </li>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.STAFF_QUERY %>&doctor_id=<%= user.getId()%>">Staff Members</a>
@@ -64,7 +67,7 @@
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
                         <li class="active">
-                            <a> / <%= puserid %></a>
+                            <a style="text-transform:capitalize;"><%= puserid %></a>
                         </li>
                     <% } %>
                 </ul>
@@ -255,3 +258,4 @@
         </div>
     </body>
 </html>
+<% } %>

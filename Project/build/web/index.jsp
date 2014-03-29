@@ -10,6 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <jsp:useBean id="user" class="models.User" scope="session"/>
+        <% if (user != null && user.getType() != null) {
+            response.sendRedirect("home.jsp");
+        } %>
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Welcome</title>
     </head>

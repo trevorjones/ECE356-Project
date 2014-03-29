@@ -7,11 +7,14 @@
 <%@page import="models.Doctor"%>
 <%@page import="models.Patient"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<jsp:useBean id="user" class="models.User" scope="session"/>
+<% if (user == null || user.getType() == null) {
+    response.sendRedirect("index.jsp");
+} else { %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:useBean id="user" class="models.User" scope="session"/>
         <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Welcome <%= user.getFirstName() %> <%= user.getLastName() %></title>
@@ -25,10 +28,10 @@
                     </li>
                     <% if (user.getType().equals("financial officer")) { %>
                         <li>
-                            <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_BY_FO %>">Doctor List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_BY_FO %>">Doctors</a>
                         </li>
                         <li>
-                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patient Visits</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patients</a>
                         </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>
@@ -56,6 +59,9 @@
                     <% } else if (user.getType().equals("patient")) { %>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.RECORDS_AS_PATIENT %>&patient_id=<%= user.getId()%>">Visitation Records</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= user.getId()%>">Appointments</a>
                         </li>
                     <% } %>
                 </ul>
@@ -99,3 +105,4 @@
         </div>
     </body>
 </html>
+<% } %>
