@@ -90,56 +90,59 @@
                     }
                 }
             %>
-            <div>
-                <form class="form-horizontal" method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
-                    <h2>Add Appointment</h2>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" style="width:120px;">Patient</label>
-                        <div class="col-sm-10">
-                            <select class="form-control" style="width:200px;" name="patient_id">
-                                <%
-                                    for (Patient p : patientList) {
-                                %>
-                                <option value="<%=p.getId()%>"><%=p.getId()%></option>
-                                <%
-                                    }
-                                %>
-                            </select>
+            <% if (user.getType().equals("staff")) { %>
+                <div>
+                    <form class="form-horizontal" method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
+                        <h2>Add Appointment</h2>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width:120px;">Patient</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" style="width:200px;" name="patient_id">
+                                    <%
+                                        for (Patient p : patientList) {
+                                    %>
+                                    <option value="<%=p.getId()%>"><%=p.getId()%></option>
+                                    <%
+                                        }
+                                    %>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="date" class="col-sm-2 control-label" style="width:120px;">Date</label>
-                        <div class="col-sm-10">
-                            <input type="date" class="form-control" style="width:200px;" id="date" placeholder="Date" name="date">
+                        <div class="form-group">
+                            <label for="date" class="col-sm-2 control-label" style="width:120px;">Date</label>
+                            <div class="col-sm-10">
+                                <input type="date" class="form-control" style="width:200px;" id="date" name="date">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="start_time" class="col-sm-2 control-label" style="width:120px;">Start Time</label>
-                        <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="start_time" placeholder="Start Time" name="start_time">
+                        <div class="form-group">
+                            <label for="start_time" class="col-sm-2 control-label" style="width:120px;">Start Time</label>
+                            <div class="col-sm-10">
+                                <input type="time" class="form-control" style="width:200px;" id="start_time" name="start_time">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="end_time" class="col-sm-2 control-label" style="width:120px;">End Time</label>
-                        <div class="col-sm-10">
-                            <input type="time" class="form-control" style="width:200px;" id="end_time" placeholder="End Time" name="end_time">
+                        <div class="form-group">
+                            <label for="end_time" class="col-sm-2 control-label" style="width:120px;">End Time</label>
+                            <div class="col-sm-10">
+                                <input type="time" class="form-control" style="width:200px;" id="end_time" name="end_time">
+                            </div>
                         </div>
-                    </div>
-                    <!--Appt status -->
-                    <div class="form-group">
-                        <label for="procedure" class="col-sm-2 control-label" style="width:120px;">Procedure</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" style="width:200px;" id="procedure" placeholder="Procedure" name="procedure">
+                        <!--Appt status -->
+                        <div class="form-group">
+                            <label for="procedure" class="col-sm-2 control-label" style="width:120px;">Procedure</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" style="width:200px;" id="procedure" placeholder="Procedure" name="procedure">
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label" style="width:120px;"></label>
-                        <div class="col-sm-10">
-                            <input class="form-control btn btn-success" style="width:200px;" type='submit' name="submit" value='Add Appointment'/>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" style="width:120px;"></label>
+                            <div class="col-sm-10">
+                                <input class="form-control btn btn-success" style="width:200px;" type='submit' name="submit" value='Add Appointment'/>
+                            </div>
                         </div>
-                    </div>
-                </form>
-            </div>
+                    </form>
+                </div>
+            <% } %>
+                                
             <div>
                 <form method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                     <h2>Scheduled Appointments</h2>
