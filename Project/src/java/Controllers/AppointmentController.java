@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import models.Appointment;
+import models.Log;
 
 /**
  *
@@ -22,7 +23,7 @@ public class AppointmentController {
     public static void create(Connection con, Appointment appt) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
-        
+        Log log = new Log(appt);
         try {
             pstmt = con.prepareStatement("INSERT INTO Appointment VALUES(?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, appt.getPatientId());
@@ -32,11 +33,13 @@ public class AppointmentController {
             pstmt.setString(5, appt.getStatus());
             pstmt.setString(6, appt.getProc());
             pstmt.executeUpdate();
+            log.Create();
         } finally {
             if (pstmt != null) {
                 pstmt.close();
             }
         }
+        
     }
     
     public static void create(Connection con, String patient_id, String doctor_id, String app_start, String app_end, String status, String proc) throws ClassNotFoundException, SQLException {
