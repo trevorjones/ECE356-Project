@@ -147,12 +147,25 @@
                 <form method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                     <h2>Scheduled Appointments</h2>
                     <table class="table table-striped">
-                        <tr><th><input type="checkbox" name="delAllAppt"/></th><th>Patient</th><th>Doctor</th><th>Date</th><th>Appointment Start</th><th>Appointment End</th><th>Appt Status</th><th>Procedure</th></tr>
+                        <tr>
+                            <% if (user.getType().equals("staff")) { %>
+                                <th><input type="checkbox" name="delAllAppt"/></th>
+                            <% } %>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Appointment Start</th>
+                            <th>Appointment End</th>
+                            <th>Appt Status</th>
+                            <th>Procedure</th>
+                        </tr>
                                 <%
                                     for (Appointment a : apptList) {
                                 %>
                         <tr>
-                            <td><input type="checkbox" name="delAppt" value="<%=a.getApptDate() + " " + a.getApptStart()%>&<%= a.getPatientId() %>"/></td>
+                            <% if (user.getType().equals("staff")) { %>
+                                <td><input type="checkbox" name="delAppt" value="<%=a.getApptDate() + " " + a.getApptStart()%>&<%= a.getPatientId() %>"/></td>
+                            <% } %>
                             <td><%= a.getPatientId()%></td>
                             <td><%= a.getDoctorId()%></td>
                             <td><%= a.getApptDate()%></td>
@@ -165,7 +178,9 @@
                             }
                         %>
                     </table>
-                    <input class="form-control btn btn-danger" style="width:150px;" type='submit' name="submit" value='Remove'/>
+                    <% if (user.getType().equals("staff")) { %>
+                        <input class="form-control btn btn-danger" style="width:150px;" type='submit' name="submit" value='Remove'/>
+                    <% } %>
                 </form>
             </div>
             <%

@@ -44,6 +44,7 @@ public class QueryServlet extends HttpServlet {
     public static final String DOCTORS_QUERY = "doctors_query";
     public static final String DOCTORS_QUERY_BY_STAFF = "doctors_query_by_staff";
     public static final String APPOINTMENTS_FOR_DOCTOR = "appointments_for_doctor";
+    public static final String APPOINTMENTS_FOR_PATIENT = "appointments_for_patient";
     public static final String STAFF_QUERY = "staff_query";
     public static final String PATIENTS_BY_STAFF = "patients_by_staff";
     public static final String PATIENTS_BY_FO = "patients_by_fo";
@@ -109,6 +110,13 @@ public class QueryServlet extends HttpServlet {
                 
                 ret = DoctorPatientController.queryByDoctor(con, doctor_id);
                 request.setAttribute("patientList", ret);
+                
+                url = "/appointment.jsp";
+            } else if (query.equals(APPOINTMENTS_FOR_PATIENT)) {
+                String doctor_id = request.getParameter("patient_id");
+                
+                ArrayList ret = AppointmentController.queryPatientAppt(con, doctor_id);
+                request.setAttribute("apptList", ret);
                 
                 url = "/appointment.jsp";
             } else if(query.equals(STAFF_QUERY)) {
