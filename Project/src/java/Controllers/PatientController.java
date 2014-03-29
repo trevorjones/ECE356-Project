@@ -194,4 +194,30 @@ public class PatientController {
         }
     }
     
+    public static ArrayList<String[]> getAllWithNumberOfVisits(Connection con) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT User.user_id, COUNT(User.user_id) AS number_of_visits FROM User,Patient,VisitationRecord WHERE User.user_id = Patient.user_id AND VisitationRecord.patient_user_id = User.user_id GROUP BY User.user_id");
+        ResultSet rs = ps.executeQuery();
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+        while (rs.next()) {
+            String[] a = {rs.getString("user_id"), rs.getString("number_of_visits")};
+            ret.add(a);
+        }
+        
+        return ret;
+    }
+    
+    public static ArrayList<String[]> queryWithNumberOfVisits(Connection con, String query) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT User.user_id, COUNT(User.user_id) AS number_of_visits FROM User,Patient,VisitationRecord WHERE User.user_id = Patient.user_id AND VisitationRecord.patient_user_id = User.user_id GROUP BY User.user_id) AS q1 WHERE user_id LIKE ?");
+        ps.setString(1, "%"+query+"%");
+        
+        ResultSet rs = ps.executeQuery();
+        ArrayList<String[]> ret = new ArrayList<String[]>();
+        while (rs.next()) {
+            String[] a = {rs.getString("user_id"), rs.getString("number_of_visits")};
+            ret.add(a);
+        }
+        
+        return ret;
+    }
+    
 }

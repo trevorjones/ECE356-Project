@@ -92,4 +92,43 @@ public class DoctorController {
             }
         }            
     }
+    
+    public static ArrayList<Doctor> getAllWithNumberOfPatientsSeen(Connection con) throws SQLException{
+        PreparedStatement ps = con.prepareStatement("SELECT Doctor.user_id,Doctor.specialization,User.first_name,User.last_name,User.email, COUNT(DISTINCT VisitationRecord.patient_user_id) AS number_of_patients_seen FROM Doctor,User,VisitationRecord WHERE Doctor.user_id = User.user_id AND VisitationRecord.doctor_user_id = User.user_id GROUP BY Doctor.user_id");
+        
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+        while(rs.next()) {
+            ret.add(new Doctor(rs, true));
+        }
+        
+        return ret;
+    }
+    
+    public static ArrayList<Doctor> queryWithNumberOfPatientsSeen(Connection con, String id, String startDate, String endDate) throws SQLException{
+        if (startDate == null || startDate.equals("")) {
+            startDate = "1970-01-01";
+        }
+        if (endDate == null || endDate.equals("")) {
+            endDate = "3000-01-01";
+        }
+        
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT Doctor.user_id,Doctor.specialization,User.first_name,User.last_name,User.email, COUNT(DISTINCT VisitationRecord.patient_user_id) AS number_of_patients_seen FROM Doctor,User,VisitationRecord WHERE Doctor.user_id = User.user_id AND VisitationRecord.doctor_user_id = User.user_id AND VisitationRecord.visit_date >= ? AND VisitationRecord.visit_date <= ? GROUP BY Doctor.user_id) AS q1"
+                                                  + " WHERE user_id LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR specialization LIKE ?");
+        ps.setString(1, startDate);
+        ps.setString(2, endDate);
+        ps.setString(3, "%"+id+"%");
+        ps.setString(4, "%"+id+"%");
+        ps.setString(5, "%"+id+"%");
+        ps.setString(6, "%"+id+"%");
+        ps.setString(7, "%"+id+"%");
+        
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Doctor> ret = new ArrayList<Doctor>();
+        while(rs.next()) {
+            ret.add(new Doctor(rs, true));
+        }
+        
+        return ret;
+    }
 }

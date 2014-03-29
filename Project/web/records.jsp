@@ -10,10 +10,13 @@
 <%@page import="servlets.QueryServlet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<jsp:useBean id="user" class="models.User" scope="session"/>
+<% if (user == null || user.getType() == null || !(user.getType().equals("staff") || user.getType().equals("doctor") || user.getType().equals("patient"))) {
+    response.sendRedirect("home.jsp");
+} else { %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:useBean id="user" class="models.User" scope="session"/>
         <link href="bootstrap-3.1.1-dist/css/bootstrap.min.css" rel="stylesheet" media="screen">
         <link rel="icon" href="resources/favicon.ico"/>
         <title>Visitation Records</title>
@@ -48,7 +51,7 @@
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Patients</a>
                         </li>
                         <li class="active">
-                            <a> / <%= puserid %></a>
+                            <a style="text-transform:capitalize;"><%= puserid %></a>
                         </li>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.STAFF_QUERY %>&doctor_id=<%= user.getId()%>">Staff Members</a>
@@ -64,7 +67,7 @@
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
                         <li class="active">
-                            <a> / <%= puserid %></a>
+                            <a style="text-transform:capitalize;"><%= puserid %></a>
                         </li>
                     <% } %>
                 </ul>
@@ -206,7 +209,7 @@
             
             <h2>Visitation Record</h2>
             <% if (recordlist != null) { %>
-            <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<%= user.getId() %><% } else if (user.getType().equals("staff")) { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<%= user.getId() %><% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_PATIENT %><% } %>&patient_id=<%= puserid %>">
+                <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<%= user.getId() %><% } else if (user.getType().equals("staff")) { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<%= user.getId() %><% } else { %><%= QueryServlet.RECORDS_SEARCH_AS_PATIENT %><% } %>&patient_id=<%= puserid %>">
                     <div class="form-group">
                         <input class="form-control" placeholder="Records Search" type='text' name='record_query'/></br>
                     </div>
@@ -255,3 +258,4 @@
         </div>
     </body>
 </html>
+<% } %>

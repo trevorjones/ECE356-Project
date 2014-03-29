@@ -65,7 +65,7 @@ public class LoginServlet extends HttpServlet {
                 } else {
                     invalidUser(request, response);
                 }
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 throw new ServletException("DB Connection Problem");
             } finally {
