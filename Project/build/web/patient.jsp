@@ -92,11 +92,6 @@
                     <input class="form-control btn btn-default" type='submit' value='Submit Query'/>
                 </div>
             </form>
-            <% if (user.getType().equals("doctor")) { %>
-                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Show All</a>
-            <% } else { %>
-                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Show All</a>
-            <% } %>
             <table class="table table-striped">
                 <tr>
                     <th>User ID</th>
