@@ -73,6 +73,14 @@ public class Log {
                         + "Doctor ID: " + doctor.getId() + ", \n\t"
                         + "Staff ID: " + staff.getId() +  ", \n\t"
                         + "Permission: " + staff.getPermission() + "\r\n\n";
+            } else if (this.Event instanceof Doctor && this.Event2 instanceof Patient) {
+                Doctor doctor = (Doctor) this.Event;
+                Patient patient = (Patient) this.Event2;
+                
+                s += "Doctor-Patient Permission, \n\t"
+                        + "Doctor Id: " + doctor.getId() + ", \n\t"
+                        + "Patient Id: " + patient.getId() + ", \n\t"
+                        + "Default Doctor: " + patient.getPermission() + "\r\n\n";    
             }
             
             output.write(s);
@@ -95,7 +103,7 @@ public class Log {
 
             String s = timestamp + ": \n\tDELETE ";
 
-            if (this.Event instanceof Appointment) {
+            if (this.Event instanceof Appointment && this.Event2 == null) {
                 Appointment appt = (Appointment) this.Event;
                 
                 s += "Appointment, \n\t"
@@ -105,6 +113,13 @@ public class Log {
                         + "Appointment Start: " + appt.getApptStart() + ", \n\t"
                         + "Appointment End: " + appt.getApptEnd() + ", \n\t"
                         + "Procedure: " + appt.getProc() + "\r\n\n";
+            }  else if (this.Event instanceof Doctor && this.Event2 instanceof Patient) {
+                Doctor doctor = (Doctor) this.Event;
+                Patient patient = (Patient) this.Event2;
+                
+                s += "Doctor-Patient Permission, \n\t"
+                        + "Doctor Id: " + doctor.getId() + ", \n\t"
+                        + "Patient Id: " + patient.getId() + "\r\n\n";    
             }
 
             output.write(s);
@@ -153,7 +168,7 @@ public class Log {
                 Patient p = (Patient) this.Event;
                 Doctor d = (Doctor) this.Event2;
                 
-                s += "Patient-Doctor, \n\t"
+                s += "Default Doctor, \n\t"
                         + "Patient ID: " + p.getId() + ", \n\t" 
                         + "Default Doctor: " + d.getId() + "\r\n\n";
             } else if (this.Event instanceof Doctor && this.Event2 instanceof Staff) {
@@ -164,6 +179,15 @@ public class Log {
                         + "Doctor ID: " + doctor.getId() + ", \n\t"
                         + "Staff ID: " + staff.getId() + ", \n\t"
                         + "Permission: " + staff.getPermission() + "\r\n\n";                
+            } else if (this.Event instanceof Doctor && this.Event2 == null) {
+                Doctor doctor = (Doctor) this.Event;
+                
+                s += "Doctor,\n\t" 
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "First Name: " + doctor.getFirstName() + ", \n\t"
+                        + "Last Name: " + doctor.getLastName() + ", \n\t"
+                        + "E-mail: " + doctor.getEmail() + ", \n\t" 
+                        + "Specialization: " + doctor.getSpecialization() + "\r\n\n";     
             }
 
             output.write(s);

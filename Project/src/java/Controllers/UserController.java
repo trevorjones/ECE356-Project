@@ -29,10 +29,6 @@ public class UserController {
         ps.execute();
         ps.close();
         
-        //For logging
-        User usr = new User(user_id, first_name, last_name, type, email);
-        Log log = new Log(usr);
-        log.Create();
         // Create the associated type
         if (type.equals("patient")) {
             PatientController.create(con, user_id, "", "", "", "", 0);
@@ -41,6 +37,11 @@ public class UserController {
         } else {
             
         }
+        
+        //For logging
+        User usr = new User(user_id, first_name, last_name, type, email);
+        Log log = new Log(usr);
+        log.Create();        
     }
     
     public static void update(Connection con, String user_id, String first_name, String last_name, String email) throws SQLException {

@@ -22,6 +22,8 @@ public class AppointmentController {
     public static void create(Connection con, Appointment appt) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
+        
+        //For logging
         Log log = new Log(appt);
         try {
             pstmt = con.prepareStatement("INSERT INTO Appointment VALUES(?, ?, ?, ?, ?, ?)");
@@ -66,7 +68,7 @@ public class AppointmentController {
         ArrayList ret = null;
 
         try {
-            //FOR LOGGING
+            //For logging
             pstmt = con.prepareStatement("SELECT * FROM Appointment "
                     + "WHERE start_date = ?AND doctor_user_id=?AND patient_user_id=?");
 

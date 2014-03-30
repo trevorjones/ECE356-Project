@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import models.Doctor;
+import models.Log;
 
 /**
  *
@@ -37,6 +38,18 @@ public class DoctorController {
         ps.setString(5, user_id);
         ps.execute();
         ps.close();
+        
+        //Logging
+        Doctor d = new Doctor();
+        
+        d.setId(user_id);
+        d.setFirstName(first_name);
+        d.setLastName(last_name);
+        d.setEmail(email);
+        d.setSpecialization(specialization);
+        
+        Log log = new Log(d);
+        log.Update();
     }
     
     public static ArrayList<Doctor> getAll(Connection con) throws ClassNotFoundException, SQLException {

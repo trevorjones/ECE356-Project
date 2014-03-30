@@ -27,6 +27,17 @@ public class DoctorPatientController {
         ps.setInt(3, assigned_doctor ? 1 : 0);
         ps.execute();
         ps.close();
+        
+        //Logging
+        Doctor d = new Doctor();
+        Patient p = new Patient();
+        
+        d.setId(doctor_id);
+        p.setId(patient_id);
+        p.setPermission(assigned_doctor);
+        
+        Log log = new Log(d,p);
+        log.Create();
     }
 
     public static void delete(Connection con, String doctor_id, String patient_id) throws SQLException {
@@ -35,6 +46,16 @@ public class DoctorPatientController {
         ps.setString(2, patient_id);
         ps.execute();
         ps.close();
+        
+        //Logging
+        Doctor d = new Doctor();
+        Patient p = new Patient();
+        
+        d.setId(doctor_id);
+        p.setId(patient_id);
+        
+        Log log = new Log(d,p);
+        log.Delete();        
     }
 
     public static void changeDoctors(Connection con, String doctor_id_old, String doctor_id_new, String patient_id, boolean new_default_doctor) throws SQLException {
