@@ -47,7 +47,7 @@ public class DoctorStaffController {
         ps.setString(3, staff_id);
         ps.execute();
         ps.close();
-        
+
         //Logging
         Doctor d = new Doctor();
         Staff s = new Staff();
@@ -65,14 +65,14 @@ public class DoctorStaffController {
         ps.setString(2, staff_id);
         ps.execute();
         ps.close();
-        
-         //Logging
+           
+        //Logging
         Doctor d = new Doctor();
         Staff s = new Staff();
         d.setId(doctor_id);
         s.setId(staff_id);
         Log log = new Log(d, s);
-        log.Delete();       
+        log.Delete();   
     }
     
     public static void deleteAllFromDoctor(Connection con, String doctor_id) throws SQLException {
