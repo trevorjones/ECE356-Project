@@ -22,7 +22,7 @@
         <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
-                    <li class="active">
+                    <li>
                         <a href="home.jsp">Home</a>
                     </li>
                     <% if (user.getType().equals("financial officer")) { %>
@@ -52,7 +52,7 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Patients</a>
                         </li>
-                        <li>
+                        <li class="active">
                             <a href="register.jsp">Register a New User</a>
                         </li>
                     <% } else if (user.getType().equals("patient")) { %>

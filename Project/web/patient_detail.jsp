@@ -25,7 +25,7 @@
     <% String curDoc = (String) request.getAttribute("curDocID");%>
     <% ArrayList<Doctor> doctors = (ArrayList<Doctor>) request.getAttribute("doctors");%>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -33,10 +33,10 @@
                     </li>
                     <% if (user.getType().equals("financial officer")) { %>
                         <li>
-                            <a href="doctorList.jsp">Doctor List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_BY_FO %>">Doctors</a>
                         </li>
                         <li>
-                            <a href="patientList.jsp">Patient List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patients</a>
                         </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>
@@ -60,6 +60,16 @@
                         </li>
                         <li class="active">
                             <a style="text-transform:capitalize;"><%= p.getId()%></a>
+                        </li>
+                        <li>
+                            <a href="register.jsp">Register a New User</a>
+                        </li>
+                    <% } else if (user.getType().equals("patient")) { %>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_AS_PATIENT %>&patient_id=<%= user.getId()%>">Visitation Records</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_PATIENT %>&patient_id=<%= user.getId()%>">Appointments</a>
                         </li>
                     <% } %>
                 </ul>

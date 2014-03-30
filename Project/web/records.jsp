@@ -69,6 +69,13 @@
                         <li class="active">
                             <a style="text-transform:capitalize;"><%= puserid %></a>
                         </li>
+                    <% } else if (user.getType().equals("patient")) { %>
+                        <li class="active">
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_AS_PATIENT %>&patient_id=<%= user.getId()%>">Visitation Records</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_PATIENT %>&patient_id=<%= user.getId()%>">Appointments</a>
+                        </li>
                     <% } %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
