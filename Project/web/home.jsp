@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : home
     Created on : 23-Mar-2014, 6:07:53 PM
     Author     : william
@@ -74,7 +74,7 @@
         </nav>
 
         <div class="container" style="padding-top:40px;">
-            <h2><span style="text-transform:capitalize;"><%= user.getType()%> <%= user.getFirstName() %> <%= user.getLastName() %></span>'s Profile Information</h2>
+            <h2><span style="text-transform:capitalize;"><%= user.getType()%> <%= user.getFirstName() %> <%= user.getLastName() %></span>'s Profile</h2>
             <table class="table">
                 <tr>
                    <th>User ID</th>
