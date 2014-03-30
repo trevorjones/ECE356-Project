@@ -37,6 +37,9 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patients</a>
                         </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_ALL %>">Visitation Records</a>
+                        </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= user.getId()%>">Schedule</a>
@@ -89,11 +92,6 @@
                     <input class="form-control btn btn-default" type='submit' value='Submit Query'/>
                 </div>
             </form>
-            <% if (user.getType().equals("doctor")) { %>
-                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_DOCTOR %>&doctor_id=<%= user.getId()%>">Show All</a>
-            <% } else { %>
-                <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_STAFF %>&staff_id=<%= user.getId()%>">Show All</a>
-            <% } %>
             <table class="table table-striped">
                 <tr>
                     <th>User ID</th>

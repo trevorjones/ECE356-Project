@@ -45,6 +45,9 @@
                         <li>
                             <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patients</a>
                         </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_ALL %>">Visitation Records</a>
+                        </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li class="active">
                             <a href="QueryServlet?query=<%= QueryServlet.APPOINTMENTS_FOR_DOCTOR %>&doctor_id=<%= user.getId()%>">Schedule</a>

@@ -9,6 +9,8 @@ package Controllers;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import models.User;
+import models.Log;
 
 /**
  *
@@ -27,6 +29,10 @@ public class UserController {
         ps.execute();
         ps.close();
         
+        //For logging
+        User usr = new User(user_id, first_name, last_name, type, email);
+        Log log = new Log(usr);
+        log.Create();
         // Create the associated type
         if (type.equals("patient")) {
             PatientController.create(con, user_id, "", "", "", "", 0);

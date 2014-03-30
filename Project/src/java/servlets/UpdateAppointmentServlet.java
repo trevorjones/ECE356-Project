@@ -66,7 +66,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
             }
-        } else if (request.getParameter("submit").equals("Delete_Appt")) {
+        } else if (request.getParameter("submit").equals("Remove")) {
             try {
                 String[] delAppt;
                 delAppt = request.getParameterValues("delAppt");

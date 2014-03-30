@@ -59,6 +59,8 @@ public class QueryServlet extends HttpServlet {
     public static final String RECORDS_SEARCH_AS_DOCTOR = "records_search_as_doctor";
     public static final String RECORDS_SEARCH_AS_PATIENT = "records_search_as_patient";
     public static final String RECORDS_AS_PATIENT = "records_as_patient";
+    public static final String RECORDS_ALL = "records_all";
+    public static final String RECORDS_SEARCH_ALL = "records_search_all";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -175,12 +177,16 @@ public class QueryServlet extends HttpServlet {
                 url = "/records.jsp";
             } else if(query.equals(RECORDS_SEARCH_AS_STAFF)) {
                 String patient_id = request.getParameter("patient_id");
-                ArrayList ret = VisitationRecordController.queryAsStaff(con, patient_id, request.getParameter("staff_id"), request.getParameter("record_query"));
+                String start_date = request.getParameter("start_date");
+                String end_date = request.getParameter("end_date");
+                ArrayList ret = VisitationRecordController.queryAsStaff(con, patient_id, request.getParameter("staff_id"), request.getParameter("record_query"), start_date, end_date);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
             } else if(query.equals(RECORDS_SEARCH_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
-                ArrayList ret = VisitationRecordController.queryAsDoctor(con, request.getParameter("record_query"), patient_id, request.getParameter("doctor_id"));
+                String start_date = request.getParameter("start_date");
+                String end_date = request.getParameter("end_date");
+                ArrayList ret = VisitationRecordController.queryAsDoctor(con, request.getParameter("record_query"), patient_id, request.getParameter("doctor_id"), start_date, end_date);
                 buildRecordDoctorResponse(request, con, patient_id);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
@@ -191,8 +197,20 @@ public class QueryServlet extends HttpServlet {
                 url = "/records.jsp";
             } else if(query.equals(RECORDS_SEARCH_AS_PATIENT)) {
                 String patient_id = request.getParameter("patient_id");
-                ArrayList ret = VisitationRecordController.queryAsPatient(con, request.getParameter("record_query"), patient_id);
+                String start_date = request.getParameter("start_date");
+                String end_date = request.getParameter("end_date");
+                ArrayList ret = VisitationRecordController.queryAsPatient(con, request.getParameter("record_query"), patient_id, start_date, end_date);
                 buildRecordsResponse(request, con, ret, patient_id);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_ALL)) {
+                ArrayList ret = VisitationRecordController.getAll(con);
+                request.setAttribute("visitation_record_list", ret);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_SEARCH_ALL)) {
+                String start_date = request.getParameter("start_date");
+                String end_date = request.getParameter("end_date");
+                ArrayList ret = VisitationRecordController.queryAll(con, request.getParameter("record_query"), start_date, end_date);
+                request.setAttribute("visitation_record_list", ret);
                 url = "/records.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);

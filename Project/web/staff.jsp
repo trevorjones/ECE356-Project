@@ -33,10 +33,13 @@
                     </li>
                     <% if (user.getType().equals("financial officer")) { %>
                         <li>
-                            <a href="doctorList.jsp">Doctor List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.DOCTORS_BY_FO %>">Doctors</a>
                         </li>
                         <li>
-                            <a href="patientList.jsp">Patient List</a>
+                            <a href="QueryServlet?query=<%= QueryServlet.PATIENTS_BY_FO %>">Patients</a>
+                        </li>
+                        <li>
+                            <a href="QueryServlet?query=<%= QueryServlet.RECORDS_ALL %>">Visitation Records</a>
                         </li>
                     <% } else if (user.getType().equals("doctor")) { %>
                         <li>
