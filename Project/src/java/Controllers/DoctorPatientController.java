@@ -38,7 +38,7 @@ public class DoctorPatientController {
     }
     
     public static void changeDoctors(Connection con, String doctor_id_old, String doctor_id_new, String patient_id, boolean new_default_doctor) throws SQLException {
-        if (doctor_id_old.length() != 0) {
+        if (!doctor_id_old.equals("null")) {
             delete(con, doctor_id_old, patient_id);
         }
         if (!doctor_id_new.equals("none")) {
