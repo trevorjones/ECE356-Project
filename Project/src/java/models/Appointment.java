@@ -24,7 +24,7 @@ public class Appointment {
     public Appointment(String patient_id, String doctor_id, Date start, Date end,
             String status, String proc) {
         
-        java.text.SimpleDateFormat date = new java.text.SimpleDateFormat("yyy-MM-dd");
+        java.text.SimpleDateFormat date = new java.text.SimpleDateFormat("yyyy-MM-dd");
         java.text.SimpleDateFormat time = new java.text.SimpleDateFormat("HH:mm:ss");
         
         String appt_date = date.format(start);

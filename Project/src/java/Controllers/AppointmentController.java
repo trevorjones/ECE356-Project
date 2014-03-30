@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controllers;
 
 import java.sql.Connection;
@@ -19,7 +18,7 @@ import models.Log;
  * @author william
  */
 public class AppointmentController {
-    
+
     public static void create(Connection con, Appointment appt) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
@@ -39,13 +38,13 @@ public class AppointmentController {
                 pstmt.close();
             }
         }
-        
+
     }
-    
+
     public static void create(Connection con, String patient_id, String doctor_id, String app_start, String app_end, String status, String proc) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
-        
+
         try {
             pstmt = con.prepareStatement("INSERT INTO Appointment VALUES(?, ?, ?, ?, ?, ?)");
             pstmt.setString(1, patient_id);
@@ -61,18 +60,41 @@ public class AppointmentController {
             }
         }
     }
-    
+
     public static void delete(Connection con, String doctor_id, String patient_id, String start_date) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList ret = null;
-        
+
         try {
-            pstmt = con.prepareStatement("DELETE FROM Appointment "
-                    + "WHERE start_date = ?, doctor_user_id=?, patient_user_id=?");
+            //FOR LOGGING
+            pstmt = con.prepareStatement("SELECT * FROM Appointment "
+                    + "WHERE start_date = ?AND doctor_user_id=?AND patient_user_id=?");
+
             pstmt.setString(1, start_date);
             pstmt.setString(2, doctor_id);
             pstmt.setString(3, patient_id);
- 
+            
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+            
+            resultSet.next();
+            Appointment a = new Appointment(
+                    resultSet.getString("Appointment.patient_user_id"),
+                    resultSet.getString("Appointment.doctor_user_id"),
+                    resultSet.getTimestamp("Appointment.start_date"),
+                    resultSet.getTimestamp("Appointment.end_date"),
+                    resultSet.getString("Appointment.status"),
+                    resultSet.getString("Appointment.proc"));
+            Log log = new Log(a);
+            log.Delete();
+            
+            //Perform delete
+            pstmt = con.prepareStatement("DELETE FROM Appointment "
+                    + "WHERE start_date = ? AND doctor_user_id=? AND patient_user_id=?");
+            pstmt.setString(1, start_date);
+            pstmt.setString(2, doctor_id);
+            pstmt.setString(3, patient_id);
+
             pstmt.executeUpdate();
         } finally {
             if (pstmt != null) {
@@ -80,7 +102,7 @@ public class AppointmentController {
             }
         }
     }
-    
+
     public static ArrayList<Appointment> queryDoctorAppt(Connection con, String doctor_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
@@ -114,7 +136,7 @@ public class AppointmentController {
             }
         }
     }
-    
+
     public static ArrayList<Appointment> queryPatientAppt(Connection con, String patient_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
@@ -148,7 +170,7 @@ public class AppointmentController {
             }
         }
     }
-    
+
     public static int sanityCheck(Connection con, String doctor_id, String datetime_start, String datetime_end) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
 
@@ -171,13 +193,13 @@ public class AppointmentController {
 
             ResultSet resultSet;
             resultSet = pstmt.executeQuery();
-            
+
             resultSet.next();
             return resultSet.getInt(1);
         } finally {
             if (pstmt != null) {
                 pstmt.close();
             }
-        }  
-    } 
+        }
+    }
 }
