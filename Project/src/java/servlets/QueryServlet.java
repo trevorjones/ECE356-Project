@@ -59,6 +59,8 @@ public class QueryServlet extends HttpServlet {
     public static final String RECORDS_SEARCH_AS_DOCTOR = "records_search_as_doctor";
     public static final String RECORDS_SEARCH_AS_PATIENT = "records_search_as_patient";
     public static final String RECORDS_AS_PATIENT = "records_as_patient";
+    public static final String RECORDS_ALL = "records_all";
+    public static final String RECORDS_SEARCH_ALL = "records_search_all";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -193,6 +195,14 @@ public class QueryServlet extends HttpServlet {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.queryAsPatient(con, request.getParameter("record_query"), patient_id);
                 buildRecordsResponse(request, con, ret, patient_id);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_ALL)) {
+                ArrayList ret = VisitationRecordController.getAll(con);
+                request.setAttribute("visitation_record_list", ret);
+                url = "/records.jsp";
+            } else if(query.equals(RECORDS_SEARCH_ALL)) {
+                ArrayList ret = VisitationRecordController.queryAll(con, request.getParameter("record_query"));
+                request.setAttribute("visitation_record_list", ret);
                 url = "/records.jsp";
             } else {
                 throw new RuntimeException("Invalid query: " + query);
