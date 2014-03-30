@@ -63,7 +63,7 @@ public class DoctorPatientController {
 
         try {
             //Build SQL Query
-            String query = "SELECT * FROM (SELECT DISTINCT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Doctor_Patient,Patient WHERE User.user_id = Doctor_Patient.patient_user_id AND User.user_id = Patient.user_id AND Doctor_Patient.doctor_user_id = ?) AS q3 LEFT OUTER JOIN (SELECT * FROM Doctor_Patient WHERE Doctor_Patient.default_doctor = 1) AS q4 on q3.user_id = q4.patient_user_id";
+            String query = "SELECT DISTINCT User.user_id,User.first_name,User.last_name,User.email,Patient.address,Patient.current_health,Patient.ohip,Patient.phone,Patient.sin FROM User,Doctor_Patient,Patient WHERE User.user_id = Doctor_Patient.patient_user_id AND User.user_id = Patient.user_id AND Doctor_Patient.doctor_user_id = ? AND Doctor_Patient.default_doctor = 1";
             
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, doctor_id);
@@ -73,7 +73,7 @@ public class DoctorPatientController {
 
             ret = new ArrayList<Patient>();
             while (resultSet.next()) {
-                ret.add(new Patient(resultSet, false));
+                ret.add(new Patient(resultSet));
             }
             return ret;
         } finally {
