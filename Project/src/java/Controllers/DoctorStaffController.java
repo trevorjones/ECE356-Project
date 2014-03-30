@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import models.Doctor;
 import models.Staff;
+import models.Log;
 
 /**
  *
@@ -27,6 +28,16 @@ public class DoctorStaffController {
         ps.setInt(3, permission ? 1 : 0);
         ps.execute();
         ps.close();
+        
+        //Logging
+        Doctor d = new Doctor();
+        Staff s = new Staff();
+        
+        d.setId(doctor_id);
+        s.setId(staff_id);
+        s.setPermission(permission);
+        Log log = new Log(d, s);
+        log.Create();
     }
     
     public static void update(Connection con, String doctor_id, String staff_id, boolean permission) throws SQLException {
@@ -36,6 +47,16 @@ public class DoctorStaffController {
         ps.setString(3, staff_id);
         ps.execute();
         ps.close();
+        
+        //Logging
+        Doctor d = new Doctor();
+        Staff s = new Staff();
+        
+        d.setId(doctor_id);
+        s.setId(staff_id);
+        s.setPermission(permission);
+        Log log = new Log(d, s);
+        log.Update();
     }
     
     public static void delete(Connection con, String doctor_id, String staff_id) throws SQLException {
@@ -44,6 +65,14 @@ public class DoctorStaffController {
         ps.setString(2, staff_id);
         ps.execute();
         ps.close();
+        
+         //Logging
+        Doctor d = new Doctor();
+        Staff s = new Staff();
+        d.setId(doctor_id);
+        s.setId(staff_id);
+        Log log = new Log(d, s);
+        log.Delete();       
     }
     
     public static void deleteAllFromDoctor(Connection con, String doctor_id) throws SQLException {
