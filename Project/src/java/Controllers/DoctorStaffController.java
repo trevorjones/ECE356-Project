@@ -69,6 +69,7 @@ public class DoctorStaffController {
         //Logging
         Doctor d = new Doctor();
         Staff s = new Staff();
+        
         d.setId(doctor_id);
         s.setId(staff_id);
         Log log = new Log(d, s);
