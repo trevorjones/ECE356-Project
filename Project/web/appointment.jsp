@@ -162,7 +162,7 @@
                     <table class="table table-striped">
                         <tr>
                             <% if (user.getType().equals("staff")) { %>
-                                <th><input type="checkbox" name="delAllAppt"/></th>
+                                <th><!--<input type="checkbox" name="delAllAppt"/>--></th>
                             <% } %>
                             <th>Patient</th>
                             <th>Doctor</th>
