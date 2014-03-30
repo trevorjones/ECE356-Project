@@ -219,9 +219,19 @@
             
             <h2>Visitation Record</h2>
             <% if (recordlist != null) { %>
-            <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<%= user.getId() %><% } else if (user.getType().equals("staff")) { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<%= user.getId() %><% } else if (user.getType().equals("patient")) { %><%= QueryServlet.RECORDS_SEARCH_AS_PATIENT %><% } else { %><%= QueryServlet.RECORDS_SEARCH_ALL %><% } %>&patient_id=<%= puserid %>">
+                <small>Search for any record field and between an (optional) start and end date</small>
+                <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<% if (user.getType().equals("doctor")) { %><%= QueryServlet.RECORDS_SEARCH_AS_DOCTOR %>&doctor_id=<%= user.getId() %><% } else if (user.getType().equals("staff")) { %><%= QueryServlet.RECORDS_SEARCH_AS_STAFF %>&staff_id=<%= user.getId() %><% } else if (user.getType().equals("patient")) { %><%= QueryServlet.RECORDS_SEARCH_AS_PATIENT %><% } else { %><%= QueryServlet.RECORDS_SEARCH_ALL %><% } %>&patient_id=<%= puserid %>">
                     <div class="form-group">
+                        <label class="col-sm-2 control-label" style="width:80px; padding-top:5px;">Doctor: </label>
                         <input class="form-control" placeholder="Records Search" type='text' name='record_query'/></br>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="width:110px; padding-top:5px;">Start Date: </label>
+                        <input type='date' name='start_date'/></br>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" style="width:100px; padding-top:5px;">End Date: </label>
+                        <input type='date' name='end_date'/></br>
                     </div>
                     <div class="form-group">
                         <input class="form-control btn btn-default" type='submit' value='Submit Query'/>

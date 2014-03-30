@@ -59,9 +59,16 @@ public class VisitationRecordController {
         return ret;
     }
     
-    public static ArrayList<VisitationRecord> queryAll(Connection con, String query) throws SQLException {
+    public static ArrayList<VisitationRecord> queryAll(Connection con, String query, String startDate, String endDate) throws SQLException {
+        if (startDate == null || startDate.equals("")) {
+            startDate = "1970-01-01";
+        }
+        if (endDate == null || endDate.equals("")) {
+            endDate = "3000-01-01";
+        }
+        
         PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM VisitationRecord ORDER BY updated_at DESC) AS q8"
-                                                + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) GROUP BY patient_user_id,doctor_user_id,visit_date ORDER BY visit_date DESC");
+                                                + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) AND visit_date >= ? AND visit_date <= ? GROUP BY patient_user_id,doctor_user_id,visit_date ORDER BY visit_date DESC");
         ps.setString(1, "%"+query+"%");
         ps.setString(2, "%"+query+"%");
         ps.setString(3, "%"+query+"%");
@@ -72,6 +79,8 @@ public class VisitationRecordController {
         ps.setString(8, "%"+query+"%");
         ps.setString(9, "%"+query+"%");
         ps.setString(10, "%"+query+"%");
+        ps.setString(11, startDate);
+        ps.setString(12, endDate);
         
         ResultSet rs = ps.executeQuery();
         ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
@@ -96,9 +105,16 @@ public class VisitationRecordController {
         return ret;
     }
     
-    public static ArrayList<VisitationRecord> queryAsDoctor(Connection con, String query, String patient_id, String doctor_id) throws SQLException {
+    public static ArrayList<VisitationRecord> queryAsDoctor(Connection con, String query, String patient_id, String doctor_id, String startDate, String endDate) throws SQLException {
+        if (startDate == null || startDate.equals("")) {
+            startDate = "1970-01-01";
+        }
+        if (endDate == null || endDate.equals("")) {
+            endDate = "3000-01-01";
+        }
+        
         PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM (SELECT VisitationRecord.patient_user_id,VisitationRecord.doctor_user_id,VisitationRecord.visit_date,VisitationRecord.updated_at,VisitationRecord.length_of_visit,VisitationRecord.proc,VisitationRecord.scheduling_of_treatment,VisitationRecord.freeform_comments,VisitationRecord.surgery_performed,VisitationRecord.diagnosis,VisitationRecord.prescription_name FROM VisitationRecord,Doctor_Patient WHERE VisitationRecord.patient_user_id = ? AND VisitationRecord.patient_user_id = Doctor_Patient.patient_user_id AND Doctor_Patient.doctor_user_id = ? ORDER BY updated_at DESC) AS q1 GROUP BY q1.patient_user_id,doctor_user_id,visit_date) AS q6"
-                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) ORDER BY visit_date DESC");
+                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) AND visit_date >= ? AND visit_date <= ? ORDER BY visit_date DESC");
         ps.setString(1, patient_id);
         ps.setString(2, doctor_id);
         ps.setString(3, "%"+query+"%");
@@ -111,6 +127,8 @@ public class VisitationRecordController {
         ps.setString(10, "%"+query+"%");
         ps.setString(11, "%"+query+"%");
         ps.setString(12, "%"+query+"%");
+        ps.setString(13, startDate);
+        ps.setString(14, endDate);
         
         ResultSet rs = ps.executeQuery();
         ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
@@ -121,9 +139,16 @@ public class VisitationRecordController {
         return ret;
     }
     
-    public static ArrayList<VisitationRecord> queryAsStaff(Connection con, String patient_id, String staff_id, String query) throws SQLException {
+    public static ArrayList<VisitationRecord> queryAsStaff(Connection con, String patient_id, String staff_id, String query, String startDate, String endDate) throws SQLException {
+        if (startDate == null || startDate.equals("")) {
+            startDate = "1970-01-01";
+        }
+        if (endDate == null || endDate.equals("")) {
+            endDate = "3000-01-01";
+        }
+        
         PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM (SELECT VisitationRecord.patient_user_id,VisitationRecord.doctor_user_id,VisitationRecord.visit_date,VisitationRecord.updated_at,VisitationRecord.length_of_visit,VisitationRecord.proc,VisitationRecord.scheduling_of_treatment,VisitationRecord.freeform_comments,VisitationRecord.surgery_performed,VisitationRecord.diagnosis,VisitationRecord.prescription_name FROM VisitationRecord,Doctor_Staff WHERE patient_user_id = ? AND Doctor_Staff.doctor_user_id = VisitationRecord.doctor_user_id AND Doctor_Staff.staff_user_id = ? AND permission = 1  ORDER BY updated_at DESC) AS q8 GROUP BY patient_user_id,doctor_user_id,visit_date) as q10"
-                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?)  ORDER BY visit_date DESC");
+                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) AND visit_date >= ? AND visit_date <= ? ORDER BY visit_date DESC");
         ps.setString(1, patient_id);
         ps.setString(2, staff_id);
         ps.setString(3, "%"+query+"%");
@@ -136,6 +161,8 @@ public class VisitationRecordController {
         ps.setString(10, "%"+query+"%");
         ps.setString(11, "%"+query+"%");
         ps.setString(12, "%"+query+"%");
+        ps.setString(13, startDate);
+        ps.setString(14, endDate);
         
         ResultSet rs = ps.executeQuery();
         ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
@@ -160,9 +187,16 @@ public class VisitationRecordController {
         return ret;
     }
     
-    public static ArrayList<VisitationRecord> queryAsPatient(Connection con, String query, String patient_id) throws SQLException {
+    public static ArrayList<VisitationRecord> queryAsPatient(Connection con, String query, String patient_id, String startDate, String endDate) throws SQLException {
+        if (startDate == null || startDate.equals("")) {
+            startDate = "1970-01-01";
+        }
+        if (endDate == null || endDate.equals("")) {
+            endDate = "3000-01-01";
+        }
+        
         PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM (SELECT VisitationRecord.patient_user_id,VisitationRecord.doctor_user_id,VisitationRecord.visit_date,VisitationRecord.updated_at,VisitationRecord.length_of_visit,VisitationRecord.proc,VisitationRecord.scheduling_of_treatment,VisitationRecord.freeform_comments,VisitationRecord.surgery_performed,VisitationRecord.diagnosis,VisitationRecord.prescription_name FROM VisitationRecord WHERE VisitationRecord.patient_user_id = ? ORDER BY updated_at DESC) AS q1 GROUP BY q1.patient_user_id,doctor_user_id,visit_date) AS q6"
-                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) ORDER BY visit_date DESC");
+                                                  + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) AND visit_date >= ? AND visit_date <= ? ORDER BY visit_date DESC");
         ps.setString(1, patient_id);
         ps.setString(2, "%"+query+"%");
         ps.setString(3, "%"+query+"%");
@@ -174,6 +208,8 @@ public class VisitationRecordController {
         ps.setString(9, "%"+query+"%");
         ps.setString(10, "%"+query+"%");
         ps.setString(11, "%"+query+"%");
+        ps.setString(12, startDate);
+        ps.setString(13, endDate);
         
         ResultSet rs = ps.executeQuery();
         ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
