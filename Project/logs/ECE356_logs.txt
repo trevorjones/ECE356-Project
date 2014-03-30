@@ -1,0 +1,95 @@
+2014-03-29 18:40:38: 
+	CREATE Appointment, 
+	Patient: patient1, 
+	Doctor: doctor1, 
+	Appointment Start: 2007-12-31 01:00, 
+	Appointment End: 2007-12-31 02:00
+
+2014-03-29 19:44:38: 
+	CREATE Patient, 
+	Patient ID:slouli, 
+	Patient Address: Stephen, 
+	Patient Health: Louli, 
+	Patient OHIP: patient, 
+	Patient Phone: slouli10@gmail.com
+
+2014-03-29 21:13:19: 
+	DELETE Appointment, 
+	Patient: patient1, 
+	Doctor: doctor1, 
+	Appointment Start: 01:00:00, 
+	Appointment End: 02:00:00, 
+	Procedure: 
+
+2014-03-30 00:00:25: 
+	UPDATE Patient, 
+	Patient ID:patient1, 
+	First Name: patient, 
+	Last Name: 1, 
+	E-mail: patient1@gmail.com, 
+	Address: 661, 
+	Current Health: good, 
+	OHIP: 12345678, 
+	Phone: 6132567894
+	SIN: 123456789
+
+2014-03-30 01:18:53: 
+	UPDATE Patient, 
+	Patient ID:patient1, 
+	First Name: patient, 
+	Last Name: 1, 
+	E-mail: patient1@gmail.com, 
+	Address: 6616, 
+	Phone: 6132567894
+
+2014-03-30 02:16:40: 
+	DELETE Appointment, 
+	Patient: patient1, 
+	Doctor: doctor1, 
+	Appointment Date: 2021-01-01
+	Appointment Start: 00:00:00, 
+	Appointment End: 01:00:00, 
+	Procedure: 
+
+2014-03-30 02:35:09: 
+	UPDATE Patient, 
+	Patient ID:patient1, 
+	First Name: patient, 
+	Last Name: 1, 
+	E-mail: patient1@gmail.com, 
+	Address: 661, 
+	Current Health: good, 
+	OHIP: 12345678, 
+	Phone: 6132567894
+	SIN: 123456789
+
+2014-03-30 02:55:56: 
+	UPDATE Patient, 	
+	Patient ID: patient1
+	Default Doctor: doctor1
+
+2014-03-30 02:56:52: 
+	UPDATE Patient, 	
+	Patient ID: patient1
+	Default Doctor: doctor1
+
+2014-03-30 02:59:25: 
+	UPDATE Patient, 
+	Patient ID: patient1
+	Default Doctor: none
+
+2014-03-30 02:59:52: 
+	UPDATE Patient, 
+	Patient ID: patient1
+	Default Doctor: doctor1
+
+2014-03-30 13:04:20: 
+	UPDATE Patient-Doctor, 
+	Patient ID: patient1, 
+	Default Doctor: none
+
+2014-03-30 13:07:45: 
+	UPDATE Patient-Doctor, 
+	Patient ID: patient1, 
+	Default Doctor: doctor1
+
