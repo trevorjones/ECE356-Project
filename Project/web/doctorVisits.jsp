@@ -25,7 +25,7 @@
     <% doctorList = (ArrayList<Doctor>) request.getAttribute("doctorList");%>
     
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -80,7 +80,7 @@
                 </ul>
             </div>
         </nav>
-        <div class="container" style="padding-top:40px;">
+        <div class="container">
             <h2>Doctors</h2>
             <small>Search number of patients seen by a doctor between an (optional) start and end date</small>
             <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<%= QueryServlet.DOCTORS_SEARCH_BY_FO %>">

@@ -23,7 +23,7 @@
     <% ArrayList<String[]> patientList = (ArrayList<String[]>) request.getAttribute("patientList"); %>
     
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -78,7 +78,7 @@
                 </ul>
             </div>
         </nav>
-                <div class="container" style="padding-top:40px;">
+        <div class="container">
             <h2>Number of Visits per Patient</h2>
             <form class="form-inline" style="padding-bottom:15px;" role="form" method="post" action="QueryServlet?query=<%= QueryServlet.PATIENTS_SEARCH_BY_FO %>">
                 <div class="form-group">

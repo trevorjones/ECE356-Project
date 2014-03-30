@@ -21,7 +21,7 @@
         <link rel="icon" href="resources/favicon.ico"/>
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li class="active">
@@ -76,7 +76,7 @@
                 </ul>
             </div>
         </nav>
-        <div class="container" style="padding-top:40px;">
+        <div class="container">
           <h2>Edit Profile</h2>
           <form method="post" action="UpdateUser?user_id=<%= user.getId() %>&user_type=<%= user.getType() %>">
               <table class="table">

@@ -30,7 +30,7 @@
     <% ArrayList<Doctor> doctorsWithPermission = (ArrayList<Doctor>) request.getAttribute("doctors_with_permission"); %>
     
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -89,7 +89,7 @@
             </div>
         </nav>
         
-        <div class="container" style="padding-top:40px;">
+        <div class="container">
             <% if (isAssignedDoctor) { %>
                 <h2>Record a Visit</h2>
                 <% ArrayList<Prescription> prescriptionlist = (ArrayList<Prescription>) request.getAttribute("prescription_list"); %>

@@ -19,7 +19,7 @@
         <title>Register</title>
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -74,7 +74,7 @@
                 </ul>
             </div>
         </nav>
-        <div class="container" style="padding-top:40px;">
+        <div class="container">
             <form class="form-horizontal" method="post" action="RegisterServlet">
                 <h2 class="form-signin-heading" style="text-shadow: 1px 1px white;">Register</h2>
                 <div class="form-group">

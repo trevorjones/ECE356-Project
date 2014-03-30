@@ -24,7 +24,7 @@
     <% patientList = (ArrayList<Patient>) request.getAttribute("patientList");%>
     
     <body>
-                <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <nav class="navbar navbar-default" role="navigation">
             <div class="container">
                 <ul class="nav navbar-nav">
                     <li>
@@ -79,7 +79,7 @@
                 </ul>
             </div>
         </nav>
-        <div class="container" style="padding-top:40px;">
+        <div class="container">
             <%
                 if (patientList != null) {
             %>
