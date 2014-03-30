@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="form-group" style="width:250px;">
-                        <label for="prescription_name" class="col-sm-2 control-label" style="width:200px;">Prescription</label>
+                        <label id="prescription_name" class="col-sm-2 control-label" style="width:200px;">Prescription</label>
                         <div class="col-sm-10"> 
                             <select class="form-control" style="width:200px;" name="prescription_name">
                                 <option value="none" <% if (vr == null || vr.getPrescriptionName().equals("none")) { %>selected="selected"<% } %>>None</option>
@@ -166,7 +166,7 @@
                 
                 <% if (doctorsWithPermission.size() != 0) { %>
                     <h2>Doctors with Viewing Permissions for this Patient's Records</h2>
-                    <form method="post" action="UpdateDoctorPermission?patient_id=<%= puserid %>&doctor_id=<%= user.getId() %>">
+                    <form method="post" action="UpdateDoctorPermission?patient_id=<%= puserid %>&doctor_id=<%= user.getId() %>" >
                         <table class="table table-striped">
                             <tr><th></th><th>User ID</th><th>First Name</th><th>Last Name</th></tr>
                             <% for (Doctor d : doctorsWithPermission) { %>
@@ -179,14 +179,14 @@
                             <% } %>
                         </table>
                         <input class="form-control btn btn-danger" style="width:250px;" type='submit' name="submit" value='Remove Permission of Selected'/>
-                    </from>
+                    </form>
                 <% } %>
                 
                 <% if (doctorsWithoutPermission.size() != 0) { %>
                     <h2>Add Permission to Doctor</h2>
                     <form class="form-horizontal" method="post" action="UpdateDoctorPermission?patient_id=<%= puserid %>&doctor_id=<%= user.getId() %>" >
                         <div class="form-group">
-                            <label for="add_permission" class="col-sm-2 control-label" style="width:140px;">Add permission to</label>
+                            <label id="add_permission" class="col-sm-2 control-label" style="width:140px;">Add permission to</label>
                             <div class="col-sm-10">
                                 <select class="form-control" style="width:200px;" name="add_permission">
                                     <% for (Doctor d : doctorsWithoutPermission) { %>
