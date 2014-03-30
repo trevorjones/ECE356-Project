@@ -65,7 +65,16 @@ public class Log {
                         + "Last Name: " + user.getLastName() + ", \n\t"
                         + "User Type: " + user.getType() + ", \n\t"
                         + "E-mail: " + user.getEmail() + "\r\n\n";
+            } else if (this.Event instanceof Doctor && this.Event2 instanceof Staff) {
+                Doctor doctor = (Doctor) this.Event;
+                Staff staff = (Staff) this.Event2;
+                
+                s += "Doctor-Staff, \n\t"
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "Staff ID: " + staff.getId() +  ", \n\t"
+                        + "Permission: " + staff.getPermission() + "\r\n\n";
             }
+            
             output.write(s);
             output.close();
         } catch (IOException e) {
@@ -147,6 +156,14 @@ public class Log {
                 s += "Patient-Doctor, \n\t"
                         + "Patient ID: " + p.getId() + ", \n\t" 
                         + "Default Doctor: " + d.getId() + "\r\n\n";
+            } else if (this.Event instanceof Doctor && this.Event2 instanceof Staff) {
+                Doctor doctor = (Doctor) this.Event;
+                Staff staff = (Staff) this.Event2;
+
+                s += "Doctor-Staff, \n\t"
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "Staff ID: " + staff.getId() + ", \n\t"
+                        + "Permission: " + staff.getPermission() + "\r\n\n";                
             }
 
             output.write(s);
