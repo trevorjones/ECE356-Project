@@ -47,6 +47,41 @@ public class VisitationRecordController {
         return new VisitationRecord(rs);
     }
     
+    public static ArrayList<VisitationRecord> getAll(Connection con) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM VisitationRecord ORDER BY updated_at DESC) AS q8 GROUP BY patient_user_id,doctor_user_id,visit_date ORDER BY visit_date DESC");
+        
+        ResultSet rs = ps.executeQuery();
+        ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
+        while (rs.next()) {
+            ret.add(new VisitationRecord(rs));
+        }
+        ps.close();
+        return ret;
+    }
+    
+    public static ArrayList<VisitationRecord> queryAll(Connection con, String query) throws SQLException {
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT * FROM VisitationRecord ORDER BY updated_at DESC) AS q8"
+                                                + " WHERE (patient_user_id LIKE ? OR doctor_user_id LIKE ? OR visit_date LIKE ? OR length_of_visit LIKE ? OR proc LIKE ? OR scheduling_of_treatment LIKE ? OR freeform_comments LIKE ? OR surgery_performed LIKE ? OR diagnosis LIKE ? OR prescription_name LIKE ?) GROUP BY patient_user_id,doctor_user_id,visit_date ORDER BY visit_date DESC");
+        ps.setString(1, "%"+query+"%");
+        ps.setString(2, "%"+query+"%");
+        ps.setString(3, "%"+query+"%");
+        ps.setString(4, "%"+query+"%");
+        ps.setString(5, "%"+query+"%");
+        ps.setString(6, "%"+query+"%");
+        ps.setString(7, "%"+query+"%");
+        ps.setString(8, "%"+query+"%");
+        ps.setString(9, "%"+query+"%");
+        ps.setString(10, "%"+query+"%");
+        
+        ResultSet rs = ps.executeQuery();
+        ArrayList<VisitationRecord> ret = new ArrayList<VisitationRecord>();
+        while (rs.next()) {
+            ret.add(new VisitationRecord(rs));
+        }
+        ps.close();
+        return ret;
+    }
+    
     public static ArrayList<VisitationRecord> getAllByPatientAsStaff(Connection con, String patient_id, String staff_id) throws SQLException {
         PreparedStatement ps = con.prepareStatement("SELECT * FROM (SELECT VisitationRecord.patient_user_id,VisitationRecord.doctor_user_id,VisitationRecord.visit_date,VisitationRecord.updated_at,VisitationRecord.length_of_visit,VisitationRecord.proc,VisitationRecord.scheduling_of_treatment,VisitationRecord.freeform_comments,VisitationRecord.surgery_performed,VisitationRecord.diagnosis,VisitationRecord.prescription_name FROM VisitationRecord,Doctor_Staff WHERE patient_user_id = ? AND Doctor_Staff.doctor_user_id = VisitationRecord.doctor_user_id AND Doctor_Staff.staff_user_id = ? AND permission = 1  ORDER BY updated_at DESC) AS q8 GROUP BY patient_user_id,doctor_user_id,visit_date ORDER BY visit_date DESC");
         ps.setString(1, patient_id);
