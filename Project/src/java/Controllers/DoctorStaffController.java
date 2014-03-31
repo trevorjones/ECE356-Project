@@ -77,6 +77,23 @@ public class DoctorStaffController {
     }
     
     public static void deleteAllFromDoctor(Connection con, String doctor_id) throws SQLException {
+        
+        //Logging for delete all
+        PreparedStatement pstmt = con.prepareStatement("SELECT FROM Doctor_Staff WHERE doctor_user_id=?");
+        pstmt.setString(1, doctor_id);
+       
+        ResultSet resultSet;
+        resultSet = pstmt.executeQuery();
+        while(resultSet.next()) {
+            Doctor doctor = new Doctor();
+            Staff staff = new Staff();
+            doctor.setId(resultSet.getString("doctor_user_id"));
+            staff.setId(resultSet.getString("staff_user_id"));
+            
+            Log log = new Log(doctor, staff);
+            log.Delete();
+        }
+        
         PreparedStatement ps = con.prepareStatement("DELETE FROM Doctor_Staff WHERE doctor_user_id=?");
         ps.setString(1, doctor_id);
         ps.execute();
