@@ -140,7 +140,76 @@ public class AppointmentController {
         }
     }
 
-    public static ArrayList<Appointment> queryPatientAppt(Connection con, String patient_id) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Appointment> queryDoctorAppt2(Connection con, String doctor_id) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+        ArrayList<Appointment> ret;
+
+        try {
+            //Build SQL Query
+            String query = "SELECT * FROM Appointment "
+                    + "WHERE doctor_user_id = ?";
+
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, doctor_id);
+            
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+
+            ret = new ArrayList<Appointment>();
+            while (resultSet.next()) {
+                Appointment a = new Appointment(
+                        resultSet.getString("Appointment.patient_user_id"),
+                        resultSet.getString("Appointment.doctor_user_id"),
+                        resultSet.getTimestamp("Appointment.start_date"),
+                        resultSet.getTimestamp("Appointment.end_date"),
+                        resultSet.getString("Appointment.status"),
+                        resultSet.getString("Appointment.proc"));
+                ret.add(a);
+            }
+            return ret;
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }
+    }    
+
+    public static ArrayList<Appointment> queryPatientAppt(Connection con, String patient_id, String date) throws ClassNotFoundException, SQLException {
+        PreparedStatement pstmt = null;
+        ArrayList<Appointment> ret;
+
+        try {
+            //Build SQL Query
+            String query = "SELECT * FROM Appointment "
+                    + "WHERE patient_user_id = ? AND start_date LIKE ?";
+
+            pstmt = con.prepareStatement(query);
+            pstmt.setString(1, patient_id);
+            pstmt.setString(2, date+"%");
+            
+            ResultSet resultSet;
+            resultSet = pstmt.executeQuery();
+
+            ret = new ArrayList<Appointment>();
+            while (resultSet.next()) {
+                Appointment a = new Appointment(
+                        resultSet.getString("Appointment.patient_user_id"),
+                        resultSet.getString("Appointment.doctor_user_id"),
+                        resultSet.getTimestamp("Appointment.start_date"),
+                        resultSet.getTimestamp("Appointment.end_date"),
+                        resultSet.getString("Appointment.status"),
+                        resultSet.getString("Appointment.proc"));
+                ret.add(a);
+            }
+            return ret;
+        } finally {
+            if (pstmt != null) {
+                pstmt.close();
+            }
+        }
+    }    
+    
+    public static ArrayList<Appointment> queryPatientAppt2(Connection con, String patient_id) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
 

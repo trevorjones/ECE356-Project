@@ -43,7 +43,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
 
         String url = "/appointment.jsp";
         if (request.getParameter("submit").equals("Add Appointment")) {
-            String patient_id = request.getParameter("patient_id");
+            String patient_id_post = request.getParameter("patient_id_post");
             String date = request.getParameter("date");
             String start_time = request.getParameter("start_time");
             String end_time = request.getParameter("end_time");
@@ -53,7 +53,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
             String start_datetime = date + " " + start_time;
             String end_datetime = date + " " + end_time;
 
-            Appointment appt = new Appointment(patient_id, doctor_id, start_datetime, end_datetime, status, procedure);
+            Appointment appt = new Appointment(patient_id_post, doctor_id, start_datetime, end_datetime, status, procedure);
 
             try {
                 Integer conflicts = AppointmentController.sanityCheck(con, doctor_id, start_datetime, end_datetime);
@@ -75,9 +75,11 @@ public class UpdateAppointmentServlet extends HttpServlet {
             try {
                 String[] delAppt;
                 delAppt = request.getParameterValues("delAppt");
-                for (String appt : delAppt) {
-                    String[] res = appt.split("&");
-                    AppointmentController.delete(con, doctor_id, res[1], res[0]);
+                if(delAppt != null) {
+                    for (String appt : delAppt) {
+                        String[] res = appt.split("&");
+                        AppointmentController.delete(con, doctor_id, res[1], res[0]);
+                    }
                 }
                 apptHelper(con, request, response);
             } catch (Exception e) {
@@ -91,7 +93,12 @@ public class UpdateAppointmentServlet extends HttpServlet {
                 request.setAttribute("exception", e);
                 url = "/error.jsp";
             }
-
+        } else if (request.getParameter("submit").equals("view_all")) {
+            try {
+                apptHelper(con, request, response);
+            } catch (Exception e) {
+               url = "/error.jsp"; 
+            }
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
@@ -101,7 +108,7 @@ public class UpdateAppointmentServlet extends HttpServlet {
         Date date = new java.util.Date();
         java.text.SimpleDateFormat t_stamp = new java.text.SimpleDateFormat("yyyy-MM-dd");
         String cur_date = t_stamp.format(date.getTime());
-        ArrayList<Appointment> ret;
+        ArrayList<Appointment> ret = null;
 
         String dt = request.getParameter("appt_date");  // Start date;
         if (request.getParameter("submit").equals("prev_day")) {
@@ -124,15 +131,31 @@ public class UpdateAppointmentServlet extends HttpServlet {
             }
         }
         
-        if (dt == null) {
-            ret = AppointmentController.queryDoctorAppt(con, request.getParameter("doctor_id"), cur_date);
-        } else {
-            ret = AppointmentController.queryDoctorAppt(con, request.getParameter("doctor_id"), dt);
-            request.setAttribute("search_date", dt);
+        if(!request.getParameter("doctor_id").equals("null")) {
+            if (dt == null && !request.getParameter("submit").equals("view_all")) {
+                ret = AppointmentController.queryDoctorAppt(con, request.getParameter("doctor_id"), cur_date);
+            } else if (dt != null && !request.getParameter("submit").equals("view_all")) {
+                ret = AppointmentController.queryDoctorAppt(con, request.getParameter("doctor_id"), dt);
+                request.setAttribute("search_date", dt);
+            } else {
+                ret = AppointmentController.queryDoctorAppt2(con, request.getParameter("doctor_id"));
+            }
+        } else if(!request.getParameter("patient_id").equals("null")) {
+             if (dt == null && !request.getParameter("submit").equals("view_all")) {
+                ret = AppointmentController.queryPatientAppt(con, request.getParameter("patient_id"), cur_date);
+            } else if (dt != null && !request.getParameter("submit").equals("view_all")) {
+                ret = AppointmentController.queryPatientAppt(con, request.getParameter("patient_id"), dt);
+                request.setAttribute("search_date", dt);
+            } else {
+                ret = AppointmentController.queryPatientAppt2(con, request.getParameter("patient_id"));
+            }           
         }
+        
         request.setAttribute("apptList", ret);
+        if(!request.getParameter("doctor_id").equals("null")) {
         ArrayList<Patient> ret2 = DoctorPatientController.queryByDoctor(con, request.getParameter("doctor_id"));
-        request.setAttribute("patientList", ret2);
+            request.setAttribute("patientList", ret2);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

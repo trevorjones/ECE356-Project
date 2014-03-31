@@ -114,11 +114,8 @@ public class QueryServlet extends HttpServlet {
                 String cur_date = t_stamp.format(date.getTime());
                 ArrayList<Appointment> ret;
                 
-                if (request.getParameter("appt_date") == null) {
-                    ret = AppointmentController.queryDoctorAppt(con, doctor_id, cur_date);
-                } else {
-                    ret = AppointmentController.queryDoctorAppt(con, doctor_id, search_date);
-                }
+                ret = AppointmentController.queryDoctorAppt(con, doctor_id, cur_date);
+
                 request.setAttribute("apptList", ret);
 
                 ArrayList<Patient> ret2 = DoctorPatientController.queryByDoctor(con, doctor_id);
@@ -126,9 +123,15 @@ public class QueryServlet extends HttpServlet {
 
                 url = "/appointment.jsp";
             } else if (query.equals(APPOINTMENTS_FOR_PATIENT)) {
-                String doctor_id = request.getParameter("patient_id");
+                String patient_id = request.getParameter("patient_id");
 
-                ArrayList ret = AppointmentController.queryPatientAppt(con, doctor_id);
+                Date date = new java.util.Date();
+                java.text.SimpleDateFormat t_stamp = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                String cur_date = t_stamp.format(date.getTime());
+                ArrayList<Appointment> ret;
+                
+                ret = AppointmentController.queryPatientAppt(con, patient_id, cur_date);
+                //ArrayList ret = AppointmentController.queryPatientAppt2(con, patient_id);
                 request.setAttribute("apptList", ret);
 
                 url = "/appointment.jsp";

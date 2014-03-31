@@ -115,14 +115,14 @@
             <%
                 }
             %>
-            <% if (user.getType().equals("staff")) {%>
+    <form class="form-horizontal" method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>&patient_id=<%=request.getParameter("patient_id")%>">            
+            <% if (user.getType().equals("staff")) {%>          
             <div>
-                <form class="form-horizontal" method="post" action="UpdateAppointmentServlet?doctor_id=<%=request.getParameter("doctor_id")%>">
                     <h2>Add Appointment</h2>
                     <div class="form-group">
                         <label class="col-sm-2 control-label" style="width:120px;">Patient</label>
                         <div class="col-sm-10">
-                            <select class="form-control" style="width:200px;" name="patient_id">
+                            <select class="form-control" style="width:200px;" name="patient_id_post">
                                 <%
                                     for (Patient p : patientList) {
                                 %>
@@ -176,7 +176,8 @@
                 <% } else {%>
                 <input type="date" name="appt_date" value="<%= search_date%>"/>
                 <% } %>
-                <button class="form-control btn btn-danger" style="width:50px;" type='submit' name="submit" value='next_day'> >> </button><br/>
+                <button class="form-control btn btn-danger" style="width:50px;" type='submit' name="submit" value='next_day'> >> </button>
+                <button class="form-control btn btn-danger" style="width:150px;" type='submit' name="submit" value='view_all'> View All </button><br/>
                 <table class="table table-striped">
                     <tr>
                         <% if (user.getType().equals("staff")) { %>
