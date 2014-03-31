@@ -68,7 +68,7 @@ public class Log {
                 Doctor doctor = (Doctor) this.Event;
                 Staff staff = (Staff) this.Event2;
                 
-                s += "Doctor-Staff, \n\t"
+                s += "Doctor-Staff Permission, \n\t"
                         + "Doctor ID: " + doctor.getId() + ", \n\t"
                         + "Staff ID: " + staff.getId() +  ", \n\t"
                         + "Permission: " + staff.getPermission() + "\r\n\n";
@@ -77,8 +77,8 @@ public class Log {
                 Patient patient = (Patient) this.Event2;
                 
                 s += "Doctor-Patient Permission, \n\t"
-                        + "Doctor Id: " + doctor.getId() + ", \n\t"
-                        + "Patient Id: " + patient.getId() + ", \n\t"
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "Patient ID: " + patient.getId() + ", \n\t"
                         + "Default Doctor: " + patient.getPermission() + "\r\n\n";    
             }
             
@@ -117,8 +117,15 @@ public class Log {
                 Patient patient = (Patient) this.Event2;
                 
                 s += "Doctor-Patient Permission, \n\t"
-                        + "Doctor Id: " + doctor.getId() + ", \n\t"
-                        + "Patient Id: " + patient.getId() + "\r\n\n";    
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "Patient ID: " + patient.getId() + "\r\n\n";    
+            } else if (this.Event instanceof Doctor && this.Event2 instanceof Staff) {
+                Doctor doctor = (Doctor) this.Event;
+                Staff staff = (Staff) this.Event2;
+                
+                s += "Doctor-Staff Permission, \n\t"
+                        + "Doctor ID: " + doctor.getId() + ", \n\t"
+                        + "Patient ID: " + staff.getId() + "\r\n\n";
             }
 
             output.write(s);
@@ -187,7 +194,7 @@ public class Log {
                         + "Last Name: " + doctor.getLastName() + ", \n\t"
                         + "E-mail: " + doctor.getEmail() + ", \n\t" 
                         + "Specialization: " + doctor.getSpecialization() + "\r\n\n";     
-            }
+            } 
 
             output.write(s);
             output.close();
