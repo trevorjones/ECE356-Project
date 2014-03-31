@@ -91,6 +91,16 @@ insert into Doctor_Patient values('patient2','doctor1',0);
 insert into Doctor_Patient values('patient1','doctor2',0);
 
 insert into Appointment values('patient1','doctor1','2014-03-31 12:12:12','2014-03-31 13:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 14:12:12','2014-03-31 15:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 16:12:12','2014-03-31 17:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 18:12:12','2014-03-31 19:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 20:12:12','2014-03-31 21:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 22:12:12','2014-03-31 23:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-04-01 12:12:12','2014-04-01 13:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-04-01 14:12:12','2014-04-01 15:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-04-01 16:12:12','2014-04-01 17:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-04-01 18:12:12','2014-04-01 19:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-04-02 20:12:12','2014-05-02 21:12:12','scheduled','none');
 insert into Appointment values('patient2','doctor2','2014-03-31 12:12:12','2014-03-31 13:12:12','scheduled','none');
 
 insert into VisitationRecord values('patient1','doctor1','2014-04-04 12:12:12',NULL,'13:12:12','Checkup','2014-04-04 13:12:12','none','none','The patient is in good health','Interferon beta-1a');
