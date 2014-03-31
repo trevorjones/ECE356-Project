@@ -105,17 +105,18 @@ public class AppointmentController {
         }
     }
 
-    public static ArrayList<Appointment> queryDoctorAppt(Connection con, String doctor_id) throws ClassNotFoundException, SQLException {
+    public static ArrayList<Appointment> queryDoctorAppt(Connection con, String doctor_id, String date) throws ClassNotFoundException, SQLException {
         PreparedStatement pstmt = null;
         ArrayList<Appointment> ret;
 
         try {
             //Build SQL Query
             String query = "SELECT * FROM Appointment "
-                    + "WHERE doctor_user_id = ?";
+                    + "WHERE doctor_user_id = ? AND start_date LIKE ?";
 
             pstmt = con.prepareStatement(query);
             pstmt.setString(1, doctor_id);
+            pstmt.setString(2, date+"%");
 
             ResultSet resultSet;
             resultSet = pstmt.executeQuery();
