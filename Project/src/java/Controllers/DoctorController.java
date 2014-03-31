@@ -107,7 +107,7 @@ public class DoctorController {
     }
     
     public static ArrayList<Doctor> getAllWithNumberOfPatientsSeen(Connection con) throws SQLException{
-        PreparedStatement ps = con.prepareStatement("SELECT Doctor.user_id,Doctor.specialization,User.first_name,User.last_name,User.email, COUNT(DISTINCT VisitationRecord.patient_user_id) AS number_of_patients_seen FROM Doctor,User,VisitationRecord WHERE Doctor.user_id = User.user_id AND VisitationRecord.doctor_user_id = User.user_id GROUP BY Doctor.user_id");
+        PreparedStatement ps = con.prepareStatement("SELECT user_id,specialization,first_name,last_name,email,COUNT(DISTINCT patient_user_id) AS number_of_patients_seen FROM (SELECT Doctor.user_id,Doctor.specialization,User.first_name,User.last_name,User.email FROM Doctor,User WHERE Doctor.user_id = User.user_id) AS q1 LEFT OUTER JOIN (SELECT * FROM VisitationRecord) AS q2 ON q2.doctor_user_id = q1.user_id GROUP BY user_id");
         
         ResultSet rs = ps.executeQuery();
         ArrayList<Doctor> ret = new ArrayList<Doctor>();

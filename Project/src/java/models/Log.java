@@ -14,9 +14,9 @@ import java.util.Date;
  */
 public class Log {
 
-    private static String path = "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
+    private static String path = "/home/william/workspace/University/ECE356/Project/Project/logs/ECE356_logs.txt";
     // "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
-    // "/home/william/workspace/University/ECE356/Project/Project/logs/ECE356_logs.txt"
+    // "/home/william/workspace/University/ECE356/Project/Project/logs/ECE356_logs.txt";
     Object Event;
     Object Event2;
 
