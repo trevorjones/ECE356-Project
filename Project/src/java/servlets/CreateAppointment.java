@@ -49,7 +49,7 @@ public class CreateAppointment extends HttpServlet {
         String url;
         try {
             AppointmentController.create(con, patient_id, doctor_id, start_time, end_time, status, procedure);
-            ArrayList<Appointment> ret = AppointmentController.queryDoctorAppt(con, doctor_id);
+            ArrayList<Appointment> ret = AppointmentController.queryDoctorAppt(con, doctor_id, request.getParameter("appt_date"));
             request.setAttribute("apptList", ret);
             ArrayList<Patient> ret2 = DoctorPatientController.queryByDoctor(con, doctor_id);
             request.setAttribute("patientList", ret2);

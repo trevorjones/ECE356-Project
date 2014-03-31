@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servlets;
 
 import Controllers.AppointmentController;
@@ -18,11 +17,13 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import models.Appointment;
 import models.Doctor;
 import models.Patient;
 import models.Prescription;
@@ -34,7 +35,7 @@ import models.VisitationRecord;
  */
 @WebServlet(name = "QueryServlet", urlPatterns = {"/QueryServlet"})
 public class QueryServlet extends HttpServlet {
-    
+
     // Query Types
     public static final String PRESCRIPTIONS_ALL = "prescriptions_all";
     public static final String PRESCRIPTIONS_QUERY = "prescriptions_query";
@@ -78,7 +79,7 @@ public class QueryServlet extends HttpServlet {
         String query = request.getParameter("query");
         String url;
         Connection con = (Connection) getServletContext().getAttribute("DBConnection");
-        
+
         try {
             if (query.equals(PRESCRIPTIONS_ALL)) {
                 ArrayList ret = PrescriptionController.getAll(con);
@@ -88,74 +89,84 @@ public class QueryServlet extends HttpServlet {
                 ArrayList ret = PrescriptionController.query(con, request.getParameter("prescription_query"));
                 request.setAttribute("prescriptionList", ret);
                 url = "/prescription.jsp";
-            } else if(query.equals(DOCTORS_ALL)) {
+            } else if (query.equals(DOCTORS_ALL)) {
                 ArrayList ret = DoctorController.getAll(con);
                 request.setAttribute("doctorList", ret);
                 url = "/doctor.jsp";
-            } else if(query.equals(DOCTORS_BY_FO)) {
+            } else if (query.equals(DOCTORS_BY_FO)) {
                 ArrayList ret = DoctorController.getAllWithNumberOfPatientsSeen(con);
                 request.setAttribute("doctorList", ret);
                 url = "/doctorVisits.jsp";
-            } else if(query.equals(DOCTORS_SEARCH_BY_FO)) {
+            } else if (query.equals(DOCTORS_SEARCH_BY_FO)) {
                 ArrayList ret = DoctorController.queryWithNumberOfPatientsSeen(con, request.getParameter("doctor_query"), request.getParameter("start_date"), request.getParameter("end_date"));
                 request.setAttribute("doctorList", ret);
                 url = "/doctorVisits.jsp";
-            } else if(query.equals(DOCTORS_QUERY)) {
+            } else if (query.equals(DOCTORS_QUERY)) {
                 ArrayList ret = DoctorController.query(con, request.getParameter("doctor_query"));
                 request.setAttribute("doctorList", ret);
                 url = "/doctor.jsp";
             } else if (query.equals(APPOINTMENTS_FOR_DOCTOR)) {
                 String doctor_id = request.getParameter("doctor_id");
+                String search_date = request.getParameter("appt_date");
                 
-                ArrayList ret = AppointmentController.queryDoctorAppt(con, doctor_id);
+                Date date = new java.util.Date();
+                java.text.SimpleDateFormat t_stamp = new java.text.SimpleDateFormat("yyyy-MM-dd");
+                String cur_date = t_stamp.format(date.getTime());
+                ArrayList<Appointment> ret;
+                
+                if (request.getParameter("appt_date") == null) {
+                    ret = AppointmentController.queryDoctorAppt(con, doctor_id, cur_date);
+                } else {
+                    ret = AppointmentController.queryDoctorAppt(con, doctor_id, search_date);
+                }
                 request.setAttribute("apptList", ret);
-                
-                ret = DoctorPatientController.queryByDoctor(con, doctor_id);
-                request.setAttribute("patientList", ret);
-                
+
+                ArrayList<Patient> ret2 = DoctorPatientController.queryByDoctor(con, doctor_id);
+                request.setAttribute("patientList", ret2);
+
                 url = "/appointment.jsp";
             } else if (query.equals(APPOINTMENTS_FOR_PATIENT)) {
                 String doctor_id = request.getParameter("patient_id");
-                
+
                 ArrayList ret = AppointmentController.queryPatientAppt(con, doctor_id);
                 request.setAttribute("apptList", ret);
-                
+
                 url = "/appointment.jsp";
-            } else if(query.equals(STAFF_QUERY)) {
+            } else if (query.equals(STAFF_QUERY)) {
                 ArrayList ret = DoctorStaffController.queryByDoctor(con, request.getParameter("doctor_id"));
                 request.setAttribute("staffRemoveList", ret);
                 ret = DoctorStaffController.queryStaffNotWorkingForDoctor(con, request.getParameter("doctor_id"));
                 request.setAttribute("staffAddList", ret);
                 url = "/staff.jsp";
-            } else if(query.equals(DOCTORS_QUERY_BY_STAFF)) {
+            } else if (query.equals(DOCTORS_QUERY_BY_STAFF)) {
                 ArrayList ret = DoctorStaffController.queryByStaff(con, request.getParameter("staff_id"));
                 request.setAttribute("doctorList", ret);
                 url = "/doctor.jsp";
-            } else if(query.equals(PATIENTS_BY_STAFF)) {
+            } else if (query.equals(PATIENTS_BY_STAFF)) {
                 ArrayList ret = PatientController.getAllWithPermission(con, request.getParameter("staff_id"));
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
-            } else if(query.equals(PATIENTS_BY_FO)) {
+            } else if (query.equals(PATIENTS_BY_FO)) {
                 ArrayList<String[]> ret = PatientController.getAllWithNumberOfVisits(con);
                 request.setAttribute("patientList", ret);
                 url = "/patientVisits.jsp";
-            } else if(query.equals(PATIENTS_SEARCH_BY_STAFF)) {
+            } else if (query.equals(PATIENTS_SEARCH_BY_STAFF)) {
                 ArrayList ret = PatientController.queryPatientByStaff(con, request.getParameter("patient_query"), request.getParameter("staff_id"));
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
-            } else if(query.equals(PATIENTS_SEARCH_BY_FO)) {
+            } else if (query.equals(PATIENTS_SEARCH_BY_FO)) {
                 ArrayList<String[]> ret = PatientController.queryWithNumberOfVisits(con, request.getParameter("patient_query"));
                 request.setAttribute("patientList", ret);
                 url = "/patientVisits.jsp";
-            } else if(query.equals(PATIENTS_SEARCH_BY_DOCTOR)) {
+            } else if (query.equals(PATIENTS_SEARCH_BY_DOCTOR)) {
                 ArrayList ret = PatientController.queryPatientByDoctor(con, request.getParameter("patient_query"), request.getParameter("doctor_id"));
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
-            } else if(query.equals(PATIENTS_BY_DOCTOR)) {
+            } else if (query.equals(PATIENTS_BY_DOCTOR)) {
                 ArrayList ret = DoctorPatientController.queryByDoctor(con, request.getParameter("doctor_id"));
                 request.setAttribute("patientList", ret);
                 url = "/patient.jsp";
-            } else if(query.equals(PATIENT_DETAILS)) {
+            } else if (query.equals(PATIENT_DETAILS)) {
                 String patient_id = request.getParameter("patient_id");
                 Patient p = PatientController.getPatient(con, patient_id);
                 request.setAttribute("patient", p);
@@ -164,25 +175,25 @@ public class QueryServlet extends HttpServlet {
                 String curDocID = DoctorPatientController.getDoctorIDOfPatient(con, patient_id);
                 request.setAttribute("curDocID", curDocID);
                 url = "/patient_detail.jsp";
-            } else if(query.equals(RECORDS_BY_PATIENT_AS_STAFF)) {
+            } else if (query.equals(RECORDS_BY_PATIENT_AS_STAFF)) {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.getAllByPatientAsStaff(con, patient_id, request.getParameter("staff_id"));
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_BY_PATIENT_AS_DOCTOR)) {
+            } else if (query.equals(RECORDS_BY_PATIENT_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.getAllByPatientAsDoctor(con, patient_id, request.getParameter("doctor_id"));
                 buildRecordDoctorResponse(request, con, patient_id);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_SEARCH_AS_STAFF)) {
+            } else if (query.equals(RECORDS_SEARCH_AS_STAFF)) {
                 String patient_id = request.getParameter("patient_id");
                 String start_date = request.getParameter("start_date");
                 String end_date = request.getParameter("end_date");
                 ArrayList ret = VisitationRecordController.queryAsStaff(con, patient_id, request.getParameter("staff_id"), request.getParameter("record_query"), start_date, end_date);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_SEARCH_AS_DOCTOR)) {
+            } else if (query.equals(RECORDS_SEARCH_AS_DOCTOR)) {
                 String patient_id = request.getParameter("patient_id");
                 String start_date = request.getParameter("start_date");
                 String end_date = request.getParameter("end_date");
@@ -190,23 +201,23 @@ public class QueryServlet extends HttpServlet {
                 buildRecordDoctorResponse(request, con, patient_id);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_AS_PATIENT)) {
+            } else if (query.equals(RECORDS_AS_PATIENT)) {
                 String patient_id = request.getParameter("patient_id");
                 ArrayList ret = VisitationRecordController.getAllByPatient(con, patient_id);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_SEARCH_AS_PATIENT)) {
+            } else if (query.equals(RECORDS_SEARCH_AS_PATIENT)) {
                 String patient_id = request.getParameter("patient_id");
                 String start_date = request.getParameter("start_date");
                 String end_date = request.getParameter("end_date");
                 ArrayList ret = VisitationRecordController.queryAsPatient(con, request.getParameter("record_query"), patient_id, start_date, end_date);
                 buildRecordsResponse(request, con, ret, patient_id);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_ALL)) {
+            } else if (query.equals(RECORDS_ALL)) {
                 ArrayList ret = VisitationRecordController.getAll(con);
                 request.setAttribute("visitation_record_list", ret);
                 url = "/records.jsp";
-            } else if(query.equals(RECORDS_SEARCH_ALL)) {
+            } else if (query.equals(RECORDS_SEARCH_ALL)) {
                 String start_date = request.getParameter("start_date");
                 String end_date = request.getParameter("end_date");
                 ArrayList ret = VisitationRecordController.queryAll(con, request.getParameter("record_query"), start_date, end_date);
@@ -220,9 +231,9 @@ public class QueryServlet extends HttpServlet {
             url = "/error.jsp";
         }
         getServletContext().getRequestDispatcher(url).forward(request, response);
-        
+
     }
-    
+
     private static void buildRecordDoctorResponse(HttpServletRequest request, Connection con, String patient_id) throws ClassNotFoundException, SQLException {
         String assigned_doctor_id = DoctorPatientController.getDoctorIDOfPatient(con, patient_id);
         ArrayList<Prescription> prescription_list = PrescriptionController.getAll(con);
@@ -230,18 +241,18 @@ public class QueryServlet extends HttpServlet {
         ArrayList<Doctor> doctors_with_permission = DoctorPatientController.getAllDoctorsWithPermission(con, patient_id, assigned_doctor_id);
         String visit_date = request.getParameter("visit_date");
         String updated_at = request.getParameter("updated_at");
-        
+
         if (visit_date != null && updated_at != null) {
             VisitationRecord current_visitation_record = VisitationRecordController.get(con, patient_id, assigned_doctor_id, visit_date, updated_at);
             request.setAttribute("current_visitation_record", current_visitation_record);
         }
-        
+
         request.setAttribute("assigned_doctor_id", assigned_doctor_id);
         request.setAttribute("prescription_list", prescription_list);
         request.setAttribute("doctors_without_permission", doctors_without_permission);
         request.setAttribute("doctors_with_permission", doctors_with_permission);
     }
-    
+
     private static void buildRecordsResponse(HttpServletRequest request, Connection con, ArrayList ret, String patient_id) {
         request.setAttribute("visitation_record_list", ret);
         request.setAttribute("patient_id", patient_id);
