@@ -75,9 +75,11 @@ public class UpdateAppointmentServlet extends HttpServlet {
             try {
                 String[] delAppt;
                 delAppt = request.getParameterValues("delAppt");
-                for (String appt : delAppt) {
-                    String[] res = appt.split("&");
-                    AppointmentController.delete(con, doctor_id, res[1], res[0]);
+                if(delAppt != null) {
+                    for (String appt : delAppt) {
+                        String[] res = appt.split("&");
+                        AppointmentController.delete(con, doctor_id, res[1], res[0]);
+                    }
                 }
                 apptHelper(con, request, response);
             } catch (Exception e) {
