@@ -85,8 +85,6 @@
                 </div>
             </form>
             
-            <a href="QueryServlet?query=<%= QueryServlet.PRESCRIPTIONS_ALL %>">Show All</a>
-                
             <table class="table table-striped">
                 <tr><th>Name</th><th>Alias</th><th>Descriptions</th></tr>
                 <%
