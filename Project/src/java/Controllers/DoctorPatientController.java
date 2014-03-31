@@ -21,23 +21,38 @@ import models.Log;
 public class DoctorPatientController {
 
     public static void create(Connection con, String doctor_id, String patient_id, boolean assigned_doctor) throws SQLException {
-        PreparedStatement ps = con.prepareStatement("INSERT INTO Doctor_Patient values(?,?,?)");
-        ps.setString(1, patient_id);
-        ps.setString(2, doctor_id);
-        ps.setInt(3, assigned_doctor ? 1 : 0);
-        ps.execute();
+        // Must check if it already exists first
+        PreparedStatement ps = con.prepareStatement("SELECT * FROM Doctor_Patient WHERE doctor_user_id = ? AND patient_user_id = ?");
+        ps.setString(1, doctor_id);
+        ps.setString(2, patient_id);
+        ResultSet rs = ps.executeQuery();
+        
+        if (!rs.next()) {
+            ps = con.prepareStatement("INSERT INTO Doctor_Patient values(?,?,?)");
+            ps.setString(1, patient_id);
+            ps.setString(2, doctor_id);
+            ps.setInt(3, assigned_doctor ? 1 : 0);
+            ps.execute();
+
+            //Logging
+            Doctor d = new Doctor();
+            Patient p = new Patient();
+
+            d.setId(doctor_id);
+            p.setId(patient_id);
+            p.setPermission(assigned_doctor);
+
+            Log log = new Log(d,p);
+            log.Create();
+        } else {
+            // Simply change the permission
+            ps = con.prepareStatement("UPDATE Doctor_Patient SET default_doctor = ? WHERE doctor_user_id = ? AND patient_user_id = ?");
+            ps.setInt(1, assigned_doctor ? 1 : 0);
+            ps.setString(2, doctor_id);
+            ps.setString(3, patient_id);
+            ps.execute();
+        }
         ps.close();
-        
-        //Logging
-        Doctor d = new Doctor();
-        Patient p = new Patient();
-        
-        d.setId(doctor_id);
-        p.setId(patient_id);
-        p.setPermission(assigned_doctor);
-        
-        Log log = new Log(d,p);
-        log.Create();
     }
 
     public static void delete(Connection con, String doctor_id, String patient_id) throws SQLException {

@@ -7,7 +7,6 @@ package models;
 
 import java.io.*;
 import java.util.Date;
-import java.sql.Timestamp;
 
 /**
  *
@@ -15,19 +14,19 @@ import java.sql.Timestamp;
  */
 public class Log {
 
-    private String path;
+    private static String path = "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
+    // "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
+    // "/home/william/workspace/University/ECE356/Project/Project/logs/ECE356_logs.txt"
     Object Event;
     Object Event2;
 
     public Log(Object Event) {
         this.Event = Event;
-        this.path = "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
     }
 
     public Log(Object Event, Object Event2) {
         this.Event = Event;
         this.Event2 = Event2;
-        this.path = "/Users/slouli/Documents/ECE3B/ECE356/git/ECE356-Project/Project/logs/ECE356_logs.txt";
     }
 
     public void Create() {

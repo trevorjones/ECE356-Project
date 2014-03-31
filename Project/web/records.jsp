@@ -250,7 +250,7 @@
                         <th>Surgery Performed</th>
                         <th>Diagnosis</th>
                         <th>Prescription</th>
-                        <% if (isAssignedDoctor) { %><th>Edit</th><% } %>
+                        <th>Edit</th>
                     </tr>
                     <%
                         for (VisitationRecord rl : recordlist) {
@@ -266,7 +266,7 @@
                         <td><%= rl.getSurgeryPerformed() %></td>
                         <td><%= rl.getDiagnosis() %></td>
                         <td><%= rl.getPrescriptionName() %></td>
-                        <% if (isAssignedDoctor) { %><td><a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR %>&doctor_id=<%= rl.getDoctorId() %>&patient_id=<%= rl.getPatientId() %>&visit_date=<%= rl.getVisitDate() %>&updated_at=<%= rl.getUpdatedAt() %>">Edit</a></td><% } %>
+                        <td><% if (user.getId().equals(rl.getDoctorId())) { %><a href="QueryServlet?query=<%= QueryServlet.RECORDS_BY_PATIENT_AS_DOCTOR %>&doctor_id=<%= rl.getDoctorId() %>&patient_id=<%= rl.getPatientId() %>&visit_date=<%= rl.getVisitDate() %>&updated_at=<%= rl.getUpdatedAt() %>">Edit</a><% } else { %>N/A<% } %></td>
                     </tr>
                     <%
                         }
