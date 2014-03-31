@@ -2,6 +2,6 @@
 
 all:
 	mysql -u root -p project < createTables.sql
-	mysql -u root -p project < insertData.sql
+	mysql -u root -p project < realData.sql
   mysql -u root -p project < SET GLOBAL time_zone = EST;
 

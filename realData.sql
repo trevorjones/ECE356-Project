@@ -61,11 +61,24 @@ insert into Doctor values('doctor10','Urology');
 insert into Doctor values('doctor11','Neuroradiology');
 insert into Doctor values('doctor12','General Surgery');
 
-insert into Patient values('patient1','661 bla st.','good','12345678','6132567894',123456778);
-insert into Patient values('patient2','662 bla st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient1','661 George st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient2','662 Water st.','bad','12345678','6132567894',123456778);
+insert into Patient values('patient3','661 Zermatt st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient4','662 Ottawa st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient5','661 Waterloo st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient6','662 Burg st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient7','661 Borough st.','bad','12345678','6132567894',123456778);
+insert into Patient values('patient8','662 Vide st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient9','661 Real st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient10','662 Insert st.','ok','12345678','6132567894',123456778);
+insert into Patient values('patient11','661 Update st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient12','662 Push st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient13','661 Pull st.','ok','12345678','6132567894',123456778);
+insert into Patient values('patient14','662 Git st.','good','12345678','6132567894',123456778);
+insert into Patient values('patient15','661 Garg st.','bad','12345678','6132567894',123456778);
 
-insert into Prescription values('Prescription1','p1','bla bla bla blablablabla');
-insert into Prescription values('Prescription2','p2','bla bla bla blablablsabla');
+insert into Prescription values('Interferon beta-1a','Avonex','For multiple sclerosis');
+insert into Prescription values('Celecoxib','Celebrex','For rheumatoid arthritis');
 
 insert into Doctor_Staff values('doctor1','staff1',0);
 insert into Doctor_Staff values('doctor1','staff2',1);
@@ -77,9 +90,9 @@ insert into Doctor_Patient values('patient2','doctor2',1);
 insert into Doctor_Patient values('patient2','doctor1',0);
 insert into Doctor_Patient values('patient1','doctor2',0);
 
-insert into Appointment values('patient1','doctor1','2014-04-04 12:12:12','2014-04-04 13:12:12','scheduled','none');
-insert into Appointment values('patient2','doctor2','2014-04-04 12:12:12','2014-04-04 13:12:12','scheduled','none');
+insert into Appointment values('patient1','doctor1','2014-03-31 12:12:12','2014-03-31 13:12:12','scheduled','none');
+insert into Appointment values('patient2','doctor2','2014-03-31 12:12:12','2014-03-31 13:12:12','scheduled','none');
 
-insert into VisitationRecord values('patient1','doctor1','2014-04-04 12:12:12',NULL,'13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription1');
-insert into VisitationRecord values('patient2','doctor2','2014-04-04 12:12:12',NULL,'13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription2');
-insert into VisitationRecord values('patient1','doctor2','2015-04-04 12:12:12',NULL,'13:12:12','bla','2014-04-04 13:12:12','none','none','yuppy','Prescription2');
+insert into VisitationRecord values('patient1','doctor1','2014-04-04 12:12:12',NULL,'13:12:12','Checkup','2014-04-04 13:12:12','none','none','The patient is in good health','Interferon beta-1a');
+insert into VisitationRecord values('patient2','doctor2','2014-04-04 12:12:12',NULL,'13:12:12','Checkup','2014-04-04 13:12:12','none','none','The patient is in good health','Celecoxib');
+insert into VisitationRecord values('patient1','doctor2','2015-04-04 12:12:12',NULL,'13:12:12','Medical attention','2014-04-04 13:12:12','The patient was overacting','none','Gave more medication','Celecoxib');
