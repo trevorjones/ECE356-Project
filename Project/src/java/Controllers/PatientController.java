@@ -223,7 +223,7 @@ public class PatientController {
     }
 
     public static ArrayList<String[]> getAllWithNumberOfVisits(Connection con) throws SQLException {
-        PreparedStatement ps = con.prepareStatement("SELECT user_id, COUNT(patient_user_id)  AS number_of_visits FROM (SELECT User.user_id FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT * FROM VisitationRecord) AS q2 ON q2.patient_user_id = q1.user_id GROUP BY user_id");
+        PreparedStatement ps = con.prepareStatement("SELECT user_id, COUNT(patient_user_id)  AS number_of_visits FROM (SELECT User.user_id FROM User,Patient WHERE User.user_id = Patient.user_id) AS q1 LEFT OUTER JOIN (SELECT * FROM VisitationRecord) AS q2 ON q2.patient_user_id = q1.user_id GROUP BY user_id ORDER BY user_id");
         ResultSet rs = ps.executeQuery();
         ArrayList<String[]> ret = new ArrayList<String[]>();
         while (rs.next()) {
